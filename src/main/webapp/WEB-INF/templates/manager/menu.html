@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>功能菜单</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+#parse("/WEB-INF/templates/public/meta.html")
+#parse("/WEB-INF/templates/public/cssjs.html")
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/menu/menu.css" />
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.css"/>
+<script type="text/javascript" src="#ctx()/resources/js/widgets/jquery.tree/common.js" ></script>
+<script type="text/javascript" src="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.js" ></script>
+<script type="text/javascript" src="#ctx()/resources/js/widgets/jquery.tree/jquery.contextmenu.js" ></script>
+<script type="text/javascript" src="#ctx()/resources/js/menu.js"></script>
+<script type="text/javascript" src="#ctx()/dwr/interface/sysPersonFavManager.js"></script>
+<script type="text/javascript" src="#ctx()/dwr/engine.js"></script>
+</head>
+<body class="panel" id="menu_panel">
+<table border='0' cellspacing='0' cellpadding='0' style='height:100%;width:100%;' valign='top' align='center' class='table1'>
+#foreach($key in $rights.keySet())
+	<tr><td name='outlooktitle$velocityCount' id='outlooktitle$velocityCount' nowrap align='center' class='menutitle' onmouseover="this.className='menutitle_over';" onmouseout="this.className='menutitle';" nowrap  onclick='switchoutlookBar("$velocityCount")'>$!key.name</td></tr>
+	<tr><td name='outlookdiv$velocityCount' valign='top' align='left' id='outlookdiv$velocityCount' #if($velocityCount == 1) class='menuitem_open' #else class='menuitem_close' #end>
+		<div id="tree$velocityCount"></div>
+	</td></tr>
+#end
+	<tr style="height: 1px;"><td></td></tr>
+</table>
+</body>
+</html>
+<script language="JavaScript">
+function initTree(){
+	var action = "menu";
+	var actionurl = "#ctx()/manager/menu.htm";
+        var o = {
+                 ctx:"#ctx()/",
+                 action:action,
+        		 url: actionurl,
+        		 onnodeclick:function(item){
+            		if(item.nodeType!='M'||item.urlType=='05'){
+        		 		MenuUrl(item.id,item.url,item.urlType);
+            		}
+        		 },
+        		 theme: "bbit-tree-arrows" //bbit-tree-lines ,bbit-tree-no-lines,bbit-tree-arrows,
+        };
+        #foreach($key in $rights.keySet())
+        o.data = $!rights.get($key);
+        $("#tree$velocityCount").treeview(o);
+    	#end
+}
+if( $.browser.msie6){
+	initTree();
+}
+else{
+    $(document).ready(initTree);
+}
+
+//预处理(主要因为js中的confirm只有“确定”和“取消”两个按钮名称，现在用js中执行脚本语言的方法执行vbs的msgbox功能函数)
+/*@cc_on @*/
+//判断系统和jscript版本
+/*
+if (@_win32 && @_jscript_version>=5){
+	window.confirm = function(str)  //Author: meizz 重定义confirm函数
+	{
+		str=str.replace(/\'/g, "'&chr(39)&'").replace(/\r\n|\n|\r/g, "'&VBCrLf&'");//这句俺不会
+		execScript("n = msgbox('"+ str +"',36, '提示消息确认窗口')", "vbscript");//执行VB函数
+		//return(n);
+		if (n==6) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+} 
+*/
+//通过按钮控制菜单滚动
+function scroll(n)
+{
+	temp=n;
+	menu_panel.scrollTop=menu_panel.scrollTop+temp;
+	if (temp==0) return;
+	setTimeout("scroll(temp)",20);
+}
+
+//加入个人收藏远程调用操作
+function addmyfav(menuid,menuname){
+
+  if (confirm("确认将“"+menuname+"”加入到您的快捷方式列表中？"))
+  {
+	   sysPersonFavManager.addPersonFav("$!SESSION_LOGGED_ON_USER.userName",menuid,function(data){
+	   		//alert(data);
+	   		if(data=="existence"){
+	   			alert("快捷方式列表中已经存在了，不需要重复添加！")
+	   		}else{
+		   		//parent.load_page.location="intoMyFavList.action";
+		   		parent.view_menu(2);
+	   		}
+	   });
+   }
+};
+
+function switchoutlookBar(menuid)
+{											//切换节点的开放/关闭
+	menuitem= eval("outlookdiv"+menuid);
+    menuitem.className = "menuitem_open";
+	for (i=0;i<20;i++ )
+		{   
+			str=""+i.toString();
+			if (menuid!=str){
+				//判别对象是否存在
+				if (objExists_temp("outlookdiv"+str))
+				{
+					othermenuitem=eval("outlookdiv"+str);
+					othermenuitem.className = "menuitem_close";
+				}
+			}
+		}
+};
+
+function objExists_temp(objid)
+{
+	try
+	{
+		obj = eval(objid);
+	}catch(obj){
+		return false;
+	}
+	
+	if(typeof(obj)=="object"){
+		return true;
+	}
+	return false;
+}
+</script>

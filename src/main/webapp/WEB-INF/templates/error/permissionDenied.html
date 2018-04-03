@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>权限不足</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+<link rel="stylesheet" type="text/css" href="#ctx()/theme/1/error/ErrorPageTemplate.css" />
+</head>
+<body class="securityError">
+<br>
+<br>
+<div align="center" title="提示信息框">
+<span style="BACKGROUND:#EEEEFF;COLOR:#FF6633;margin: 10px;border:1px dotted #FF6633;font-weight:bold;padding:8px;width=140">
+<font color="#FF0000"><img src="${ctx}/images/attention.gif" height="20"> <b>权限不足</b></font><hr>
+<div style="word-break:break-all;width:100%; overflow:auto; ">
+	对不起, 您权限不足!$!{exception.message}<br/>
+	系统将在10秒钟后返回上一页
+</div>
+<div id="countDown" style="font-size: 30px; color: blue; margin: 20px">
+&nbsp;
+</div>
+</span>
+</div>
+<br/><center>
+<input type="button" class="SmallButton" value="返&nbsp;&nbsp;&nbsp;&nbsp;回" onclick="javascript:window.history.go(-1);">&nbsp;&nbsp;
+</center>
+		<script type="text/javascript">
+		var homePageUrl = "#ctx()/manager/login.htm";
+		
+		var cdNode = document.getElementById("countDown");
+		var count = 10;
+		cdNode.innerHTML = count;
+		function countDown(){
+			if(--count < 0){
+				//top.location= homePageUrl;
+				window.history.go(-1);
+			}else{
+				cdNode.innerHTML = count;
+			}
+		}
+		setInterval(countDown, 1000);
+	</script>
+</body>
+</html>

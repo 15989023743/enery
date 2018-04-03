@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
+
+	<classpath>
+		<dir name="E:/Workspaces/workspace_gwds/gdwz-core/target/classes">
+		</dir>
+		<dir name="E:/Workspaces/workspace_gwds/gdwz-commons-business/target/classes">
+		</dir>
+		<dir name="E:/Workspaces/workspace_gwds/gdwz-jquick-webapp/src/main/webapp/WEB-INF/classes">
+			<include name="com/**/*.*"/>
+		</dir>
+		<dir name="E:/Workspaces/workspace_gwds/gdwz-energy/gdwz-energy-web/src/main/webapp/WEB-INF/classes">
+		</dir>
+	</classpath>
+
+	<web>
+		<link target="/">
+			<dir name="E:/Workspaces/workspace_gwds/gdwz-energy/gdwz-energy-web/src/main/webapp">
+			</dir>
+		</link>
+	</web>
+
+</application>

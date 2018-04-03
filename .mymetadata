@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="gdwz-energy-webOld"
+  id="myeclipse.1237474025761"
+  context-root="/gdwz-energy-web"
+  j2ee-spec="6.0"
+  archive="gdwz-energy-webOld.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

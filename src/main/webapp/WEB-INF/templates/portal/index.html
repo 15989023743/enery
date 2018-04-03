@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    #parse("/WEB-INF/templates/portal/public/meta.html")
+    <!--自定义样式-->
+	#parse("/WEB-INF/templates/portal/public/css_portal.html")
+	<link rel="stylesheet" href="#ctx()/resources/js/widgets/slider/jquery.bxslider.css" type="text/css"/>
+	<link rel="stylesheet" href="#ctx()/resources/style/portal/index/index.css" type="text/css"/>
+	#parse("/WEB-INF/templates/portal/public/js_commons.html")
+    <script src="#ctx()/resources/js/widgets/slider/jquery.flexslider-min.js"></script>
+    <script src="#ctx()/resources/js/widgets/slider/ion.tabs.min.js"></script>
+    <script src="#ctx()/resources/js/commons-utils.js"></script>
+    <script src="#ctx()/resources/js/widgets/chart/echarts/asset/js/esl/esl.js"></script>
+    <script type="text/javascript" src="#ctx()/resources/js/portal/priceTrend/priceTrend_chart.js"></script>
+    <script>
+	jQuery(window).load(function() {
+	    jQuery('.flexslider').flexslider({
+	        directionNav: false,
+	        pauseOnAction: false
+	    });
+	    getItemInfo();//行业指数
+        getDynamicFutures();
+//	    jQuery("#mainContractChartDiv").load("#ctx()/portal/data/mainContract/portal.htm");
+		dataRolling(30);//最新交易动态滚动
+		itemGoodsNameHoverEnvent();
+	});
+	
+	//现货超市商品名称的显示和隐藏处理
+	function itemGoodsNameHoverEnvent(){
+	    jQuery(".goods-title").hover(function(){
+	    	jQuery("#"+jQuery(this).attr("desc-id")).show();
+	    },function(){
+	    	jQuery("#"+jQuery(this).attr("desc-id")).hide();
+	    });
+    }
+    </script>
+</head>
+<body>
+#parse("/WEB-INF/templates/portal/share/top.html")
+	<div class="center">
+		<div class="center_top">
+			<div class="center_top_left2"></div>
+			<div class="center_top_center">
+				<div class="banner">
+				<div class="flexslider">
+			        <ul class="slides">
+			            #foreach( $advertArticle in $syhf)
+							#if($!{advertArticle.url} && $!{advertArticle.url}!='')
+				            	<a href="$!{advertArticle.url}" target="_blank"> <li style="background: url(#ctx()/$!{advertArticle.img}) 50% 0 no-repeat;"></li></a>
+				            #else
+				            	<a href="#"> <li style="background: url(#ctx()/$!{advertArticle.img}) 50% 0 no-repeat;"></li></a>
+				            #end
+			            #end
+			        </ul>
+   				 </div>
+				</div>
+				<div class="smallbanner">
+				 #foreach( $tradingModelArticle in $bzzxjyms)
+		            <a href="#helpCenterHref($tradingModelArticle)" target="_blank"><img width="182px" height="71px" #if($velocityCount == 2)class="img2"#end src="#ctx()/$!{tradingModelArticle.img}" /></a>
+		         #end
+				</div>
+			</div>
+			<div class="center_top_right">
+				<div class="w225">
+					<div id="tb_" class="tb1_">
+						<ul>
+							<li id="tb_1" class="hovertab" onmouseover="HoverLi(3,1,'tb','tbc');">#getArticleClassName($bzzxmjrm)</li>
+							<li id="tb_2" class="normaltab" onmouseover="HoverLi(3,2,'tb','tbc');">#getArticleClassName($bzzxmaijrm)</li>
+							<li id="tb_3" class="normaltab" onmouseover="HoverLi(3,3,'tb','tbc');">#getArticleClassName($bzzxnhgz)</li>
+						</ul>
+					</div>
+					<div class="ctt21">
+						<div class="dis" id="tbc_01">
+							<ul>#baseArtcileForeach($bzzxmjrm,"helpCenter")</ul>
+						</div>
+						<div class="undis" id="tbc_02">
+							<ul>#baseArtcileForeach($bzzxmaijrm,"helpCenter")</ul>
+						</div>
+						<div class="undis" id="tbc_03">
+							<ul>#baseArtcileForeach($bzzxnhgz,"helpCenter")</ul>
+						</div>
+					</div>
+				</div>
+				<div class="land">
+					<div class="landtop">
+						#if($!{SESSION_LOGGED_ON_USER} && ${SESSION_LOGGED_USER_TYPE}=='FRONT')
+						<div class="landtop-msg" title="$!{SESSION_LOGGED_ON_USER.trueName}[$!{SESSION_LOGGED_ON_USER.userName}]，欢迎来到$!{APP.frontSystemName}！">
+							<div class="left">$!{SESSION_LOGGED_ON_USER.trueName}[$!{SESSION_LOGGED_ON_USER.userName}]</div>
+							<div class="right">，欢迎来到$!{APP.frontSystemName}！</div>
+						</div>
+						<div class="landtop-inner">
+							<a href="#ctx()/user/logout.htm"><img src="#ctx()/resources/style/portal/index/images/goout.jpg" /></a>
+							<a href="#ctx()/user/register.htm"><img class="registration" src="#ctx()/resources/style/portal/index/images/registration.jpg" /></a>
+						</div>
+						#else
+						<div class="landtop-msg" title="您好，欢迎来到$!{APP.frontSystemName}！">
+							<div class="default">您好，欢迎来到$!{APP.frontSystemName}！</div>
+						</div>
+						<div class="landtop-inner">
+							<a href="#ctx()/user/login.htm"><img src="#ctx()/resources/style/portal/index/images/land.jpg" /></a>
+							<a href="#ctx()/user/register.htm"><img class="registration" src="#ctx()/resources/style/portal/index/images/registration.jpg" /></a>
+						</div>
+						#end
+					</div>
+					<div class="landtitle">
+						<h3>#getArticleClassName($zxzxwzgg)</h3>
+						<span><a href="#articleMore($firstArticle)" target="_blank">更多>></a></span>
+					</div>
+					<div class="landbuttom">
+						<ul>#baseArtcileForeach($zxzxwzgg,"counselingCenter")</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 现货超市 -->
+ <!-- 屏蔽 -->
+		<div class="advertisement1">
+			<a href="#"><img src="#ctx()/resources/style/portal/index/images/advertising2.jpg" /></a>
+		</div>
+		<div class="advertisement2">
+			<a href="#"><img src="#ctx()/resources/style/portal/index/images/advertising3.jpg" /></a>
+		</div>
+		<div class="bottom_c">
+			<div class="gtzx_title">
+				<img src="#ctx()/resources/style/portal/index/images/zixun.jpg" /> <a href="#ctx()/info/index.htm" target="_blank">更多>></a>
+			</div>
+			<div class="gtzx_left">
+				<div class="gtzx_left_top">
+					<label name="#getArticleClassName($zxzxrdxw)" style="display: none;"></label>
+					<img #if($firstArticle && $firstArticle.img) src="#ctx()/$!{firstArticle.img}" #else src="#ctx()/resources/style/portal/index/images/news1.jpg"#end />
+					<table class="gtzx_table">
+						#foreach($article in $zxzxrdxw)
+						<tr>
+							<td class="redian" style="width: 30px">热点</td>
+							<td style="width: 322px"><a href="#counselingCenterHref($article)" target="_blank" style="width: 220px;">$!article.title</a></td>
+							<td style="width: 45px; color: #a5a5a5;">$!date.format('yyyy/MM/dd',$!{article.auditTime})</td>
+						</tr>
+						#end
+					</table>
+				</div>
+				<div class="w648">
+					<div id="tb2_" class="tb1_">
+						<ul>
+							<li id="tb2_1" class="hovertab" onmouseover="HoverLi(3,1,'tb2','tbc2');">#getArticleClassName($zxzxhyfg)</li>
+							<li id="tb2_2" class="normaltab" onmouseover="HoverLi(3,2,'tb2','tbc2');">#getArticleClassName($zxzxjghq)</li>
+							<li id="tb2_3" class="normaltab" onmouseover="HoverLi(3,3,'tb2','tbc2');">#getArticleClassName($zxzxscfx)</li>
+						</ul>
+					</div>
+					<div class="ctt21">
+						<div class="dis" id="tbc2_01">#displayArticleList($zxzxhyfg)</div>
+						<div class="undis" id="tbc2_02">#displayArticleList($zxzxjghq)</div>
+						<div class="undis" id="tbc2_03">#displayArticleList($zxzxscfx)</div>
+					</div>
+				</div>
+			</div>
+			<!--能化咨询展示结束-->
+		</div>
+		<div class="hyzs">
+			<div class="hyzstitle">
+				 <img src="#ctx()/resources/style/portal/index/images/hyzs.jpg" />
+			</div>
+			<div class="w337">
+				<div id="chartsD337"></div>
+			</div>
+            <div class="w337" style="border-top: 1px solid #c5c5c5;" >
+                <div id="mainContractChartDiv"></div>
+			</div>
+		</div>
+		<div class="advertisement3">
+			<a href="#"><img src="#ctx()/resources/style/portal/index/images/advertising4.jpg" /></a>
+		</div>
+		<div class="yl">
+			<img src="#ctx()/resources/style/portal/index/images/yl.jpg" />
+			<ul>
+				<li><a href="http://www.dzwzwg.com" target="_blank">大宗物资王国</a></li>
+				<li><a href="http://www.gtwg001.com" target="_blank">钢铁王国</a></li>
+				<li><a href="http://www.yuzhuwood.com" target="_blank">木材王国</a></li>
+				<li><a href="http://www.chevip.com" target="_blank">汽车王国</a></li>
+				<li><a href="http://www.hprosin.com" target="_blank">松香王国</a></li>
+				<li><a href="http://www.gdwz.com.cn" target="_blank">广东物资集团公司</a></li>
+			</ul>
+		</div>
+	</div>
+	#parse("/WEB-INF/templates/portal/share/foot.html")
+</body>
+</html>

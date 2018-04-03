@@ -1,0 +1,120 @@
+#set($layout = "/WEB-INF/velocity/layout/usercenter.vm")
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<script type="text/javascript">    
+    	$(function(){
+    	    $("input[name=userName]").focus().addClass("required").attr("remote", "checkUserName.htm?orgUserName="+encodeURIComponent('$!{entity.userName}'));
+    		$("input[name=trueName]").addClass("required");
+    		$("input[name=email]").addClass("email").addClass("required");
+    		$("input[name=password]").addClass("required").attr("minlength", "6").attr("maxlength","16");
+    		$("input[name=passwordConfirm]").attr("equalTo", "input[name=password]").attr("minlength", "6").attr("maxlength","16");
+			$("input[name=tel]").addClass("mobile").addClass("required");
+			$.validator.messages["remote"] = "用户名已存在";
+    	});
+</script>
+<form id="inputForm" action="#ctx()/center/account/mamber/user/save.htm" method="post" class="validate">
+#backPageUrl()
+#messages()
+  	<input type="hidden" id="id" name="id" value="$!{entity.id}"  />
+  <table style="width:100%" align="center" class="issueTable" >
+  	 	<tr class="header">
+			<td align="left" height="30px;" valign="b" width="45%">
+				<span style="padding: 10px;font-size: 16px;color: #E6580C;font-weight: 600;padding-bottom: 5px;">#navigation("交易员")#if(!$!{entity.id})新增#{else}修改#{end}</span>
+			</td>
+			 <td width="55%" align="right">
+		         #permission("save")
+			      <input type="submit" class="inputrelease" name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+			      #end
+			      <input type="button" class="inputrelease" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+		     </td>
+		</tr>
+  </table>
+ <table style="width:100%" align="center" class="issueTable" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">用户名</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="userName" value="$!{entity.userName}" class="SmallInput"  style="width:230px"  maxlength="70" #if($!{entity.id}) disabled="disabled" #{end} /></td>			                       
+					<td width="10%" align="right" class="TableContent">姓名</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="trueName" value="$!{entity.trueName}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+				#if(!$!{entity.id})
+			    <tr>
+					<td align="right" class="TableContent">密码</td>
+					<td align="left" class="TableData" ><input type="password" id="password" name="password" value="$!{entity.password}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td align="right" class="TableContent">确认密码</td>
+					<td align="left" class="TableData" ><input type="password" name="passwordConfirm" value="$!{entity.password}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+				#end
+			    <tr>
+					<td align="right" class="TableContent">邮箱</td>
+					<td align="left" class="TableData" ><input type="text" name="email" value="$!{entity.email}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td align="right" class="TableContent">联系电话</td>
+					<td align="left" class="TableData" ><input type="text" name="tel" value="$!{entity.tel}" class="SmallInput"  style="width:230px"  maxlength="20" /></td>			                       
+				</tr>
+				<tr>
+					<td align="right" class="TableContent">部门</td>
+					<td align="left" class="TableData">
+					#dictTree(
+						"deptid",
+						"dept.id",
+						"$!{entity.dept.id}",
+						"MEMBER_DEPT",
+						"member_id=@$!{SESSION_LOGGED_ON_USER.member.id}@",
+						"SmallInput required",
+						"width:230px",
+						"")
+					</td>
+					<td align="right" class="TableContent">是否生效</td>
+					<td align="left" class="TableData" >
+					#dictSelect(
+						"status",
+						"status",
+						"$!{entity.status}",
+						"ZDY_SF",
+						"",
+						"Smallselect",
+						"",
+						"true",
+						"",
+						"")
+					</td>
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">地区</td>
+					<td align="left" class="TableData" ><input type="text" name="region" value="$!{entity.region}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td align="right" class="TableContent">描述</td>
+					<td align="left" class="TableData" ><input type="text" name="descn" value="$!{entity.descn}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+				#if($!{entity.id})
+			    <tr>
+					<td align="right" class="TableContent">最后登录时间</td>
+					<td align="left" class="TableData" ><input type="text" name="lastLoginTime" value="#dateFormat('yyyy-MM-dd HH:mm:ss',$!{entity.lastLoginTime})" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+					<td align="right" class="TableContent">最后登录IP</td>
+					<td align="left" class="TableData" ><input type="text" name="lastLoginIp" value="$!{entity.lastLoginIp}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">总的登录次数</td>
+					<td align="left" class="TableData" ><input type="text" name="loginTimes" value="$!{entity.loginTimes}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+					<td align="right" class="TableContent">连续登录错误次数</td>
+					<td align="left" class="TableData" ><input type="text" name="errorTimes" value="$!{entity.errorTimes}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">录入员</td>
+					<td align="left" class="TableData" ><input type="text" name="inputUser" value="$!{entity.inputUser}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+					<td align="right" class="TableContent">录入时间</td>
+					<td align="left" class="TableData" >
+					<input type="text" name="inputTime" value="#dateFormat('yyyy-MM-dd HH:mm:ss',$!{entity.inputTime})" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+				</tr>
+				#end
+    		</table>
+    		<br/>
+    		<fieldset ><legend>&nbsp;角色信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="100%" align="left" class="TableData" colspan="4">
+						<div style="word-break:break-all;width:100%; overflow:auto; ">
+							#checkboxes("roles",$!{entity.roles},$!{allRoles},"name","id")
+						</div>
+					</td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+</form>

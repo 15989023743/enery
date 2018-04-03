@@ -1,0 +1,249 @@
+#set($layout = "/WEB-INF/velocity/layout/usercenter.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>发布挂牌</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<script type="text/javascript">
+    	jQuery(function(){
+    	    jQuery("select").attr("disabled","disabled");
+    		jQuery("input[type!='button']").attr("disabled","disabled");
+    	});
+    	
+    	function backList(){
+    		window.location.href="#ctx()/center/trade/issue/return.htm";
+    	}    	       	
+    	var ctx="#ctx()";
+    	function down(id)
+		{
+			if(id!=null){
+				window.location.href="#ctx()/center/trade/issue/downloadAccesory.htm?id="+id;
+			}
+		}
+	</script>
+
+<style>
+	.checkList {
+    color: #000000;
+    font-family: "Arial Normal","Arial";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    height: 100px;
+    left: 0;
+    text-decoration: none;
+    top: 0;
+    min-width: 150px;
+    
+	}
+	.mustInput{
+    	color: red;margin: 3px;font-weight:600;
+    }
+    
+    .issueTable .TableData td, .issueTable td.TableData {
+	    border-right: 0 solid #83accf;
+	    border-top: 0 solid #83accf;
+    }
+    
+    .issueTable .TableContent td, .issueTable td.TableContent {
+	    background: none repeat scroll 0 0 #ffffff;
+	    border-right: 0 solid #83accf;
+	    border-top: 0 solid #83accf;
+	}
+	
+	.issueTable tr.header {
+	    background: none repeat scroll 0 0 #ffffff;
+	    border-right: 0 solid #83accf;
+	    border-top: 0 solid #83accf;
+	    border-bottom: 1px dotted #ccc;
+	}
+	
+	.issueTable td {
+	    color: #000000;
+	    padding: 3px;
+	}
+	
+	.itemDiv{
+		border: 1px solid #ccc;
+		width: 90%;
+		height: auto;
+		min-height: 50px;
+		padding: 8px;
+		line-height: 30px;
+	}
+	
+	.itemDiv .checkList{
+		margin-right: 8px;
+	}
+</style>
+</head>
+<!-- <form id="inputForm" action="#ctx()/center/trade/issue/save.htm" enctype="multipart/form-data" method="post" class="validate">
+ -->#backPageUrl()
+#messages()
+  	<input type="hidden" id="id" name="id" value="$!{entity.id}"  />
+  	<input type="hidden" name="issueState" value="0"  />
+  	<input type="hidden" id="goodsItemId" name="goodsItemId" value="$!{entity.goodsItemId}"  />
+ <table style="width:100%" align="center" class="issueTable" >
+	 	<tr class="header">
+			<td align="left" height="30px;" valign="b">
+				<span style="padding: 10px;font-size: 16px;color: #E6580C;font-weight: 600;padding-bottom: 5px;">发布挂牌</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="right" class="TableContent">挂牌标题</td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span><input type="text" disabled="disabled" name="goodsTitle" value="$!{entity.goodsTitle}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+		</tr>
+		
+		<tr>  
+			<td align="right" class="TableContent">挂牌方向</td>
+			<td align="left" class="TableData" ><span class="mustInput">*</span>
+            <input value="#dictProperty("$!{entity.buyOrSale}","ZDY_BUY_OR_SALE")" disabled="disabled">
+		</tr>
+		
+			<!-- <input type="hidden" id="goodsItemId" name="goodsItemId" value="$!{entity.goodsItemId}" /> -->
+		
+<!-- 	    <tr>
+			
+			<td width="10%" align="right" class="TableContent">选择类目</td>
+			<td width="40%" align="left" class="TableData" >
+				<span class="mustInput">*</span><div id="goodsItemSelect" class="itemDiv">
+				</div>
+			</td>			                       
+		</tr> -->
+		<tr>
+			<td width="10%" align="right" class="TableContent">当前类目</td>
+			<td width="40%" align="left" class="TableData" >
+				<span id="itemGoodsNamesSpan">$!{entity.itemGoodsNames}</span>
+				<input type="hidden" id="itemGoodsNames" name="itemGoodsNames" readonly="readonly" value="$!{entity.itemGoodsNames}" class="required"  style="width:230px"  maxlength="70" />
+			</td>			                       
+		</tr>
+		<tr>
+			<td width="10%" align="right" class="TableContent">商品名称</td>
+			<td width="40%" align="left" class="TableData" >
+				<span class="mustInput">*</span><input type="text" id="itemGoodsName" disabled="disabled" name="itemGoodsName" readonly="readonly" value="$!{entity.itemGoodsName}" class="SmallInput required"  style="width:230px"  maxlength="70" />
+			</td>
+		</tr>
+				<tr>
+					<td align="right" class="TableContent">商品属性</td>
+					<td align="left" class="TableData" >
+					<span class="mustInput"></span>
+					$!attrValuesMap.get("$!{entity.id.toString()}")
+					</td>
+				</tr>
+		
+		<tr>
+			<td align="right" class="TableContent">损益比例</td>
+			<td align="left" class="TableData" >
+			<input type="text" name="profitLossScale" disabled="disabled" value="$!{entity.profitLossScale}" class="SmallInput" readonly="readonly" style="width:230px"  maxlength="70" /></td>
+		</tr>
+		
+		<tr>
+			<td align="right" class="TableContent">计量单位</td>
+			<td align="left" class="TableData" ><span class="mustInput">*</span>  
+         <input value="#dictProperty("$!{entity.goodsUnit}","ZDY_MEASURING_UNIT")" disabled="disabled">                  
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">单价</td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span><input type="text" disabled="disabled" name="unitPriceExclud" value="$!{entity.unitPriceExclud}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">含税单价</td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span><input type="text" disabled="disabled" name="unitPrice" value="$!{entity.unitPrice}" class="SmallInput"  style="width:230px"  maxlength="70" />
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="right" class="TableContent">件数</td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span><input type="text" disabled="disabled" name="secAmount" value="$!{entity.secAmount}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">单件重量</td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span><input type="text" disabled="disabled" name="singleWgt" value="$!{entity.singleWgt}" class="SmallInput"  style="width:230px"  maxlength="70" />
+			<span class="goodsUnit">#dictProperty("$!{entity.goodsUnit}","ZDY_MEASURING_UNIT")</span></td>
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">数量</td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span><input type="text" disabled="disabled" name="amount" id="amount" value="$!{entity.amount}" class="SmallInput"  style="width:230px"  maxlength="70" />
+			<span class="goodsUnit">#dictProperty("$!{entity.goodsUnit}","ZDY_MEASURING_UNIT")</span></td>
+		</tr>
+		
+		
+		<tr>
+			<td align="right" class="TableContent">交收方式</td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span>
+         <input value="#dictProperty("$!{entity.transMode}","ZDY_TRANS_MODE")" disabled="disabled">                                     
+		</tr>
+		#if($!{entity.transMode}=='2')
+		<tr id="warehouseReceiptTR">
+			<td align="right" class="TableContent">仓单编号 </td>
+			<td align="left" class="TableData" >
+			<span class="mustInput">*</span><input type="text" disabled="disabled" name="warehouseReceipt" id="warehouseReceipt" value="$!{entity.warehouseReceipt}" class="SmallInput"  style="width:230px"  maxlength="70" />
+			</td>
+		</tr>
+		#end
+		<tr>
+			<td align="right" class="TableContent">交收仓</td>
+			<td align="left" class="TableData" ><span class="mustInput">*</span>
+         <input value="#dictProperty("$!{entity.deliveryWarehouse}","ZDY_TRAN_HOUSE")" disabled="disabled">                                                        
+		</tr>
+		
+		<tr>
+			<td align="right" class="TableContent">买家订金(保证金)</td>
+			<td align="left" class="TableData" >
+			<span id="sellersOfMaginSpan" style="size: 15px;font-weight: bold;color: orange;">$!{entity.sellersOfMagin}</span>
+			<input type="hidden" id="sellersOfMagin" name="sellersOfMagin" value="$!{entity.sellersOfMagin}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">卖家保证金</td>
+			<td align="left" class="TableData" >
+			<span id="buyersOfMarginSpan" style="size: 15px;font-weight: bold;color: orange;">$!{entity.buyersOfMargin}</span>
+			<input id="buyersOfMargin" type="hidden" name="buyersOfMargin" value="$!{entity.buyersOfMargin}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">实物图</td>
+			<td align="left" class="TableData" >
+			
+			#foreach($issueAccesory in $!{issueAccesorys})
+				<img height="100" src="#ctx()/$!{issueAccesory.accesoryPath}" style="border: 0;" /><br/>
+			#end
+			</td>
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">质量指标</td>
+			<td align="left" class="TableData" ><span class="mustInput">*</span>
+			#if($!{issueUalityIndicator})
+				<a href="javascript:void(0);" onclick="down('$!{entity.id}')">下载查看</a>
+			#end
+			</td>
+		</tr>
+		<tr>
+			<td align="right" class="TableContent">信息有效期</td>
+			<td align="left" class="TableData" ><span class="mustInput">*</span>
+			<input type="text" name="validTime" disabled="disabled" value="$!date.format("yyyy-MM-dd",$!{entity.validTime})" class="SmallInput" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" readonly="readonly" style="width:230px"  maxlength="70" /></td>
+		</tr>
+		
+<!-- 		<tr>
+			<td align="center" colspan="2" class="TableContent">
+				已阅读并同意<a target="_bank" href="#">《交易中心能化交易服务条款及交易规则》</a><input id="readRules" disabled="disabled" checked="checked" type="checkbox" value="1" class="required" />
+			</td>
+		</tr> -->
+		
+		
+		<tr>
+			<td align="center" colspan="2" class="TableContent">
+               <input type="button" class="SmallButton" onclick="backList();" style="width:60" value="返&nbsp;&nbsp;回" />
+			</td>
+		</tr>
+    		</table>
+<!-- </form> -->
+#errors($!{errors})
+</html>

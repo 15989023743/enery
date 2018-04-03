@@ -1,0 +1,124 @@
+<script type="text/javascript">
+    var onlineJs = "<script src='#ctx()/resources/js/widgets/slider/jquery.KinSlideshow-1.2.1.min.js' type='text/javascript'/>";
+    var onlineCss = "<link href='#ctx()/resources/style/portal/online.css' rel='stylesheet' type='text/css' />";
+    jQuery("head").append(onlineJs);
+    jQuery("head").append(onlineCss);
+	jQuery(function() {
+        /* $.ajax({
+	        url:"#ctx()/usercenter/onlineQQ/getManagerQQ.htm",
+	        dataType: "json",
+	        data: {id:"true"},
+	        success:function(data){
+                if(data.liSb){
+                    for(var i=0;i<data.liSb.length;i++){
+                        jQuery("#onlineType1 ul").after('<li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin='+data.liSb[i]+'&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:'+data.liSb[i]+':41" alt="QQ交谈" title="QQ交谈"/></a></li>');
+                    }
+                }
+	        }
+	 	}); */
+
+			/**
+			* Jquery扩展，:当前元素是否是被筛选元素的子元素或者本身
+			**/
+			isChildAndSelfOf = function(thisObj,b){
+				return (jQuery(thisObj).closest(b).length > 0);
+			};
+	
+			/**
+			*Jquery扩展，判断:当前元素是否是被筛选元素的子元素 
+			**/
+			isChildOf = function(thisObj,b){
+				return (jQuery(thisObj).parents(b).length > 0);
+			};
+        
+			var navigationThisObj;
+			var navigationElements;
+			//导航构建-通过元素获取相关导航
+			jQuery(".navigationUl li a").each(function(){
+				navigationThisObj = jQuery(this);
+				//<li><a class="qq_icon" title="现货超市" href="#ctx()/spot/index.htm">现货超市</a></li>
+				var navigationElements = '<li><a class="qq_icon" title=\"'+navigationThisObj.html()+'\" href=\"'+navigationThisObj.attr("href")+'\">'+navigationThisObj.html()+'</a></li>';
+				jQuery("#quickNavigation").append(navigationElements);
+			});
+			
+            jQuery("#floatShow").bind("click",function(){
+                jQuery('#onlineService').animate({width: 'show', opacity: 'show'}, 'normal',function(){ jQuery('#onlineService').show(); });jQuery('#floatShow').attr('style','display:none');jQuery('#floatHide').attr('style','display:block');
+                return false;
+            });
+            jQuery("#floatHide").bind("click",function(){
+                jQuery('#onlineService').animate({width: 'hide', opacity: 'hide'}, 'normal',function(){ jQuery('#onlineService').hide(); });jQuery('#floatShow').attr('style','display:block');jQuery('#floatHide').attr('style','display:none');
+            });
+            jQuery(document).bind("click",function(event){
+                if (isChildOf(event.target,"#online_qq_layer") == false)
+                {
+                    jQuery('#onlineService').animate({width: 'hide', opacity: 'hide'}, 'normal',function(){ jQuery('#onlineService').hide(); });jQuery('#floatShow').attr('style','display:block');jQuery('#floatHide').attr('style','display:none');
+                }
+            });
+	});
+    function changeOnline(num) {
+        if (isNaN(num) && num == "")
+            return;
+        var divChild = jQuery("div[id^='onlineSort']");
+        for (var i = 1; i <=divChild.length ; i++)
+        {
+            if (i == num)
+            {
+                document.getElementById("onlineSort" + i).className = "online_bar expand";
+                document.getElementById("onlineType" + i).style.display = "block";
+            }
+            else
+            {
+                document.getElementById("onlineSort" + i).className = "online_bar collapse";
+                document.getElementById("onlineType" + i).style.display = "none";
+            }
+        }
+    }
+</script>
+<div id="online_qq_layer">
+	<div id="online_qq_tab">
+		<div class="online_icon">
+			<a title="" id="floatShow" style="display: block;"
+				href="javascript:void(0);">&nbsp;</a> <a title="" id="floatHide"
+				style="display: none;" href="javascript:void(0);">&nbsp;</a>
+		</div>
+		<!--online_icon end-->
+	</div>
+	<div id="onlineService">
+		<div class="online_windows overz">
+			<div class="online_w_top"></div>
+			<div class="online_w_c overz">
+				<div class="online_bar expand" id="onlineSort1">
+					<h2>
+						<a onclick="changeOnline(1)">在线客服</a>
+					</h2>
+					<div class="online_content overz" id="onlineType1">
+						<ul class="overz">
+						</ul>
+					</div>
+				</div>
+				<div class="online_bar expand" id="onlineSort2">
+					<h2>
+						<a onclick="changeOnline(2)">快捷导航</a>
+					</h2>
+					<div class="online_content overz" id="onlineType2">
+						<ul id="quickNavigation" class="overz"></ul>
+					</div>
+				</div>
+				<div class="online_bar expand" id="onlineSort3">
+					<h2>
+						<a onclick="changeOnline(3)">联系我们</a>
+					</h2>
+					<div class="online_content overz" id="onlineType3">
+						<ul class="overz">
+							<li>Tel:020-87653703</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="online_w_bottom"></div>
+		</div>
+	</div>
+</div>
+<!-- online qq end -->
+<div class="air"></div>
+<div style="text-align: center; clear: both"></div>

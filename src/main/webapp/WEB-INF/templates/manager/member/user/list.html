@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>会员用户管理</title>
+<!-- 共通head区域标签 begin-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html") <!-- 共通head区域标签 end-->
+	<script src="#ctx()/resources/js/widgets/datePicker/WdatePicker.js"></script>
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css"
+		href="../../../resources/style/theme/1/style.css" />
+	<!-- 页面JS函数编写 begin -->
+<script language="javascript">
+/*
+function kill(id, method,flag,memberFlag,msg){
+	if(msg!=null){
+		if(msg!=null&&!confirm('\n'+ msg)){
+			return;
+		}
+	}
+	 if(id!=null) $("#entityid").val(id);//document.getElementById('entityid').value=id;
+	 else $("#entityid").val("");//document.getElementById('entityid').value="";
+	 
+	 if(flag!=null)
+	 jQuery("#status").val(flag);
+	 else jQuery("#status").val("");
+	 
+	 if(memberFlag!=null)
+	 jQuery("#memberStatus").val(memberFlag);
+	 else jQuery("#memberStatus").val("");
+	 
+	 $('#ListForm').attr("action",getListFormAction() + method + ".htm");
+	 $("#ListForm").submit();
+}*/
+</script>
+</head>
+<body class="bodycolor" style="margin-top: 2px">
+	<form id="ListForm" name="ListForm" action="#ctx()/manager/member/user/list.htm" method="post">
+		<input type="hidden" id="entityid" name="id" value="" />
+		<input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+		<input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+		<input type="hidden" id="order" name="order" value="$!{page.order}" />
+		<input type="hidden" id="status" name="status" value="" />
+		<input type="hidden" id="memberStatus" name="memberStatus" value="" />
+		<input type="hidden" id="empower" name="empower" value="" />
+		<!-- 记录当前页&上一页URL -->
+		#currentAndReturnPageUrl()
+		<!-- 提示信息  -->
+		#messages()
+		<table style="width:98%" align="center" cellspacing="0"
+			cellpadding="0">
+			<!--表格顶部开始-->
+			<tr>
+				<td height="30">
+					<!--圆角表格头开始-->
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
+						class="TableRound">
+						<tr>
+							<td width="12" height="30" class="TableHeadLeft"></td>
+							<td class="TableHeader">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td width="46%" valign="middle">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" class="small">
+												<tr>
+													<td width="3%"><div align="center">
+															<img src="#ctx()/resources/style/theme/1/tb.gif"
+																width="16" height="16" />
+														</div>
+													</td>
+													<td width="35%"><b>#navigation("会员用户信息查询列表")</b>
+													</td>
+													<td width="55%" align="right">&nbsp;&nbsp;</td>
+												</tr>
+											</table></td>
+									</tr>
+								</table></td>
+							<td width="16" class="TableHeadRight"></td>
+						</tr>
+					</table> <!--圆角表格头结束--></td>
+			</tr>
+			<!--表格顶部开始-->
+
+			<tr>
+				<td height="18">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
+						class="TableRound">
+						<tr>
+							<td width="8" class="TableLeft"></td>
+							<td>
+								<!--业务表格区域开始--> <!--过滤条件开始-->
+								<table style="width:100%" align="center" class="TableBlock1">
+									<tr style="display: none;">
+										<td class="TableHeader1" align="center" colspan="6">查询条件</td>
+									</tr>
+									<tr>
+										<td nowrap class="TableContent" width="12%" align="center">登录名或姓名</td>
+										<td nowrap class="TableData" width="38%"><input
+											type="text" name="filter_LIKE_userName_OR_trueName"
+											value="$!{request.getParameter('filter_LIKE_userName_OR_trueName')}"
+											class="SmallInput" style="width:97%" maxlength="30" size="30" />
+										</td>
+										<td nowrap class="TableContent" align="center" width="12%">会员名称</td>
+										<td nowrap class="TableData" colspan="3"><input
+											type="text" name="filter_LIKE_member.fullName_OR_member.name"
+											value="$!{request.getParameter('filter_LIKE_member.fullName_OR_member.name')}"
+											class="SmallInput" style="width:97%" maxlength="30" size="30" />
+										</td>
+									</tr>
+									<tr>
+										<td nowrap class="TableContent" width="12%" align="center">会员状态</td>
+										<td nowrap class="TableData" width="38%">
+                                        #dictSelect(
+                                        "filter_EQ_member.state",
+                                        "filter_EQ_member.state",
+                                        "$!{request.getParameter('filter_EQ_member.state')}",
+                                        "ZDY_MEMBER_STATE",
+                                        "DM<>@2@",
+                                        "Smallselect",
+                                        "",
+                                        "true",
+                                        "",
+                                        "")
+										</td>
+										<td nowrap class="TableContent" align="center" width="12%">是否生效</td>
+										<td nowrap class="TableData" colspan="3">
+                                        #dictSelect(
+                                        "filter_EQ_status",
+                                        "filter_EQ_status",
+                                        "$!{request.getParameter('filter_EQ_status')}",
+                                        "ZDY_SF",
+                                        "",
+                                        "Smallselect",
+                                        "",
+                                        "true",
+                                        "",
+                                        "")
+										</td>
+									</tr>
+									<tr>
+										<td align="center" class="TableContent" colspan="6">
+										<input type="button" class="SmallButton" name="b_act_query" onclick="search()" value="查&nbsp;&nbsp;询" style="width:60" />
+											&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="button" class="SmallButton" name="b_act_clear" onclick="reload()" value="重&nbsp;&nbsp;置" style="width:60" /></td>
+									</tr>
+								</table> <!--过滤条件结束--> <br />
+								<table style="width:100%" align="center" class="TableBlock1"
+									onmousemove="changeto()" onmouseout="changeback()">
+									<tr align="center">
+										<td width="3%" class="TableHeader1">序号</td>
+										<td width="8%" class="TableHeader1"><a href="#"
+											onclick="sort('userName')">用户名</a>
+										</td>
+										<td width="8%" class="TableHeader1"><a href="#"
+											onclick="sort('trueName')">姓名</a>
+										</td>
+										<td width="14%" class="TableHeader1"><a href="#"
+											onclick="sort('member.fullName')">所属会员</a></td>
+										<td width="8%" class="TableHeader1"><a href="#"
+											onclick="sort('dept.name')">所属部门</a>
+										</td>
+										<td width="8%" class="TableHeader1"><a href="#"
+											onclick="sort('tel')">联系电话</a>
+										</td>
+										<td width="4%" class="TableHeader1"><a href="#"
+											onclick="sort('loginTimes')">登录次数</a>
+										</td>
+										<td width="5%" class="TableHeader1"><a href="#"
+											onclick="sort('member.state')">会员状态</a>
+										</td>
+										<td width="5%" class="TableHeader1"><a href="#"
+											onclick="sort('status')">用户状态</a>
+										</td>
+										<td width="6%" class="TableHeader1">用户类型</td>
+										<td width="10%" class="TableHeader1" colspan="3">操作</td>
+									</tr>
+									<!-- 			-->
+									#foreach( $entity in $page.result)
+									<tr>
+										<td class="TableData" align="center">#getNo($velocityCount)</td>
+										<td class="TableData">$!{entity.userName}</td>
+										<td class="TableData">$!{entity.trueName}</td>
+										<td class="TableData">$!{entity.member.fullName}</td>
+										<td class="TableData">$!{entity.dept.names}</td>
+										<td class="TableData">$!{entity.tel}</td>
+										<td class="TableData" align="center">$!{entity.loginTimes}</td>
+										<td class="TableData" align="center">#if($!{entity.member.state}=='0')启用#{else}停用#{end}</td>
+										<td class="TableData" align="center">#if($!{entity.status})启用#{else}停用#{end}</td>
+										<td class="TableData">#if($!{entity.isAdminUser()})管理员#{else}普通用户 #{end}</td>
+										<td class="TableData" align="center">
+											#permission("view")<a href="#" onclick="view('$!{entity.id}')">查看</a>#end
+									    </td>
+										<td class="TableData" align="center">
+											#if($!{entity.member.state}!='2'&&$!{entity.status}=='true')
+												#permission("disable")
+												<a href="#" onclick="command('$!{entity.id}','disable','确定要停用该会员用户吗？')"">停用</a>
+												#end
+											#elseif($!{entity.member.state}=='0'&&$!{entity.status}=='false')
+												#permission("enable")
+												<a href="#" onclick="command('$!{entity.id}','enable','确定要启用该会员用户吗？')"">启用</a>
+												#end
+											#end
+										</td>
+										<td class="TableData" align="center">
+											#if($!{entity.member.state}=='0'&&$!{entity.status}=='true')
+												#permission("resetpwd") 
+												<a href="#" onclick="command('$!{entity.id}','resetpwd','确认要重置密码吗？')">重置密码</a>
+												#end
+											#end
+										</td>
+									</tr>
+									#end
+								</table> <!--业务表格区域结束--></td>
+							<td width="8" class="TableRight"></td>
+						</tr>
+					</table></td>
+			</tr>
+
+			<!--表格底部开始-->
+			<tr>
+				<td height="35">
+					<!--圆角表格头开始-->
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
+						class="TableRound">
+						<tr>
+							<td width="12" height="35" class="TableFooterLeft"></td>
+							<td class="TableFooter">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0"
+									class="small">
+									<tr>
+										<td>&nbsp;&nbsp;共有$!{page.totalCount}条记录，当前第
+											$!{page.pageNo}/$!{page.totalPages}页</td>
+										<td>$!{page.pageBar}</td>
+									</tr>
+								</table></td>
+							<td width="16" class="TableFooterRight"></td>
+						</tr>
+					</table> <!--圆角表格头结束--></td>
+			</tr>
+			<!--表格底部结束-->
+
+		</table>
+	</form>
+</body>
+</html>

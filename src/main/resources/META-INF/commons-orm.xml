@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm/orm_2_0.xsd" version="2.0">
+    	
+    	<!-- 系统日志管理 -->
+    	<entity class="com.gdwz.common.sys.entitys.LoginLog"/>
+    	<entity class="com.gdwz.common.sys.entitys.OperationLog"/>
+    	<entity class="com.gdwz.common.sys.entitys.ExceptionLog"/>
+		<entity class="com.gdwz.common.sys.entitys.TActionLog"/>
+		<entity class="com.gdwz.common.sys.entitys.TDataLog"/>
+		<entity class="com.gdwz.common.sys.entitys.RequestDataLog"/>
+		
+		<!-- 系统配置管理 -->
+        <entity class="com.gdwz.common.config.domain.RfidConfig"/>
+        <entity class="com.gdwz.common.config.domain.SystemConfig"/>
+        
+        <!-- 数据字典管理 -->
+        <entity class="com.gdwz.common.dict.domain.DictConfig"/>
+        <entity class="com.gdwz.common.dict.domain.DictGA"/>
+        <entity class="com.gdwz.common.dict.domain.DictGB"/>
+        <entity class="com.gdwz.common.dict.domain.DictZDY"/>
+        <entity class="com.gdwz.common.dict.domain.DataItem"/>
+        
+        <!-- 
+        <entity class="com.gdwz.common.news.domain.NewsChannel"/>
+        <entity class="com.gdwz.common.news.domain.NewsInfo"/>
+        <entity class="com.gdwz.common.news.domain.NewsComment"/> -->
+        <entity class="com.gdwz.common.upload.domain.UploadFile"/>
+        
+
+		<!-- 元数据管理 -->
+        <entity class="com.gdwz.common.metadata.domain.Metadata"/>
+        <entity class="com.gdwz.common.metadata.domain.Tables"/>
+        <entity class="com.gdwz.common.metadata.domain.Views"/>
+        <entity class="com.gdwz.common.metadata.domain.Procedure"/>
+        <entity class="com.gdwz.common.metadata.domain.Columns"/>
+        <entity class="com.gdwz.common.metadata.domain.ProcedureParameterColumn"/>
+        
+        <!-- 报表管理 -->
+        <entity class="com.gdwz.common.report.domain.Report"/>
+        <entity class="com.gdwz.common.report.domain.ReportColumn"/>
+        <entity class="com.gdwz.common.report.domain.ReportParameter"/>
+        
+        
+        <!-- 系统权限管理 -->
+        <entity class="com.gdwz.common.acl.domain.AclClass"/>
+        <entity class="com.gdwz.common.acl.domain.AclMethod"/>
+        <entity class="com.gdwz.rbac.domain.Acl"/>
+		<entity class="com.gdwz.rbac.domain.UserEntity"/>
+        <entity class="com.gdwz.rbac.domain.User"/>
+        <entity class="com.gdwz.rbac.domain.Photo"/>
+        <entity class="com.gdwz.rbac.domain.Role"/>
+        <entity class="com.gdwz.rbac.domain.Dept"/>
+        <entity class="com.gdwz.rbac.domain.Authority"/>
+        <entity class="com.gdwz.rbac.domain.Resource"/>
+
+		
+		<!-- 会员权限管理 -->
+		<entity class="com.gdwz.common.member.entity.Member"/>
+        <entity class="com.gdwz.common.member.entity.MemberUser"/>
+        <entity class="com.gdwz.common.member.entity.AdminUser"/>
+        <entity class="com.gdwz.common.member.entity.NormalUser"/>
+        <!--  
+        <entity class="com.gdwz.common.member.entity.MemberAclClass"/>
+        <entity class="com.gdwz.common.member.entity.MemberAclMethod"/>-->
+        <entity class="com.gdwz.common.member.entity.MemberAcl"/>
+        <entity class="com.gdwz.common.member.entity.MemberDept"/>
+        <entity class="com.gdwz.common.member.entity.MemberPhoto"/>
+        <entity class="com.gdwz.common.member.entity.MemberResource"/>
+        <entity class="com.gdwz.common.member.entity.MemberRole"/>
+
+		<!-- cms管理 -->
+        <entity class="com.gdwz.common.cms.entity.ArticleClass"/>
+        <entity class="com.gdwz.common.cms.entity.Article"/>
+
+
+</entity-mappings>

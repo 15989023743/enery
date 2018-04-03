@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>JMS简单应用配置</description>
+
+	<!-- 系统日志Queue定义 -->
+	<bean id="systemLoggerQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="q.systemLogger.notify" />
+	</bean>
+	<!-- 使用Spring JmsTemplate的系统日志消息生产者 -->
+	<bean id="systemLoggerSender" class="com.gdwz.common.sys.session.impl.jpa.SystemLoggerSender">
+		<property name="jmsTemplate" ref="jmsTemplate" />
+		<property name="notifyQueue" ref="systemLoggerQueue" />
+	</bean>
+	<!-- 异步接收Queue系统日志消息Container -->
+	<bean id="systemLoggerQueueContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="systemLoggerQueue" />
+		<property name="messageListener" ref="systemLoggerWriterListener" />
+		<property name="concurrentConsumers" value="10" />
+	</bean>
+	<!-- 异步接收系统日志消息处理类 -->
+	<bean id="systemLoggerWriterListener" class="com.gdwz.common.sys.session.impl.jpa.SystemLoggerWriter" />
+	
+	<!-- 
+	<bean id="notifyQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="q.notify" />
+	</bean>
+	<bean id="notifyMessageProducer" class="com.gdwz.examples.jms.simple.NotifyMessageProducer">
+		<property name="jmsTemplate" ref="jmsTemplate" />
+		<property name="notifyQueue" ref="notifyQueue" />
+	</bean> -->
+	
+	<!-- 异步接收Queue消息Container
+	<bean id="queueContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<property name="destination" ref="notifyQueue" />
+		<property name="messageListener" ref="notifyMessageListener" />
+	</bean> -->
+	<!-- 异步接收消息处理类 
+	<bean id="notifyMessageListener" class="com.gdwz.examples.jms.simple.NotifyMessageListener" />-->
+</beans>

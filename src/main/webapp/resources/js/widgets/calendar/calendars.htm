@@ -1,0 +1,426 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<!-- no cache headers -->
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="-1"/>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<!-- end no cache headers --> 
+		<title>日历</title>
+	<link href="calendar.css" rel="stylesheet" type="text/css">
+	<script language="javascript" type="text/javascript">
+		function DatePicker(sDate){
+			var oThis = this;
+			this.getValue = function(){
+				return currentDate;
+			}
+
+			this.getStrValue = function(dateOnly,dateIs){
+				var s = currentDate.getFullYear()
+					+ "-" + this.getIntStr(currentDate.getMonth()+1)
+					+ "-" + this.getIntStr(currentDate.getDate());
+				if(dateOnly)
+					return s;
+				s = s + " " + hour.value
+					+ ":" + minute.value;
+				if(dateIs) s += ":" + second.value;//this.getIntStr(currentDate.getSeconds());
+				return s;
+			}
+
+			this.getIntStr = function(v){
+				if(v>=10){
+					return ""+v;
+				}else
+					return "0"+v;
+			}
+
+
+			this.onclick = function(src){
+				var success = oThis.setFocusCell(src);
+			}
+			
+			this.setFocusCell = function(cell){
+				
+				if(cell.innerHTML=="&nbsp;")
+					return false;
+
+				
+				if(currentCell!=null){
+					currentCell.className = "";
+				}
+				currentCell = cell;
+				currentCell.className = "currentDay";
+				var v = parseInt(cell.innerHTML);
+				currentDate.setDate(v);
+				return true;
+			}
+
+			this.finishEdit = function(){
+				var sDate = oThis.getStrValue(window.dialogArguments[1],window.dialogArguments[2]);
+				window.returnValue  = sDate;
+				window.close();
+			}
+
+
+			this.getFirstDayOfMonth = function(date){
+				var firstDate = new Date(date.getFullYear(),date.getMonth(),1);
+				return firstDate.getDay();
+			}
+
+			this.getLastDateOfMoth = function(date){
+				var now = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+				var month = now.getMonth();
+				var preDate = null;
+				while(month==now.getMonth()){
+					preDate = now.getDate();
+					now.setDate(now.getDate()+1);
+				}
+				return preDate;
+			}
+
+			
+			
+
+			this.changeLabelInfo = function(){
+				var y = currentDate.getFullYear() ;
+				var m = currentDate.getMonth();
+				
+				var os = ySelect.options;
+				for(var i=0;i<os.length;i++){
+					var option = os[i];
+					if(option.value == (""+y)){
+						option.selected = true;
+					}
+				}
+				
+				os = mSelect.options;
+				for(var i=0;i<os.length;i++){
+					var option = os[i];
+					if(option.value==(""+m)){
+						option.selected = true;
+					}
+				}
+				if(window.dialogArguments[1]==false){
+					hour.value=this.getIntStr(currentDate.getHours());
+					minute.value =this.getIntStr(currentDate.getMinutes());
+					if(window.dialogArguments[2]==true){
+						second.value =this.getIntStr(currentDate.getSeconds());
+					}
+				}
+				
+			}
+
+
+
+			
+
+			this.parseDate = function(v){
+				var s = v.split(" ");
+				var f = s[0].split("-");
+				var date = new Date();
+				if(f[2].charAt(0)=='0'){
+					f[2] = f[2].substring(1);
+				}
+				if(f[1].charAt(0)=='0'){
+					f[1] = f[1].substring(1);
+				}
+				date.setDate(parseInt(f[2]));
+				date.setMonth(parseInt(f[1])-1);
+				date.setFullYear(parseInt(f[0]));
+
+			
+				if(s.length>1){
+					var t = s[1].split(":");
+					
+					if(t[0].charAt(0)=='0'){
+						t[0] = t[0].substring(1);
+					}
+					date.setHours(parseInt(t[0]));
+					if(t[1].charAt(0)=='0'){
+						t[1] = t[1].substring(1);
+					}
+					date.setMinutes(parseInt(t[1]));
+					if(t.length>2){
+						if(t[2].charAt(0)=='0'){
+							t[2] = t[2].substring(1);
+						}
+						date.setSeconds(parseInt(t[2]));
+					}
+				}
+				return date;
+			}
+			this.getDayDes = function(index){
+				if(index==0){
+					return "日";
+				}else if(index==1){
+					return "一";
+				}else if(index==2){
+					return "二";
+				}else if(index==3){
+					return "三";
+				}else if(index==4){
+					return "四";
+				}else if(index==5){
+					return "五";
+				}else if(index==6){
+					return "六";
+				}
+			}
+
+			this.setDate = function(date){
+				var firstDay = oThis.getFirstDayOfMonth(date);
+				var lastDate = oThis.getLastDateOfMoth(date);
+				for(var i=0;i<cells.length;i++){
+					cells[i].innerHTML = "&nbsp;";
+				}
+				for(var i=1;i<=lastDate;i++){
+					cells[firstDay+i-1].innerHTML = i;
+				}
+				var currentDay = date.getDate();
+				currentDate = date;
+				oThis.setFocusCell(cells[firstDay + currentDay-1]);
+				oThis.changeLabelInfo();
+				
+			}
+			
+			var element = document.createElement("div");
+			document.body.appendChild(element);
+			element.className = "calendar";
+			
+			var bar = document.createElement("div");
+			element.appendChild(bar);
+			bar.style.height = "30px";
+			bar.style.width = "100%";
+
+			var s = [];
+			s[s.length] = '<div class="topBarLeft"></div>';
+			s[s.length] = '<div class="topBarCenter" id="head">';
+			s[s.length] = '<div id="btPreYear" class="btPreYear"></div>';
+			s[s.length] = '<div id="btPreMonth" class="btPreMonth"></div>';
+			s[s.length] = '<div class="label"><select id="ySelect" class="select"></select> <select class="select" id="mSelect"></select></div>';
+			
+			s[s.length] = '<div id="btNextYear" class="btNextYear"></div>';
+			s[s.length] = '<div id="btNextMonth" class="btNextMonth"></div>';
+			s[s.length] = '</div>';
+			s[s.length] = '<div class="topBarRight"></div>'
+			bar.innerHTML = s.join("");
+			var ySelect = element.all["ySelect"];
+			var mSelect = element.all["mSelect"];
+
+			ySelect.onchange = function(){
+				var os = ySelect.options;
+				var y = null;
+				for(var i=0;i<os.length;i++){
+					var option = os[i];
+					if(option.selected == true){
+						y = parseInt(option.value);
+						currentDate.setYear(y);
+						oThis.setDate(currentDate);
+						break;
+					}
+				}
+			}
+
+			mSelect.onchange = function(){
+				var os = mSelect.options;
+				var m = 0;
+				for(var i=0;i<os.length;i++){
+					var option = os[i];
+					if(option.selected == true){
+						m = i;
+						currentDate.setMonth(m);
+						oThis.setDate(currentDate);
+						break;
+					}
+				}
+
+			}
+
+
+			for(var i=1920;i<2021;i++){
+				var oOption = document.createElement("OPTION");
+				oOption.text= i + "年";
+				oOption.value= i;
+				ySelect.add(oOption);
+			}
+
+			for(var i=0;i<12;i++){
+				var oOption = document.createElement("OPTION");
+				oOption.text= (i+1) + "月";
+				oOption.value= i;
+				mSelect.add(oOption);
+			}
+
+			var btPreYear = element.all("btPreYear");
+			var btPreMonth = element.all("btPreMonth");
+			var btNextMonth = element.all("btNextMonth");
+			var btNextYear = element.all("btNextYear");
+
+			btPreYear.onclick=function(){
+				var y = currentDate.getFullYear();
+				currentDate.setYear(y-1);
+				oThis.setDate(currentDate);
+			}
+			btPreMonth.onclick=function(){
+				var m = currentDate.getMonth();
+				currentDate.setMonth(m-1);
+				oThis.setDate(currentDate);
+			}
+			btNextMonth.onclick=function(){
+				var m = currentDate.getMonth();
+				currentDate.setMonth(m+1);
+				oThis.setDate(currentDate);
+			}
+			btNextYear.onclick=function(){
+				var y = currentDate.getFullYear();
+				currentDate.setYear(y+1);
+				oThis.setDate(currentDate);
+			}
+			if(window.dialogArguments[1]==false){
+				var tableTime = document.createElement("table");
+				tableTime.cellpadding = 0;
+				tableTime.cellSpacing=0;
+				tableTime.className = "daysTable";
+				element.appendChild(tableTime);
+				var timeTr = tableTime.insertRow(0);
+				timeTr.className = "time";
+				var time = timeTr.insertCell(0);
+				time.align="center";
+				var temp_htmlstr="";
+				temp_htmlstr="<select id='hour' name='hour' onmouseover='this.focus();' >";
+                for (var i=0;i<24;i++){
+				   if (i<10)
+				      temp_htmlstr=temp_htmlstr+"<option value=0"+i+">0"+i+"</option>";
+				   else
+				      temp_htmlstr=temp_htmlstr+"<option value="+i+">"+i+"</option>";
+				}
+				temp_htmlstr=temp_htmlstr+"</select>时<select type='text' id='minute' name='minute' onmouseover='this.focus();'>";
+                for (var i=0;i<60;i++){
+				   if (i<10)
+				      temp_htmlstr=temp_htmlstr+"<option value=0"+i+">0"+i+"</option>";
+				   else
+				      temp_htmlstr=temp_htmlstr+"<option value="+i+">"+i+"</option>";
+				}
+				temp_htmlstr=temp_htmlstr+"</select>分";
+				if(window.dialogArguments[2]==true){
+					temp_htmlstr=temp_htmlstr+"<select type='text' id='second' name='second' onmouseover='this.focus();'>";
+	                for (var i=0;i<60;i++){
+					   if (i<10)
+					      temp_htmlstr=temp_htmlstr+"<option value=0"+i+">0"+i+"</option>";
+					   else
+					      temp_htmlstr=temp_htmlstr+"<option value="+i+">"+i+"</option>";
+					}
+					temp_htmlstr=temp_htmlstr+"</select>秒";
+				}
+				time.innerHTML =temp_htmlstr ;
+			}
+			var table = document.createElement("table");
+			table.cellpadding = 0;
+			table.cellSpacing=1;
+			table.className = "daysTable";
+			
+			element.appendChild(table);
+			
+			var head = table.insertRow(0);
+			head.className = "weeks";
+
+			for(var i=0;i<7;i++){
+				var day = head.insertCell(i);
+				day.align="center";
+				day.innerHTML = oThis.getDayDes(i);
+			}
+
+			var rows = [];
+			var cells = [];
+			var index = 0;
+			var currentCell = null;
+			var currentDate = new Date();
+			
+			for(var i=0;i<6;i++){
+				rows[i] = table.insertRow(i+1);
+				rows[i].className = "days";
+				for(var j=0;j<7;j++){
+					var cell = rows[i].insertCell(j);
+					cells[i*7 + j] = cell;
+					cell.innerHTML = "&nbsp;";
+					cell.valign="center";
+					cell.index = i*7 + j;
+					
+					cell.onclick = function(){
+						var src= this;
+						oThis.onclick(src);
+					}
+					cell.ondblclick = function(){
+						oThis.finishEdit();
+					}
+					
+					
+				}
+			}
+
+			this.insertSpace = function(bar){
+				var space = document.createElement("div");
+				space.style.width = "5px";
+				space.style.display = "inline";
+				bar.appendChild(space);
+			}
+
+			var bottomBar = document.createElement("div");
+			element.appendChild(bottomBar);
+			bottomBar.className = "bottomBar";
+			
+			var btOk = document.createElement("div");
+			var btClear = document.createElement("div");
+			var btExit = document.createElement("div");
+			
+			btOk.className = "button";
+			btClear.className = "button";
+			btExit.className = "button";
+			
+			bottomBar.appendChild(btOk);
+			oThis.insertSpace(bottomBar);
+			bottomBar.appendChild(btClear);
+			oThis.insertSpace(bottomBar);
+			bottomBar.appendChild(btExit);
+
+			btOk.innerText = "确认";
+			btClear.innerText = "清除";
+			btExit.innerText = "取消";
+
+			btOk.onclick = function(){
+				oThis.finishEdit();
+			}
+
+			btClear.onclick = function(){
+				window.returnValue = "";
+				window.close();
+			}
+
+			btExit.onclick = function(){
+				window.returnValue = "cancel";
+				window.close();
+			}
+			
+			var date = null;
+			try{
+				date = oThis.parseDate(sDate);
+			}catch(e){
+				date = new Date();
+			}
+			if(date=='NaN'){
+				date = new Date();
+			}
+			oThis.setDate(date);
+			
+			
+		}
+		window.onload = function(){
+			var picker = new DatePicker(window.dialogArguments[0]);
+			window.returnValue = "cancel";
+		}
+	</script>
+	</head>
+<body>
+</body>
+</html>

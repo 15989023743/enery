@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/portal/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	#parse("/WEB-INF/templates/portal/public/css_portal.html")
+	<link rel="stylesheet" href="#ctx()/resources/style/portal/center/query.css" type="text/css" />
+	<link rel="stylesheet" href="#ctx()/resources/style/portal/center/member.css" type="text/css" />
+	<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+	<style type="text/css">
+body {
+	margin: 0px auto;
+}
+</style>
+	<script type="text/javascript">
+		function encrypt() {
+			DESPlus.doEncrypt($("#j_password").val(), function(data) {
+				//$("#j_password").val(data);
+			});
+		}
+		function refreshCaptcha() {
+			document.getElementById("captchaImg").src="#ctx()/user/jcaptcha.jpg?t="+Math.round(Math.random() * 100000);
+		}
+
+		$(function() {
+			$("#username").focus();
+			
+		});
+		
+		
+		function gridSearchContentClear(obj) {
+
+			if (jQuery(obj).val() == jQuery(obj).attr("title")) {
+				jQuery(obj).val("");
+			}
+			jQuery(obj).css({
+				color : "#000000",
+				border : "1px gray solid"
+			});
+		}
+		function gridSearchContentAdd(obj) {
+			if (jQuery(obj).val() == "") {
+				jQuery(obj).val(jQuery(obj).attr("title"));
+				jQuery(obj).css({
+					color : "#CCCCCC",
+					border : "1px red solid"
+				});
+			}
+		}
+	</script>
+	
+	<style>
+		.user_input{
+			background-image: url("#ctx()/resources/style/portal/center/images/login_user_icon.png");
+			background-repeat: no-repeat;
+			background-position: 0px 6px;
+			padding-left: 25px !important;
+			width: 216px !important;
+		}
+		.pass_input{
+			background-image: url("#ctx()/resources/style/portal/center/images/login_pass_icon.png");
+			background-repeat: no-repeat;
+			background-position: 0px 6px;
+			padding-left: 25px !important;
+			width: 216px !important;
+		}
+		
+		a {
+		    color: #444444 !important;
+		    text-decoration: none;
+		}
+		
+		.maessage{
+			color:#ff0000;
+			float: left;
+			padding-left:48px; 
+		}
+	</style>
+</head>
+<body>
+	<center>
+	 #parse("/WEB-INF/templates/portal/center/top.html")
+	<form id="loginForm" action="#ctx()/user/loginCheck.htm" method="post" class='validate'>
+	#extendsBackPageUrl()
+		<div class="barland">
+			<div class="landpicture">
+				<img src="#ctx()/resources/style/portal/center/images/land.png" />
+			</div>
+			<div class="land">
+				<div class="landnh">
+					<img style="float:left;" src="#ctx()/resources/style/portal/center/images/landnh.jpg" />
+				</div>
+				#if($!message)
+				<div class="maessage" >$!message</div>
+				#elseif($!{request.getParameter("error")}==2)
+				<div class="maessage" >验证码错误！</div>
+				#end
+				
+				<div class="yzm">
+					<input onfocus="this.select()" id="username" value="$!{userName}" type="text" class="inputframe user_input" name="j_username"/>
+				</div>
+				<div class="yzm">
+					<input onfocus="this.select()" type="password" class="inputframe pass_input" name="j_password" />
+				</div>
+				<div class="yzm">
+					<input type="text" onblur="gridSearchContentAdd(this);" onfocus="gridSearchContentClear(this);" title="验证码" class="inputframe2" name="j_captcha"/>
+	               <img id="captchaImg" src="#ctx()/user/jcaptcha.jpg" width="127" height="23" align="absbottom" onclick="javascript:refreshCaptcha()" style="cursor: pointer;" title="看不清楚换一张" />
+	               <p>看不清？<a href="javascript:refreshCaptcha();">换一张</a></p>
+				</div>
+				<div class="yzm">
+					<input type="checkbox" class="inputframe4" name="remenberAccount" id="remenberAccount" style="cursor: pointer;" /> <label style="cursor: pointer;" for="remenberAccount"><span>记住账号一周</span></label>
+					<span style="padding-left:117px;"><a href="#">忘记密码？</a>
+					</span>
+				</div>
+				<div class="yzm">
+					<input type="submit" value="登 录 " name="login" class="inputrelease" style="cursor: pointer;" />
+				</div>
+			</div>
+		</div>
+		</form>
+		#parse("/WEB-INF/templates/portal/share/foot.html")
+	</center>
+	</body>
+	#errors($!{errors})
+</html>

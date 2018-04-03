@@ -1,0 +1,108 @@
+<html>
+	<head>
+		<title>Choose Schedulers</title>
+		    <link rel=stylesheet type=text/css href='#ctx()/include/style/default.css'/>
+		    <link rel=stylesheet type=text/css href='#ctx()/include/style/layout.css'/>
+		    <link rel=stylesheet type=text/css href='#ctx()/include/style/form.css'/>
+		    <script type="text/javascript" src="#ctx()/include/js/jquery/jquery-1.2.3.pack.js"></script>
+		    <script type="text/javascript" src="#ctx()/include/js/jquery/validate/jquery.validate.min.js"></script>
+		    <script type="text/javascript" src="#ctx()/include/js/jquery/validate/jquery.validate.pml.js"></script>
+		    <script type="text/javascript" src="#ctx()/include/js/jquery/tooltip/lib/jquery.bgiframe.js" ></script>
+	 		<link rel=stylesheet type=text/css href='#ctx()/include/js/jquery/tooltip/jquery.tooltip.css'/>
+    		<script type="text/javascript" src="#ctx()/include/js/jquery/tooltip/jquery.tooltip.min.js"></script>
+		<script language="JavaScript">
+			 $().ready(function() {
+			 	
+			 	$("#controls > button").click(
+			 		function() {
+						$("#command").attr("value", this.value);
+						$('#frmChooseScheduler').submit();
+					}
+				);	
+
+				$('#controls > button').tooltip();
+			  }); 
+		</script>
+	</head>
+<form id="frmChooseScheduler" name="chooseSchedulerForm" method="post" action="#ctx()/manager/schedule/chooseScheduler.htm">
+<input type="hidden" id="command" name="command" value=""/>
+<table>
+	<tr>
+		<td width="200">调度器</td>
+		<td>
+		<select id="schedulerName" name="schedulerName" onchange="submit()">
+			 #foreach( $schedule in $entity.schedulers)
+				<option id="${schedule.schedulerName}" value="${schedule.schedulerName}">${schedule.schedulerName}</option>
+			 #end
+		</select>
+		</td>
+	</tr>
+#if($entity.scheduler)
+	<tr>
+		<td>名称</td><td>$!{entity.scheduler.schedulerName}</td>
+	</tr>
+	<tr>
+		<td>状态</td><td>$!{entity.scheduler.state}</td>
+	</tr>
+	<tr>
+		<td>启动时间</td><td>$!{entity.scheduler.runningSince}</td>
+	</tr>
+	<tr>
+		<td>已执行Job数</td><td>$!{entity.scheduler.numJobsExecuted}</td>
+	</tr>
+	<tr>
+		<td>持久类型</td><td>$!{entity.scheduler.persistenceType}</td>
+	</tr>
+	<tr>
+		<td>线程池大小</td><td>$!{entity.scheduler.threadPoolSize}</td>
+	</tr>
+	<tr>
+		<td>版本</td><td>$!{entity.scheduler.version}</td>
+	</tr>
+#end
+</table>	
+	<span id="controls">
+	<button name="play" value="start" type="submit" title="Start Scheduler"><img type="image"  value="start" src="#ctx()/icons/Play24.gif" alt="Start Scheduler" title="Start Scheduler" /></button>
+	<button name="pause" value="pause" type="submit" title="Pause Scheduler"><img type="image" value="pause" src="#ctx()/icons/Pause24.gif"  alt="Pause Scheduler"  /></button> 
+	<!-- 
+	<button name="stop" value="stop" type="submit" title="Stop Scheduler"><img type="image" value="stop" src="#ctx()/icons/Stop24.gif"  alt="Stop Scheduler"  /></button>
+	<button name="waitAndStop" value="waitAndStopScheduler" type="submit"  title="Stop scheduler, but wait for jobs to complete"><img type="image" value="waitAndStopScheduler" src="#ctx()/icons/Stop24.gif"  /> &nbsp;</button>
+	 -->
+	<button name="pauseAll" value="pauseAll" type="submit" title="Pause All Triggers"><img type="image" value="stop" src="#ctx()/icons/Stop24.gif"  alt="Stop Scheduler"  /></button>
+	<button name="resumeAll" value="resumeAll" type="submit"  title="resume All Triggers, but wait for jobs to complete"><img type="image" value="waitAndStopScheduler" src="#ctx()/icons/Stop24.gif"  /> &nbsp;</button>
+	</span>
+	<br/>
+设置为当前调度器(Set this scheduler as current scheduler): <input type="submit" class="submit" value="set" property="btnSetSchedulerAsCurrent"/>
+</form>
+<hr/>
+当前执行的Job(Currently executing jobs)
+<table><tr>
+<td>组名</td>
+<td>名称</td>
+<td>描述</td>
+<td>任务类</td>
+</tr>
+#if(${entity.executingJobs})
+	#foreach( $job in $entity.executingJobs)
+		<tr>
+			<td>$!{job.groupName}</td>
+			<td>$!{job.name}</td>
+			<td>$!{job.description}</td>
+			<td>$!{job.jobClass}</td>
+		</tr>
+	#end
+#end
+</table>
+<table>
+	<tr>
+		<td width="30">
+			<img src="#ctx()/icons/Pause24.gif" value="btnPauseAllJobs" alt="Pause all jobs"/>
+		</td>
+		<td width="30">
+			<img src="#ctx()/icons/Play24.gif" value="btnResumeAllJobs" alt="Resume all jobs"/>
+		</td>
+	</tr>
+</table>
+<hr/>
+<p>概要: <i><pre>$!{entity.scheduler.summary}</pre></i></p>
+</html>

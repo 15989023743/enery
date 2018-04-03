@@ -1,0 +1,8 @@
+A:link { COLOR: #476074; TEXT-DECORATION: none;}
+A:visited { COLOR: #476074; TEXT-DECORATION: none}
+A:active  { COLOR: #476074; TEXT-DECORATION: none}
+A:hover   { COLOR: #476074; TEXT-DECORATION: none}
+
+.statusbar{ BACKGROUND: #b8d1e2; color:#476074; background-image:url("statusbar.png")}
+#onLineCount{width:20pt;height:9pt;text-align:center;color:red;FONT-WEIGHT: bold;background-color:transparent; border:0;cursor:pointer}
+#msn{height:9pt;text-align:right;color:red;FONT-WEIGHT: bold;background-color:transparent; border:0;}

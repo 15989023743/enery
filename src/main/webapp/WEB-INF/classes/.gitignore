@@ -1,0 +1,17 @@
+/META-INF/
+/applicationContext.xml
+/com/
+/config/
+/dwr.xml
+/filterChar.properties
+/globalMessages.properties
+/globalMessages_en_US.properties
+/globalMessages_zh_CN.properties
+/jquick.properties
+/jquick.xml
+/log4j.properties
+/rebel.xml
+/spring-mvc.xml
+/toolbox.xml
+/validmessages.properties
+/validmessages_zh_CN.properties

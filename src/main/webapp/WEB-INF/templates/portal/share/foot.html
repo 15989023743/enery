@@ -1,0 +1,20 @@
+<div style="clear: both;"></div><!-- 清除友情链接的浮动 -->
+<div class="footer">
+     <div class="bootomNav">
+          <div class="container">
+			#articleDataSourcesInitForeach("helpCenter",5)
+				#foreach($articleList in $articleDataSources)
+				<div #if(${velocityCount} == $!{articleDataSources.size()})class="bootomNavMeassage2"#else class="bootomNavMeassage"#end>
+	               	<span>#getArticleClassName($articleList)</span>
+					<ul>
+						#foreach($article in $articleList)
+						<li><a href="#helpCenterHref($article)" target="_blank">$article.title</a></li>
+						#end
+					</ul>
+				</div>
+				#end
+			#end
+         </div>
+     </div>
+</div>
+#parse("/WEB-INF/templates/portal/share/footBase.html")

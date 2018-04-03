@@ -1,0 +1,180 @@
+#set($layout = "/WEB-INF/velocity/layout/usercenter.vm")
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script src="#ctx()/resources/js/widgets/thirdWindow/back_window.js"></script> 
+<script type="text/javascript" src="#ctx()/resources/js/commons.js"></script>
+	<script language="javascript">
+		
+	function chageState(id, method,msg,changeState,nowState){
+		 
+		 if(id!=null) $("#changeState").val(changeState);
+		 else $("#changeState").val("");
+		 
+		 if(id!=null) $("#nowState").val(nowState);
+		 else $("#nowState").val("");
+		 
+		 command(id, method, msg);
+	}       
+	
+       function updatePrice()
+       {
+       	var form =jQuery("<form></form>");
+       	form.attr("action","#ctx()/center/trade/issue/updatePrice.htm");
+       	form.attr("method","post");
+       	form.attr("id","theForm");
+		var div=jQuery("<div align='center'></div>");
+		div.append("<label>商品标题:</label>");
+		div.append("<input type='text' disabled='disabled' id='title' name='title' value='' class='SmallInput'  style='width:230px'  maxlength='70' />");
+		div.append("</br>");
+		div.append("<label>单&nbsp;&nbsp;&nbsp;&nbsp;价:</label>");
+		div.append("<input type='hidden' id='priceId' name='id' value='' class='SmallInput'  style='width:230px'  maxlength='70' />");
+		div.append("<input type='text' id='priceUnitPriceExclud' name='unitPriceExclud' value='' class='SmallInput'  style='width:230px'  maxlength='70' />");
+		div.append("<br/>");
+		div.append("<label>含税单价:</label>");
+		div.append("<input type='text' id='priceUnitPrice' name='unitPrice' value='' class='SmallInput'  style='width:230px'  maxlength='70' />");
+		div.append("<br/>");
+		var submit=jQuery("<input type='submit' class='SmallButton' name='b_act_clear'  value='提&nbsp;&nbsp;交' style='width:60' />")
+      	div.append(submit);
+      	form.append(div);
+      	BACK_WINDOW(form);
+      } 
+
+    </script>
+</head>
+<link type="text/css" rel="stylesheet"
+	href="#ctx()/resources/style/portal/fenye.css" />
+	
+<form id="ListForm" name="ListForm" action="#ctx()/center/trade/issue/list.htm" method="get">
+		#messages()
+		#currentAndReturnPageUrl()
+		<input type="hidden" id="entityid" name="id" value="" /> 
+		<input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" /> 
+		<input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+		<input type="hidden" id="order" name="order" value="$!{page.order}" />
+		<input type="hidden" id="changeState" name="changeState" value="" />
+		<input type="hidden" id="nowState" name="nowState" value="" />
+<div class="fbgp">
+ 	<strong>我的挂牌信息</strong> <a class="button1" id="gotoAddIssue" href="javascript:create();">+ 发布挂牌</a>
+<!--  	 <span class="kk"><a href="#">更多挂牌信息 >></a> </span> 
+ -->		<div style="margin-top: 50px;">
+			<span>产品名称</span> <input type="text" name="filter_LIKE_itemGoodsName" value="$!{request.getParameter('filter_LIKE_itemGoodsName')}" id="filter_LIKE_itemGoodsName" />
+				 <span>价格</span> <input type="text" style="width:90px;" name="filter_GE_unitPriceExclud" value="$!{request.getParameter('filter_GE_unitPriceExclud')}" id="filter_GT_unitPriceExclud" /> 
+				<span style="width:12px;">至</span><input type="text" style="width:90px;" name="filter_LE_unitPriceExclud" value="$!{request.getParameter('filter_LE_unitPriceExclud')}" id="filter_LT_unitPriceExclud" />
+				<span>产地</span>
+				 #dictSelect(
+					"attr_ZDY_GOODS_AREA", 
+					"attr_ZDY_GOODS_AREA",
+					"$!{request.getParameter('attr_ZDY_GOODS_AREA')}",
+					"DICT_GOODS_AREA", 
+					"", 
+					"Smallselect required", 
+					"", 
+					"true",
+					 "",
+					  ""
+				)
+				 <span>交收仓</span> 
+				#dictSelect(
+					"filter_EQ_deliveryWarehouse", 
+					"filter_EQ_deliveryWarehouse",
+					"$!{request.getParameter('filter_EQ_deliveryWarehouse')}",
+					"ZDY_TRAN_HOUSE", 
+					"", 
+					"Smallselect required", 
+					"", 
+					"true",
+					 "",
+					  ""
+				)
+				 <input type="button" onclick="search()" value=" 搜索 " name="dis" class="inputrelease"  />
+		</div>
+		
+	<table cellspacing="0" width="98%" align="center">
+	
+		<tr>
+			<td bgcolor="#f0f0f0" width="120"><a href="#"onclick="sort('goodsTitle')">挂牌标题</a></td>
+			<td bgcolor="#f0f0f0" width="100"><a href="#"onclick="sort('itemGoodsName')">品名</a></td>
+			<td bgcolor="#f0f0f0" width="80"><a href="#"onclick="sort('amount')">数量</a></td>
+			<td bgcolor="#f0f0f0" width="80"><a href="#"onclick="sort('unitPriceExclud')">单价</a></td>
+			<td bgcolor="#f0f0f0" width="60">产地</td>
+			<td bgcolor="#f0f0f0" width="60">交收仓</td>
+			<td bgcolor="#f0f0f0" width="60">状态</td>
+			<td bgcolor="#f0f0f0" width="120" align="center" colspan="1">操作</td>
+		</tr>
+		#foreach( $IssueInfo in $page.result)
+					<tr bgcolor="#ffffff" onMouseOver="this.bgColor='#fff1e4'" onMouseOut="this.bgColor='#ffffff'">
+						<td  style="padding-left:5px; ">${IssueInfo.goodsTitle}</td>
+						<td  style="padding-left:5px; ">${IssueInfo.itemGoodsName}</td>
+						<td >${IssueInfo.amount} ${IssueInfo.goodsUnitmc}</td>
+						<td ><span>${IssueInfo.unitPriceExclud}</span>$!{IssueInfo.currencymc}/${IssueInfo.goodsUnitmc}</td>
+						<td>#set($attrCode = "_ZDY_GOODS_AREA") $!attrValuesMap.get("$!{IssueInfo.id.toString()}$!{attrCode}")</td>
+						<td >$!{IssueInfo.deliveryWarehousemc}</td>
+						<td class="" align="">
+							#if($!{IssueInfo.validTime.before($!{today})})
+								已过期
+							#else
+								正常
+							#end
+						</td>
+						<td class="" align="center">
+							<a href="#" onclick="view('$!{IssueInfo.id}')">查看 </a>
+						#if(!$!{IssueInfo.validTime.before($!{today})})	
+							#if($!{IssueInfo.issueState.ordinal()}==0 || $!{IssueInfo.issueState}==3)
+								#permission("update")
+								<a href="#" onclick="update('$!{IssueInfo.id}')">修改</a>
+								#end
+							#elseif($!{IssueInfo.issueState}==4)
+								#permission("updatePrice")
+								<a href="#" onclick="updatePrice();jQuery('#title').val('$!{IssueInfo.goodsTitle}');jQuery('#priceId').val('$!{IssueInfo.id}');jQuery('#priceUnitPriceExclud').val('$!{IssueInfo.unitPriceExclud}');jQuery('#priceUnitPrice').val('$!{IssueInfo.unitPrice}')">调价</a>
+								#end
+							#end
+							#if($!{IssueInfo.issueState}==0) 
+								##permission("chageState")
+								<a href="#" onclick="chageState('$!{IssueInfo.id}','chageState','确定要提交','TOAUDIT','CREATE')">提交</a>
+								
+								##end
+								
+							#elseif($!{IssueInfo.issueState}==2)
+								#permission("chageState") 
+								<a href="#" onclick="chageState('$!{IssueInfo.id}','chageState','确定要下架','THESHELVES','SHELVES')">下架</a>
+								#end
+							#elseif($!{IssueInfo.issueState}==3) 
+								#permission("chageState")
+								<a href="#" onclick="chageState('$!{IssueInfo.id}','chageState','确定要提交','TOAUDIT','FALLBACK')">提交</a>
+								#end
+								
+							#elseif($!{IssueInfo.issueState}==4)
+								#permission("chageState")
+								<a href="#" onclick="chageState('$!{IssueInfo.id}','chageState','确定要提交','SHELVES','THESHELVES')">上架</a>
+								#end	
+							#end
+							#if($!{IssueInfo.issueState}==0 || $!{IssueInfo.issueState}==3)
+								#permission("delete") 
+								<a href="#" onclick="command('$!{IssueInfo.id}','delete','删除后不能恢复，确定删除?');">删除</a>
+								#end
+							#elseif($!{IssueInfo.issueState}==4) 
+								#permission("cancel") 
+								<a href="#" onclick="command('$!{IssueInfo.id}','cancel','确定作废?');">作废</a>
+								#end
+							#end
+						#end
+						</td>
+					</tr>
+		#end
+	</table>
+		<div class="pages float_r padding_t10 padding_b10">
+			#if($!{page.totalCount} && $!{page.totalCount}!=0) 
+			<a href="javascript:void(0);" onclick="jumpPage(1)">首页</a>
+			 <a class="prev" href="javascript:void(0);" onclick="jumpPage($!{page.prePage})">上一页</a>
+					#set($indexs=[$!page.startindex .. $!page.endindex]) 
+					#foreach($index in $indexs) #if($!page.pageNo==$!index) 
+					<a class="menu_number" href="javascript:void(0);" onclick="jumpPage($!index)"">$!index</a>
+					 #else <a href="javascript:void(0);" onclick="jumpPage($!index)">$!index</a>
+					#end 
+					#end <a class="next" href="javascript:void(0);" onclick="jumpPage($!{page.nextPage})">下一页</a>
+					 <a href="javascript:viod(0);" onclick="jumpPage($!{page.totalPages})">尾页</a>
+			#end
+				</div>
+</div>
+</form>

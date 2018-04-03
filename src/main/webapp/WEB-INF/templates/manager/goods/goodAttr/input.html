@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>商品属性</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/cssjs.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <script src="#ctx()/resources/js/widgets/datePicker/WdatePicker.js"></script>
+    <!-- 页面JS函数编写 begin -->
+    <script>
+    
+    	jQuery(function(){
+    		var hasEntity=#if($!{entity})true #else false #end;
+    		if(jQuery("#category:hidden").length>0||hasEntity){
+    			jQuery("#goods_item input:visible").attr("disabled","disabled")
+    		}
+    		
+    		var returnurl="$!{returnUrl}";
+    		jQuery("input[name='PARAMETER_RETURN_PATH']").val(returnurl);
+    		
+    		jQuery("input[name='category']").addClass("required");
+    		jQuery("input[name='type']").addClass("required");
+    		jQuery("input[name='dictName']").addClass("required");
+    		jQuery("input[name='enabled']").addClass("required");
+    		jQuery("input[name='inputType']").addClass("required");
+    		jQuery("input[name='name']").focus().addClass("required").attr("remote", "checkName.htm?orgName="+encodeURIComponent('$!{entity.name}')+"&itemid="+(jQuery("#goodsItemId").length>0?jQuery("#goodsItemId").val():""));
+			jQuery.validator.messages["remote"] = "属性名称已存在于公共属性或父类目的属性中";
+			
+			re=/(value\=\")([a-zA-Z0-9\=\+\-]{0,})(\")/;
+			var returnUrl='#backPageUrl()';
+			re.exec(returnUrl);
+			//returnUrl=returnUrl.substring(returnUrl.indexOf("value=\"")+7, returnUrl.indexOf("\"", returnUrl.indexOf("value=\"")+2));
+			//alert(RegExp.$2);
+			jQuery("input[name='PARAMETER_RETURN_PATH']").val(RegExp.$2);
+			showDictSelect(jQuery("#inputType").val());
+    		#if(!$!{request.getParameter('goodsItemId')})
+    		conGoodsItem(jQuery("#category").val());
+    		#end
+    	});
+
+
+        function showDictSelect(value){
+            if(value==2||value==3||value==4){
+            	/* jQuery("#dict").fadeIn("normal");
+                jQuery("#dict_name").fadeIn("normal"); */
+                //document.getElementById("dict").style.display='block';
+                //document.getElementById("dict_name").style.display='block';
+                document.getElementById("dictName").removeAttribute("disabled");
+                /* jQuery("#goods_item *").removeAttr("disabled");
+                jQuery("#goodsItemId").addClass("required"); */
+            }else{
+            	/* jQuery("#dict").fadeOut("normal");
+                jQuery("#dict_name").fadeOut("normal"); */
+                document.getElementById("dictName").setAttribute("disabled", "disabled");
+                //document.getElementById("dict").style.display='none';
+                //document.getElementById("dict_name").style.display='none';
+                //document.getElementById("dictName").value="";
+                /* jQuery("#goods_item *").attr("disabled","disabled");
+                jQuery("#goodsItemId").removeClass("required"); */
+            }
+        }
+        
+        function conGoodsItem(value){
+        	if(value==1){
+        		/* jQuery("#goods_item").fadeIn("normal");
+        		jQuery("#goods_item *").removeAttr("disabled");
+        		jQuery("#goodsItemId").removeAttr("disabled");
+        		jQuery("#goodsItemId").addClass("required"); */
+        		
+        		
+        		document.getElementById("goodsItemId").removeAttribute("disabled");
+        		jQuery("#goodsItemId").addClass("required");
+        		jQuery("#goodsItemIdmc").addClass("required");
+        		/* document.getElementById("goodsItemId").className+="required"; 
+        		document.getElementById("goodsItemIdmc").className+="required"; */ 
+        		document.getElementById("goodsItemIdmc").removeAttribute("disabled");
+        		document.getElementsByName("goodsItemIdButton")[0].removeAttribute("disabled");
+        	}else{
+        		/* jQuery("#goods_item").fadeOut("normal");
+        		jQuery("#goods_item *").attr("disabled","disabled");
+        		jQuery("#goodsItemId").attr("disabled","disabled");
+        		jQuery("#goodsItemId").removeClass("required"); */
+        		
+        		
+        		document.getElementById("goodsItemId").setAttribute("disabled", "disabled");
+        		jQuery("#goodsItemId").removeClass("required");
+        		jQuery("#goodsItemIdmc").removeClass("required");
+        		jQuery("label[for='goodsItemIdmc']").remove();
+        		/* document.getElementById("goodsItemId").className=document.getElementById("goodsItemId").className.replace("required",""); 
+        		document.getElementById("goodsItemIdmc").className=document.getElementById("goodsItemIdmc").className.replace("required","");  */
+        		document.getElementById("goodsItemIdmc").setAttribute("disabled", "disabled");
+        		document.getElementsByName("goodsItemIdButton")[0].setAttribute("disabled", "disabled");
+        	}
+        }
+    </script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/goods/goodAttr/save.htm" method="post" class="validate">
+	#set($goodsItemId=$!{request.getParameter('goodsItemId')})
+	#if($!{entity})
+		#set($goodsItemId=$!{entity.goodsItem.id})
+	#end
+	#messages()
+    <input type="hidden" name="id"  id="id" value="$!{entity.id}" />
+    #backPageUrl()
+    <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="30">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="30" class="TableHeadLeft"></td>
+                        <td class="TableHeader">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="46%" valign="middle">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                            <tr>
+                                                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                                                <td width="35%"><b>#navigation("商品属性信息")</b></td>
+                                                <td width="55%" align="right">
+								                #permission("save")
+								                <input type="submit" class="SmallButton"  name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+								                #end
+                                                    <!--  
+                                                    <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+                                                    -->
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableHeadRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+
+        <!--业务表格区域开始-->
+        <tr>
+            <td height="18">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="8" class="TableLeft"></td>
+                        <td class="TableLine1">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+                                <tr>
+                                    <td>
+                                        <fieldset ><legend>&nbsp;属性信息&nbsp;</legend>
+                                            <table style="width:100%" align="center" class="TableBlock" >
+
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent"></strong>属性名称</td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" name="name" value="$!{entity.name}" class="SmallInput required"  style="width:230px"  maxlength="20"  /></td>
+                                                </tr>
+
+												#if(!$!{request.getParameter('goodsItemId')})
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">类别</td>
+                                                    <td width="34%" align="left" class="TableData">
+															#dictSelect(
+	                                                        "category",
+	                                                        "category",
+	                                                        "$!{entity.category}",
+	                                                        "ZDY_GOODS_CATEGORY",
+	                                                        "",
+	                                                        "Smallselect required",
+	                                                        "",
+	                                                        "true",
+	                                                        "conGoodsItem(this.value)",
+	                                                        "")
+                                                        <span id="nothis"><strong style="color: cornflowerblue"></strong></span>
+                                                    </td>
+                                                </tr>
+                                                #else
+                                                <input type="hidden" name="category"  id="category" value="1" />
+                                                #end
+                                                
+                                                <tr id=goods_item>
+                                                    <td width="8%" align="right" class="TableContent">所属类目</td>
+                                                    <td width="34%" align="left" class="TableData">
+															#dictTree(
+	                                                        "goodsItemId",
+	                                                        "goodsItem.id",
+	                                                        "$!{goodsItemId}",
+	                                                        "DICT_GOODS_ITEM",
+	                                                        "",
+	                                                        "Smallselect",
+	                                                        "",
+	                                                        "true")
+                                                        <span id="nothis"><strong style="color: cornflowerblue"></strong></span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">属性分组</td>
+                                                    <td width="34%" align="left" class="TableData">
+															<input type="text" name="group" value="$!{entity.group}" class="SmallInput required"  style="width:230px"  maxlength="20"  />
+                                                        <span id="nothis"><strong style="color: cornflowerblue"></strong></span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">数据类型</td>
+                                                    <td width="34%" align="left" class="TableData">
+                                                        #dictSelect(
+                                                        "type",
+                                                        "type",
+                                                        "$!{entity.type}",
+                                                        "ZDY_DATA_TYPE",
+                                                        "",
+                                                        "Smallselect required",
+                                                        "",
+                                                        "true",
+                                                        "",
+                                                        "")
+                                                        <span id="nothis"><strong style="color: cornflowerblue"></strong></span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">输入方式</td>
+                                                    <td class="TableData" >
+                                                        #dictSelect(
+                                                        "inputType",
+                                                        "inputType",
+                                                        "$!{entity.inputType}",
+                                                        "ZDY_INPUT_TYPE",
+                                                        "",
+                                                        "Smallselect required",
+                                                        "",
+                                                        "true",
+                                                        "showDictSelect(this.value)",
+                                                        "")
+                                                    </td>
+                                                </tr>
+
+                                                <tr id="dict_name">
+                                                    <td width="8%" align="right" class="TableContent">字典类别名称</td>
+                                                    <td width="34%" align="left" class="TableData" id="dict">
+                                                        #dictSelect(
+                                                        "dictName",
+                                                        "dictName",
+                                                        "$!{entity.dictName}",
+                                                        "DICT_DICT_CATEGORY",
+                                                        "",
+                                                        "Smallselect",
+                                                        "",
+                                                        "true",
+                                                        "",
+                                                        "")
+
+                                                        <span id="nothis"><strong style="color: cornflowerblue"></strong></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">启用状态</td>
+                                                    <td width="34%" align="left" class="TableData">
+                                                        #dictSelect(
+                                                        "enabled",
+                                                        "enabled",
+                                                        "$!{entity.enabled}",
+                                                        "ZDY_display",
+                                                        "",
+                                                        "Smallselect required",
+                                                        "",
+                                                        "true",
+                                                        "",
+                                                        "")
+                                                        <span id="nothis"><strong style="color: cornflowerblue"></strong></span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="8" class="TableRight"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--业务表格区域结束-->
+
+        <!--表格底部开始-->
+        <tr>
+            <td height="35">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="35" class="TableFooterLeft"></td>
+                        <td class="TableFooter">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                <tr>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <table border="0" align="right" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="100">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableFooterRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格底部结束-->
+
+    </table>
+</form>
+</body>
+</html>

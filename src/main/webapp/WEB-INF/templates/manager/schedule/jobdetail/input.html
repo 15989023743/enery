@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>添加job</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+	<script type='text/javascript' src='#ctx()/dwr/util.js'></script>
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../resources/style/theme/1/style.css" />
+<!-- 页面JS函数编写 begin -->
+	<script>
+	$(function(){
+	    $("input[name=group]").addClass("required").focus();
+	    $("input[name=name]").addClass("required");
+	    $("input[name=className]").addClass("required");
+	    $("input[name=durability]").addClass("required");
+		
+	});
+	var count=0;
+	function addPar(){
+		var id = ++count;
+		dwr.util.cloneNode("listPattern", { idSuffix:id});
+		//alert(id);
+		//dwr.util.setValue("parameterNames" + id, "");		
+		//dwr.util.setValue("parameterValues" + id, "");
+		//$("#parameterNames" + id).addClass("required");
+		//$("#parameterValues" + id).addClass("required");
+	    $("#listPattern" + id).css({'display':''});
+	}
+	
+    function deleteCurrentRow(obj){
+           if(confirm("确定要删除该参数吗？")){
+	        	var tr=obj.parentNode.parentNode;
+	        	var tbody=tr.parentNode; 
+	        	tbody.removeChild(tr);
+            }
+     }
+	</script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/schedule/jobdetail/save.htm" method="post" class="validate">
+#messages()
+#backPageUrl()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>系统环境配置</b></td>
+		                <td width="55%" align="right">
+		                	#permission("save")
+			                <input type="submit" class="SmallButton" name="b_act_subit"   style="width:60"  value="保&nbsp;&nbsp;存" />
+			                #end
+			                <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">job组名</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name=group value="$!{entity.group}" class="SmallInput"  style="width:80%"  maxlength="200"/></td>			                       
+					<td width="10%" align="right" class="TableContent">job名称</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="name" value="$!{entity.name}" class="SmallInput"  style="width:80%"  maxlength="200" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">jobClass</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="className" value="$!{className}$!{entity.jobClass.name}" class="SmallInput"  style="width:80%"  maxlength="200"/></td>			                       
+					<td width="10%" align="right" class="TableContent">是否可恢复</td>
+					<td width="40%" align="left" class="TableData" ><input type="checkbox" name="requestsRecovery" value="true" #if(${entity.requestsRecovery}) checked="true" #{end} class="SmallInput"  style="width:80%"  maxlength="200"/></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">描述</td>
+					<td align="left" class="TableData" ><input type="text" name="description" value="$!{entity.description}" class="SmallInput"  style="width:80%"  maxlength="300" /></td>			                       
+					<td align="right" class="TableContent">是否持久化</td>
+					<td align="left" class="TableData" ><input type="checkbox" name="durability" value="true" #if(${entity.durability}) checked="true" #{end} class="SmallInput"  style="width:80%"  maxlength="20"/></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <br/>
+		  <fieldset><legend>&nbsp;参数信息&nbsp;</legend>
+		  <table style="width:100%" align="center" class="TableBlock1" border="1">
+		  	<tr align="center">
+		  	<td class="TableHeader1" width="20%">参数名称</td>
+		  	<td class="TableHeader1" >参数值</td>
+		  	<td class="TableHeader1" width="10%"><input class="SmallButton"  type="button" onclick="addPar()" name="addpar" value="添加一个参数" /></td>
+		  	</tr>
+			#foreach( $key in $!entity.jobDataMap.keys)
+		  	<tr>
+			  	<td class="TableData" ><input type="text" name="parameterNames" value="$!{e.key}" class="SmallInput required" style="width:90%;"  maxlength="100" /></td>
+			  	<td class="TableData" ><input type="text" name="parameterValues" value="$!{e.key}" class="SmallInput required" style="width:90%;"  maxlength="100" /></td>
+		  	</tr>
+		  	#end
+			<tr id="listPattern" style="display: none;" align="center">
+			  	<td class="TableData" ><input type="text" name="parameterNames" value="" class="SmallInput required" style="width:90%;"  maxlength="100" /></td>
+			  	<td class="TableData" ><input type="text" name="parameterValues" value="" class="SmallInput required" style="width:90%;"  maxlength="100" /></td>
+				<td class="TableData">
+				<a href="#" onclick="deleteCurrentRow(this)">删除</a></td>
+		  	</tr>
+		  </table>
+		  </fieldset>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+</html>

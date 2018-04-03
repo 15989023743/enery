@@ -1,0 +1,64 @@
+div.blockUI{
+    border:1px solid red;
+    background-color:#335577;
+}
+//整体的DIV层样式
+
+
+.DialogContainer{
+    width:400px;
+    height:200px;
+    cursor:default;
+    
+}
+//提示框里面的样式
+
+
+.DialogContainer .Title{
+    background-color:#7199b1;
+    color:white;
+    font:caption;
+    text-align:left;
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:5px;
+}
+//标题样式
+
+
+.DialogContainer .Content{
+    font-size:12px;
+    line-height:25px;
+    height:160px;
+    padding-top:20px;
+    padding-left:15px;
+    text-align:left;
+}
+//内容样式
+
+
+.DialogContainer .buttons{
+    text-align:right;
+    padding-right:20px;
+    padding-bottom:10px;
+}
+//按钮样式
+
+
+.DialogContainer .buttons input{
+    margin-left:20px;
+    text-align:center;
+    background-color: #ffffff;
+    border-right: #7199b1 2px solid;
+    padding-right: 8px;
+    border-top: #7499ae 1px solid;
+    padding-left: 8px;
+    font-size: 14px;
+    background-image: url(../images/anniu/out.gif);
+    border-left: #7499ae 1px solid;
+    cursor: hand;
+    color: #053152;
+    padding-top: 5px;
+    padding-bottom: 0px;
+    border-bottom: #7199b1 2px solid;
+}

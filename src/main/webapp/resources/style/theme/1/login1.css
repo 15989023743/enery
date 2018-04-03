@@ -1,0 +1,22 @@
+.winlog{
+	background-image: url(./login_03.gif);
+	height: 267px;
+	width: 481px;
+	overflow: hidden;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	margin-top: 100px;
+	border:0px;
+	/*left:260px;*/
+}
+.bot{
+	background-image: url(./login_05.gif);
+	height: 52px;
+	width: 481px;
+	overflow: hidden;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-top:3px;
+	border:0px;
+	color: #ABB8C1;
+}

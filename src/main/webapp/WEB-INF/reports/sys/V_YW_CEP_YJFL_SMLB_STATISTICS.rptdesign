@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">MyEclipse Report Designer Version 10.0</property>
+    <property name="units">in</property>
+    <text-property name="displayName">通用模版</text-property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="1217">
+            <property name="odaDriverClass">oracle.jdbc.driver.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@127.0.0.1:1521:APP</property>
+            <property name="odaUser">CEP</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Q0VQ</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds" id="1218">
+            <property name="dataSource">Data Source</property>
+            <xml-property name="queryText"><![CDATA[SELECT  YJNAME, TYPE1NAME, SL, STAFFQUANTITY, SERVICEOBJECT FROM V_YW_CEP_YJFL_SMLB_STATISTICS WHERE 0=0 ]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="fbresultcontent" id="1216">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <structure name="dateTimeFormat">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
+            <structure name="numberFormat">
+                <property name="category">Unformatted</property>
+            </structure>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="fbresulthead" id="6">
+            <property name="backgroundColor">#F0F0F0</property>
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="textAlign">center</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="fbresulttitle" id="5">
+            <property name="fontFamily">"仿宋_GB2312"</property>
+            <property name="fontSize">x-large</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+            <property name="textAlign">center</property>
+            <property name="textIndent">10px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="text_12px_center" id="12">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">normal</property>
+            <property name="color">#000000</property>
+            <property name="textAlign">center</property>
+            <property name="textIndent">0px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="text_12px_left" id="11">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">normal</property>
+            <property name="color">#000000</property>
+            <property name="textAlign">left</property>
+            <property name="textIndent">0px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="text_12px_right" id="9">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">normal</property>
+            <property name="color">#000000</property>
+            <structure name="numberFormat">
+                <property name="category">Currency</property>
+                <property name="pattern">###0.00</property>
+            </structure>
+            <property name="textAlign">right</property>
+            <property name="textIndent">0px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="leftMargin">0.7916666666666666in</property>
+            <property name="rightMargin">0.7916666666666666in</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table name="table" id="1219">
+            <property name="width">100%</property>
+            <property name="dataSet">ds</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">YJNAME</property>
+                    <expression name="expression">dataSetRow["YJNAME"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">TYPE1NAME</property>
+                    <expression name="expression">dataSetRow["TYPE1NAME"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">SL</property>
+                    <expression name="expression">dataSetRow["SL"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">STAFFQUANTITY</property>
+                    <expression name="expression">dataSetRow["STAFFQUANTITY"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">SERVICEOBJECT</property>
+                    <expression name="expression">dataSetRow["SERVICEOBJECT"]</expression>
+                </structure>
+            </list-property>
+            <column id="1248"/>
+            <column id="1249"/>
+            <column id="1250"/>
+            <column id="1251"/>
+            <column id="1252"/>
+            <header>
+                <row id="1220">
+                    <cell id="1221">
+                        <property name="style">fbresulthead</property>
+                        <label name="一级项目类别名称" id="1222">
+                            <text-property name="text">一级项目类别名称</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1223">
+                        <property name="style">fbresulthead</property>
+                        <label name="一级统计分类名称" id="1224">
+                            <text-property name="text">一级统计分类名称</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1225">
+                        <property name="style">fbresulthead</property>
+                        <label name="次数_数量" id="1226">
+                            <text-property name="text">次数/数量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1227">
+                        <property name="style">fbresulthead</property>
+                        <label name="工作人员数量" id="1228">
+                            <text-property name="text">工作人员数量</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1229">
+                        <property name="style">fbresulthead</property>
+                        <label name="服务对象数量" id="1230">
+                            <text-property name="text">服务对象数量</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="1231">
+                    <cell id="1232">
+                        <property name="style">fbresultcontent</property>
+                        <data name="data_YJNAME" id="1233">
+                            <property name="resultSetColumn">YJNAME</property>
+                        </data>
+                    </cell>
+                    <cell id="1234">
+                        <property name="style">fbresultcontent</property>
+                        <data name="data_TYPE1NAME" id="1235">
+                            <property name="resultSetColumn">TYPE1NAME</property>
+                        </data>
+                    </cell>
+                    <cell id="1236">
+                        <property name="style">fbresultcontent</property>
+                        <data name="data_SL" id="1237">
+                            <property name="resultSetColumn">SL</property>
+                        </data>
+                    </cell>
+                    <cell id="1238">
+                        <property name="style">fbresultcontent</property>
+                        <data name="data_STAFFQUANTITY" id="1239">
+                            <property name="resultSetColumn">STAFFQUANTITY</property>
+                        </data>
+                    </cell>
+                    <cell id="1240">
+                        <property name="style">fbresultcontent</property>
+                        <data name="data_SERVICEOBJECT" id="1241">
+                            <property name="resultSetColumn">SERVICEOBJECT</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="1242">
+                    <cell id="1243"/>
+                    <cell id="1244"/>
+                    <cell id="1245"/>
+                    <cell id="1246"/>
+                    <cell id="1247"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

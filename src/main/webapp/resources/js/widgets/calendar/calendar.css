@@ -1,0 +1,147 @@
+.calendar{
+	width:230;
+	position:relative;
+}
+
+.calendar .weeks{
+	height:26px;
+	background:#B5C3EF;
+	font:12px/24px 宋体;
+	color:#ffffff;
+	text-align:center;
+}
+
+.calendar .daysTable{
+	border:#84A2C6 2px solid;
+	width:100%;
+	background-color:white;
+	border-top:#84A2C6 1px solid;
+	border-left:#84A2C6 2px solid;
+	border-right:#84A2C6 2px solid;
+	border-bottom:0;
+}
+
+.calendar .time{
+	height:26px;
+	background:#f3f3ff;
+	font:12px/24px 宋体;
+	color:#4A6D9C;
+	text-align:center;
+}
+
+.calendar .hour{
+	height:20px;
+	width:30px;
+	color:#4A6D9C;
+	text-align:center;
+}
+.calendar .minute{
+	height:20px;
+	width:30px;
+	color:#4A6D9C;
+	text-align:center;
+}
+
+.calendar .days{
+	height:26px;
+	font:12px/24px 宋体;
+	color:#4A6D9C;
+	text-align:center;
+	background-color:#f3f3ff;
+	cursor:hand;
+}
+
+.calendar .currentDay{
+	background-color:CEDFFF;
+}
+.calendar .bottomBar{
+	width:100%;
+	border-bottom:#84A2C6 2px solid;
+	border-left:#84A2C6 2px solid;
+	border-right:#84A2C6 2px solid;
+	border-top:0;
+	height:36px;
+	background:#E7EFFF;
+	text-align:center;
+	padding-top:6px;
+}
+
+.calendar .button{
+	display:inline;
+	width:47px;
+	height:21px;
+	font:12px/21px 宋体;
+	color:#ffffff;
+	text-align:center;
+	background-image:url(images/butt.gif);
+	cursor:hand;
+}
+
+.calendar .topBarLeft{
+	float:left;
+	width:10px;
+	height:35px;
+	background-image:url(images/top_left.gif);
+}
+
+.calendar .topBarRight{
+	background-image:url(images/top_right.gif);
+	float:right;
+	width:10px;
+	height:35px;
+}
+
+.calendar .topBarCenter{
+	float:left;
+	height:35px;
+	width:210;
+	padding-left:0px;
+	padding-right:0px;
+	padding-top:7px;
+	background-image:url(images/top_center.gif);
+}
+
+.calendar .btPreYear{
+	width:20px;
+	background-repeat:no-repeat;
+	background-image:url(images/y_pre.gif);
+	height:16px;
+	float:left;
+	cursor:hand;
+}
+.calendar .btPreMonth{
+	width:20px;
+	background-repeat:no-repeat;
+	background-image:url(images/m_pre.gif);
+	height:16px;
+	float:left;
+	cursor:hand;
+}
+.calendar .btNextMonth{
+	width:20px;
+	background-repeat:no-repeat;
+	background-image:url(images/m_next.gif);
+	height:16px;
+	float:right;
+	cursor:hand;
+}
+.calendar .btNextYear{
+	width:20px;
+	background-repeat:no-repeat;
+	background-image:url(images/y_next.gif);
+	height:16px;
+	float:right;
+	cursor:hand;
+}
+.calendar .label{
+	height:16px;
+	float:left;
+	cursor:hand;
+	font:12px/24px 宋体;
+	color:#4A6D9C;
+}
+
+.calendar .select{
+	border:0;
+	padding-left:0;
+}

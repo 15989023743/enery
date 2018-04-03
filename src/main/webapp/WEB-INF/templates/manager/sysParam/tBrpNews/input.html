@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>银行信息管理</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/cssjs.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <script src="#ctx()/resources/datePicker/WdatePicker.js"></script>
+    <script charset="utf-8" src="#ctx()/resources/editor/kindeditor.js"></script>
+    <!-- 页面JS函数编写 begin -->
+    <script>
+        formatUploadUrl=false;
+        KindEditor.ready(function(K) {
+            var editor = K.editor({
+                allowFileManager : true,
+                uploadJson:'#ctx()/kindeditor_upload.htm?fileName=imgFile',
+                fileManagerJson:'#ctx()/file_manage.htm'
+            });
+            K('#selectImg').click(//选择图片的按钮
+                    function() {
+                        editor.loadPlugin('image', function() {
+                            editor.plugin.imageDialog({
+                                showRemote : false,
+                                imageUrl : K('#adImg').val(),//上传图片成功后，用来存放路径的文本框
+                                clickFn : function(url, title, width, height,
+                                                   border, align) {
+                                    var contextPath = document.location.pathname;
+                                    var contextPath1 = "#ctx()";
+                                   //var index1 =contextPath.substr(1).lastIndexOf("/");
+                                    var index =contextPath.substr(1).indexOf("/");
+                                    contextPath = contextPath.substr(0,index+1);
+                                    contextPath1 = contextPath1.replace(contextPath,"")+"/";
+                                    url = url.replace(contextPath1,"");
+                                    url = url.replace(contextPath,"");
+                                    K('#adImg').val(url);//上传图片成功后，用来存放路径的文本框
+                                    //K('#disImg').attr("src",window.location.protocol+"//"+window.location.host+url.replace(contextPath,""));//预览图片
+                                    K('#disImg').attr("src","#ctx()"+url.replace(contextPath1,""));//预览图片
+                                    editor.hideDialog();
+                                    var adImg = jQuery("#adImg").val();
+                                    if(adImg==""){
+                                        jQuery("#disImg").hide();
+                                    }else{
+                                        jQuery("#disImg").show();
+                                    }
+                                }
+                            });
+                        });
+                    });
+        });
+
+
+
+        //options为编辑配置属性
+        var options = {
+            cssPath : '#ctx()/resources/editor/themes/default/default.css',
+            filterMode : true,
+            uploadJson:'#ctx()/kindeditor_upload.htm',
+            width : '700px',
+            height:'400px',
+            syncType:"form",
+            afterCreate : function() {
+                var self = this;
+                self.sync();
+            },
+            afterChange : function() {
+                var self = this;
+                self.sync();
+            },
+            afterBlur : function() {
+                var self = this;
+                self.sync();
+            },
+            items:['source', '|', 'fullscreen', 'undo', 'redo', 'print', 'cut', 'copy', 'paste',
+                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about']
+        };
+
+        $(function(){
+
+            //设置默认状态以及判断初始显示状态
+            var state = jQuery("#display").val();
+            var id = jQuery("#id").val();
+            if(id=="" || id==undefined){
+                jQuery("#display_img").attr("src","#ctx()/resources/images/yes.jpg");
+                jQuery("#display").val("true");
+            }
+
+            var adImg = jQuery("#adImg").val();
+            if(adImg=="" || adImg==undefined){
+                jQuery("#disImg").hide();
+            }else{
+                jQuery("#disImg").show();
+            }
+
+            editor = KindEditor.create('#content',options);
+            jQuery("#display_img").click(function(){
+                var display=jQuery("#display").val();
+                if(display=="true"){
+                    jQuery("#display_img").attr("src","#ctx()/resources/images/no.jpg");
+                    jQuery("#display").val("false");
+                }else{
+                    jQuery("#display_img").attr("src","#ctx()/resources/images/yes.jpg");
+                    jQuery("#display").val("true");
+                }
+            });
+
+
+
+            $("input[name=title]").addClass("required");
+            $("#articleClass >input").addClass("required");
+            //$("body").addClass("required");
+            $("#content").addClass("required");
+            //$("input[name=url]").addClass("url");
+            $("input[name=sequence]").addClass("digits");
+            jQuery("input[name=bankCode]").focus().attr("remote", "checkCode.htm?orgCode="+encodeURIComponent('$!{entity.bankCode}'));
+            jQuery.validator.messages["remote"] = "序号已存在";
+        });
+    </script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/bank/tCssBank/save.htm" method="post" class="validate">
+    <input type="hidden" name="id"  id="id" value="$!{entity.id}" />
+    #backPageUrl()
+    <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="30">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="30" class="TableHeadLeft"></td>
+                        <td class="TableHeader">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="46%" valign="middle">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                            <tr>
+                                                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                                                <td width="35%"><b>#navigation("银行信息")#if(!$!entity.id)创建#else修改#end</b></td>
+                                                <td width="55%" align="right">
+									                #permission("save")
+									                <input type="submit" class="SmallButton"  name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+									                #end
+                                                    <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableHeadRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+
+        <!--业务表格区域开始-->
+        <tr>
+            <td height="18">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="8" class="TableLeft"></td>
+                        <td class="TableLine1">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+                                <tr>
+                                    <td>
+                                        <fieldset ><legend>&nbsp;基本信息&nbsp; $!{flow}</legend>
+                                            <table style="width:100%" align="center" class="TableBlock" >
+
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">银行代码<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" name="bankCode" value="$!{entity.bankCode}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">银行缩写<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" name="bankName" value="$!{entity.bankName}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">银行全称<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" name="bankFullName" value="$!{entity.bankFullName}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+                                                </tr>
+                                                <tr>
+                                                    #set($dayMoney = $number.format("0.00", $!{entity.dayMoney}))
+                                                    <td width="8%" align="right" class="TableContent">每日最大出金额<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" name="dayMoney" value="$!{dayMoney} " class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">单笔最大出金额<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" name="singleMoney" value="$!{entity.singleMoney}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">每日最大出金次数<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" name="dayNum" value="$!{entity.dayNum}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">银行Logo：</td>
+                                                    <td width="34%" align="left" class="TableData">
+                                                        <span><input type="text" id="adImg" name="bankLogo" readonly="readonly" value="$!{entity.bankLogo}" class="SmallInput"  style="width:230px"  maxlength="200" /></span>
+                                                        <span><input type="button" value="选择图片" id="selectImg" style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                                                        <span><input type="button" value="清空图片" id="cleanImg"  style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                                                        <span id="nothis"><strong style="color: cornflowerblue">最佳尺寸:100px * 100px</strong></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">图片展示</td>
+                                                    <td width="34%" align="left" class="TableData"><img width="500" height="300"
+                                                                                                        id="disImg" name="disImg"
+                                                                                                        src="#ctx()/$!{entity.bankLogo}" /></td>
+                                                </tr>
+                                                #if($!{entity.id})
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">排序</td>
+                                                    <td width="34%" align="left" class="TableData"><input type="text" name="sequence" value="$!{entity.sequence}" class="SmallInput"  style="width:230px"  maxlength="70" />
+                                                        <span id="nothis"><strong style="color: cornflowerblue">填写排序号后，该文章会在文章列表里以排序号排序</strong></span>
+                                                    </td>
+                                                </tr>
+                                                #end
+<!--                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">显示</td>
+                                                    <td width="34%" align="left" class="TableData">
+
+                                                        <input name="display" id="display" type="hidden" value="$!{entity.display}" >
+                                                        <img #if($!{entity.display})src="#ctx()/resources/images/yes.jpg"#else src="#ctx()/resources/images/no.jpg"#end width="61" height="23" id="display_img" style="cursor:pointer"/>
+                                                    </td>
+                                                </tr>-->
+
+                                            </table>
+                                        </fieldset>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="8" class="TableRight"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--业务表格区域结束-->
+
+        <!--表格底部开始-->
+        <tr>
+            <td height="35">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="35" class="TableFooterLeft"></td>
+                        <td class="TableFooter">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                <tr>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <table border="0" align="right" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="100">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableFooterRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格底部结束-->
+
+    </table>
+</form>
+</body>
+</html>

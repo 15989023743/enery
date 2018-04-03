@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>$!APP.systemName</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/style.css">
+<!-- 
+<script type='text/javascript' src='#ctx()/dwr/interface/checkService.js'></script>
+ -->
+<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+<script type='text/javascript' src='#ctx()/dwr/util.js'></script>
+
+<script type="text/javascript">
+var ctx = '#ctx()';
+//alert(self.parent);
+ self.moveTo(0,0);
+ self.resizeTo(screen.availWidth,screen.availHeight);
+ self.focus();
+ var tomcat_ip = "$!APP.misdEngineHost";
+ var tomcat_port = "$!APP.misdEngineHostPort";
+ var iis_ip = "$!APP.misdEngineHost_net";
+ var iis_port = "$!APP.misdEngineHostPort_net";
+
+var username = '$!SESSION_LOGGED_ON_USER.userName';
+var isStart = true;
+function setCookie(cookiename,cookievalue,cookieexpdate){
+	document.cookie = cookiename + "=" 
+	+ encodeURI(cookievalue)
+	+ "; domain=.www.dzwzwg.com"    
+	+ "; path=" + "/"
+	+ "; expires=" + cookieexpdate.toGMTString();
+	}
+function refresh() {
+    //var d = new Date();
+    //d.setTime(d.getTime()+1000*60*60*24*30);
+    //setCookie('j2ee_username','$!SESSION_LOGGED_ON_USER.userName',d);
+    
+	/*var number = parseInt((Math.random()*180000));
+	if(number==0)
+		number=60000;*/
+	
+	//the_timeout= 
+	window.setTimeout( "refresh()",30000);
+	if(isStart) {
+	    //parent.document.getElementById('status_bar').src="status_bar.jsp";
+		//parent.status_bar.src="status_bar.jsp";
+		checkService.getOnLineEstate('$!SESSION_LOGGED_ON_USER.userName',replyHandle);
+		//parent.status_bar.document.location.reload();
+	}else {
+		isStart = true;
+	}
+}
+
+var replyHandle = function(data)
+{	
+    parent.status_bar.document.getElementById("msn").innerHTML="";
+	if(-1==data) {
+		//alert(data);
+		//autoExit();
+		parent.status_bar.document.getElementById("msn").innerHTML = "您没有登录或者登录信息超时，请重新登录！";
+	}
+	else if(-2==data) {
+		parent.status_bar.document.getElementById("msn").innerHTML = "您被系统管理员注销了!";
+		//autoExit();
+	}
+	else {
+	    //window.defaultStatus=data;
+		parent.status_bar.document.getElementById("onLineCount").innerHTML = data;
+		//alert("你已经登录,可以合法使用系统!");
+		//alert(data);
+	}
+	//if (window.dwr)
+	//	dwr.engine.remote.handleBatchException({ name:'java.lang.IllegalArgumentException', message:'Failed to find parameter: scriptSessionId' });
+    //else if (window.parent.dwr)
+    //    window.parent.dwr.engine.remote.handleBatchException({ name:'java.lang.IllegalArgumentException', message:'Failed to find parameter: scriptSessionId' });
+};
+
+function getOnLineEstate(){
+	checkService.getOnLineEstate("$!SESSION_LOGGED_ON_USER.userName",function(data) {
+		    //window.defaultStatus=data;
+		    parent.status_bar.document.getElementById("msn").innerHTML="";
+			if(-1==data) {
+				//alert(data);
+				//autoExit();
+				parent.status_bar.document.getElementById("msn").innerHTML = "您没有登录或者登录信息超时，请重新登录！";
+			}
+			else if(-2==data) {
+				parent.status_bar.document.getElementById("msn").innerHTML = "您被系统管理员注销了!";
+				//autoExit();
+			}
+			else {
+			    //window.defaultStatus=data;
+				parent.status_bar.document.getElementById("onLineCount").innerHTML = data;
+				//alert("你已经登录,可以合法使用系统!");
+				//alert(data);
+			}
+		    //alert(data);
+		}
+	);
+}
+
+
+var s = "test";
+function fclose(){
+    if(s!="fresh")
+        alert('close');
+}
+/*
+window.onbeforeunload=function(){
+    if(!confirm("是否退出？\n点击“确定”后，退出。")){
+        s="fresh";
+        return;
+    }
+    else{
+        s="close";
+        fclose();
+    }
+}*/
+
+</script>
+</head>
+<frameset rows="67,28,*,20"  cols="*" frameborder="NO" border="0" framespacing="0" id="frame1" onload="dwr.util.useLoadingMessage();//refresh();" >
+    <frame name="topbar" id="topbar" scrolling="no" noresize src="topbar.htm" frameborder="0">
+	<frame name="banner" id="banner" scrolling="no" noresize src="shortcut_bar.htm" frameborder="0">
+    <frameset rows="*"  cols="178,8,*" frameborder="NO" border="0" framespacing="0" id="frame2">
+       <frame name="leftmenu" id="leftmenu" scrolling="no" noresize src="ipanel.htm" frameborder="0">
+	   <frame name="callleftmenu" id="callleftmenu" scrolling="no" noresize src="callleftmenu.htm" frameborder="0">
+       <frame name="table_index" id="table_index" scrolling="auto" src="my-table.htm" frameborder="0">
+    </frameset>
+    <frame name="status_bar" id="status_bar" scrolling="no" noresize src="status_bar.htm" frameborder="0">
+</frameset>
+</html>

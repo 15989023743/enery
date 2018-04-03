@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-lazy-init="true">
+		
+	<description>Spring公共配置</description>
+ 	
+	<!-- 定义受环境影响易变的变量 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 标准配置 -->
+				<value>classpath*:/application.properties</value>
+			</list>
+		</property>
+	</bean>
+			
+ 	<!-- j2ee服务器jndi连接配置  	
+ 	<util:properties id="jndienvironment" location="classpath:/config/ejb/jndi.properties"/>-->
+ 	
+	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+	<context:component-scan base-package="com.gdwz" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+
+	<bean class="com.gdwz.core.commons.ServicesFactory" lazy-init="false" >
+		<property name="beanFactory">
+			<bean class="com.gdwz.core.commons.SpringBeanFactory" />
+		</property>
+	</bean>
+
+	
+    <!--  使用数据源和指定persistence.xml位置的方式创建entityManagerFactory,如果使用的不是hibernate JPA实现,
+    需要在tomcat作一些特殊配置.具体参考手册
+    注意:使用该方式需要把persistence.xml中的hibernate.connection.driver_class,hibernate.connection.username,hibernate.connection.password,hibernate.connection.url配置删除-->
+    <!-- <context:property-placeholder location="classpath:jdbc.properties"/> 
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${jdbc.driver}"/>
+	    <property name="url" value="${jdbc.url}"/>
+	    <property name="username" value="${jdbc.username}"/>
+	    <property name="password" value="${jdbc.password}"/>
+	    <property name="initialSize" value="${dbcp.initialSize}"/>
+	    <property name="maxActive" value="${dbcp.maxActive}"/>
+	    <property name="maxIdle" value="${dbcp.maxIdle}"/>
+  	</bean>-->
+  	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+  	
+	<!-- Jpa Entity Manager 配置	--> 
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> 
+		<property name="dataSource" ref="dataSource"/> 
+		<property name="persistenceUnitName" value="defaultPU"/>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.default_schema">${jdbc.username}</prop>
+			    <prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.batch_size">50</prop>
+		        <prop key="hibernate.show_sql">false</prop>
+			</props>
+		</property>
+	</bean>
+	<!--  
+	<jee:jndi-lookup id="entityManagerFactory" jndi-name="persistence/defaultPU" />
+	-->
+	<!-- 数据源配置,使用应用服务器的数据库连接池 -->
+	<!--<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/ExampleDB" />-->
+	<!--
+   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+ 		<property name="persistenceUnitName" value="gcp"/>
+   </bean>-->
+   
+	<!-- 事务管理器配置,单数据源事务--> 
+   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+   </bean>
+
+	<!-- 事务管理器配置,多数据源JTA事务-->
+	<!--"org.springframework.orm.hibernate3.HibernateTransactionManager"
+		<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager or
+		WebLogicJtaTransactionManager" />-->
+	<!-- 
+	<tx:jta-transaction-manager /> -->
+	
+	<!-- 使用annotation定义事务 Activates @Transactional for DefaultImageDatabase -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+  
+  	<!-- ActiveMQ JMS -->
+	<import resource="config/components/jms/applicationContext.xml"/>
+  
+</beans>

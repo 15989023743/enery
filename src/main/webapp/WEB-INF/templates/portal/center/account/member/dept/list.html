@@ -1,0 +1,96 @@
+#set($layout = "/WEB-INF/velocity/layout/usercenter.vm")
+	<!-- 共通head区域标签 begin-->
+     <link href="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.css" rel="stylesheet" type="text/css" />
+    <script src="#ctx()/resources/js/widgets/jquery.tree/common.js" type="text/javascript"></script>
+    <script src="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.js" type="text/javascript"></script>
+    <script src="#ctx()/resources/js/widgets/jquery.tree/jquery.contextmenu.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    	function initTree(){
+        	var action = "";
+    		var actionurl = "#ctx()/center/account/mamber/dept/load.htm";
+	    	$.getJSON(actionurl,null,function(response){
+	            var o = {
+	                     ctx:"#ctx()/",
+	                     action:action,
+	            		 url: actionurl,
+	                     showcheck: false,
+	            		 onnodeclick:view,
+	                     bindings_m:{
+	                     			'reflash':{val:'刷新',ismy:1,cb:reflash}
+									#permission("create")
+	             					,'add':{val:'新增',ismy:1,cb:add}
+	             					#end
+	                     			#permission("delete")
+	             					,'remove':{val:'删除',ismy:1,cb:remove},
+	             					#end
+	             					#permission("sort")
+									'sort':{val:'排序',ismy:1,cb:sort}
+									#end
+	             					}
+	            };
+	            o.data = eval(response.treedata);//数据的返回
+	            $("#tree").treeview(o);
+	    	});
+	    	
+	        $("#showchecked").click(function(e){
+                var s=$("#tree").getTSVs();
+                if(s !=null)
+                alert(s.join(","));
+                else
+                alert("NULL");
+            });
+             $("#showcurrent").click(function(e){
+                var s=$("#tree").getTCT();
+                if(s !=null)
+                    alert(s.text);
+                else
+                    alert("NULL");
+             });
+            $("#reflashshanghai").click(function(e) {
+                $("#tree").reflash("1"); //9 为节点的ID
+            });
+            $("#addtop").click(function(e) {
+            	var parentId1 = $(this).attr("alt");
+            	//alert(parentId)
+            	$('#rightid').attr('src','create.htm?parentId=$!{parentId}&type=01');
+            });
+            $("#sorttop").click(function(e) {
+            	$('#rightid').attr('src','sort.htm?parentId=$!{parentId}&xh=0');
+            });
+            
+    	};
+    	
+        if( $.browser.msie6){
+        	initTree();
+        }
+        else{
+            $(document).ready(initTree);
+        }
+        
+       function beforeUpdatereflash(pid){
+       	if(pid =="$!{parentId}"){
+       		pid="";	
+       	}
+       	updatereflash(pid);
+       }
+    </script>
+
+
+    <div id="treeview">
+	    <div id="treeview_top" >
+	    	<input id="reflashButton" type="hidden" onclick="beforeUpdatereflash(this.value)"/>
+	    	<input id="reflashtree" type="button" class="inputrelease" onclick="initTree()"  value="重启加载" />
+	    	#permission("create")
+	    	<input id="addtop" type="button" class="inputrelease" value="添加顶层部门" />
+	    	#end
+	    	#permission("sort")
+	    	<input id="sorttop" type="button" class="inputrelease"  value="排序顶层部门" />
+	    	#end
+	    </div>
+	    <div style="height: 437px;width: 170px;float: left;">
+	        <div id="tree"></div>
+	    </div>
+	    <div style="height: 437px;width: 675px;float: left;margin-left: 8px;">
+	    <iframe id="rightid" name="rightid" src="view.htm" style="width: 100%;height: 100%" scrolling="auto" frameborder="0" ></iframe></div>
+   	</div>
+

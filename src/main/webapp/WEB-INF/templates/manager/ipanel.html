@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/style.css">
+<script>
+var menu_id=1;
+function openURL(URL,open_window)
+{
+   parent.table_index.main.location=URL;
+}
+
+function init_menu()
+{
+   view_menu(1);
+}
+
+function view_menu(id)
+{
+  if(id==1)
+  {
+  	 document.getElementById('frame1').rows="34,*,0,28"; //header,menu,load_page,ilook
+     load_page.location="about:blank";
+  }
+  else if(id==2)
+  {
+     //document.getElementById('load_page').src="#ctx()/common/intoMyFavList.action";
+     load_page.location="#ctx()/manager/shortcut-menu.htm";
+  	 document.getElementById('frame1').rows="34,0,*,28"; //header,menu,load_page,ilook
+  }
+  pheader.document.getElementById('menu_'+menu_id).className="";
+  pheader.document.getElementById('menu_'+id).className="active";
+  menu_id=id;
+}
+
+
+var RFID_CONTROL_VIEW=0;
+function rfidcontrol_ctrl()
+{
+   if(RFID_CONTROL_VIEW==0)
+   {
+   	  if(menu_id==1)
+      	document.getElementById('frame1').rows="34,*,0,50,28";
+      else
+      	document.getElementById('frame1').rows="34,0,*,50,28";
+      RFID_CONTROL_VIEW=1;
+      //rfidpanel.rfid_control.src="#ctx()/resources/style/theme/1/menu/arrow_l.gif";
+   }
+   else
+   {
+   	  if(menu_id==1)
+      	document.getElementById('frame1').rows="34,*,0,0,28";
+      else
+      	document.getElementById('frame1').rows="34,0,*,0,28";
+      RFID_CONTROL_VIEW=0;
+      //rfidpanel.rfid_control.src="#ctx()/resources/style/theme/1/menu/arrow_r.gif";
+   }
+}
+</script>
+</head>
+<frameset rows="34,*,0,28"  cols="*" frameborder="no" border="0" framespacing="0" id="frame1">
+	<frame name="pheader" scrolling="no" noresize src="pheader.htm" border="0" frameborder="0">
+	<frame name="menu" scrolling="no" noresize src="menu.htm" border="0" frameborder="0">
+	<frame name="load_page" id="load_page" scrolling="no" noresize src="about:blank" border="0" frameborder="0">
+    <frame name="pbottom" scrolling="no" noresize src="pbottom.htm" border="0" frameborder="0">
+</frameset><noframes></noframes>

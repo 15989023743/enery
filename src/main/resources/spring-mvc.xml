@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- 解决 @ResponseBody 乱码！-->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+		<property name="messageConverters">
+	         <list>
+	             <bean class = "org.springframework.http.converter.StringHttpMessageConverter">
+	             	<constructor-arg name="defaultCharset" value="UTF-8"/>
+	                <property name = "supportedMediaTypes">
+	                      <list>
+	                          <value>text/plain;charset=UTF-8</value>
+	                     </list>
+	                </property>
+	             </bean>
+	         </list>
+	   </property>
+	</bean>
+
+	<!-- 自动扫描且只扫描@Controller -->
+	<context:component-scan base-package="com.gdwz" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- 注册 DefaultAnnotationHandlerMapping 和AnnotationMethodHandlerAdapter两个bean -->
+	<mvc:annotation-driven validator="validator" conversion-service="conversionService" />
+	
+	<!-- 将spring mvc的DispatcherServlet替换当前web server的缺省的Servlet -->
+	<mvc:default-servlet-handler />
+	
+	<!--
+	 <bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver"> 
+		 <property name="basename" value="views"/>
+		 <property name="order" value="0" />
+	 </bean>-->
+	
+	<!-- 定义JSP视图解释器--> 
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="order" value="2" />
+		<property name="cache" value="false" />
+		<property name="prefix" value="/WEB-INF/templates/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+	 <!-- 定义velocity视图解析器 -->
+	 <bean class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+	 	<property name="order" value="1" />
+		<property name="cache" value="false"/>
+    	<property name="prefix" value="/WEB-INF/templates/"/>
+    	<property name="suffix" value=".html"/>
+    	<property name="exposeSpringMacroHelpers" value="true" />
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <!--  -->
+        <property name="layoutUrl" value="/WEB-INF/velocity/layout/default.vm" /> 
+        
+        <property name="dateToolAttribute" value="date"/>
+        <property name="numberToolAttribute" value="number"/>
+        <!--
+            WARNING: XMLToolboxManager has been deprecated. Please use org.apache.velocity.tools.ToolboxFactory instead.
+        -->
+        <property name="toolboxConfigLocation" value="/WEB-INF/velocity/toolbox.xml"/>
+	 </bean>
+
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+    <bean id="velocityCongfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="output.encoding ">UTF-8</prop>
+                <prop key="contentType">text/html;charset=UTF-8</prop>
+                <prop key="resource.loader">file</prop>
+                <prop key="file.resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop>
+                <prop key="file.resource.loader.cache">false</prop>
+                <prop key="file.resource.loader.modificationCheckInterval">1</prop>
+                <prop key="velocimacro.library">/WEB-INF/velocity/macro.vm</prop>
+                <prop key="velocimacro.library.autoreload">true</prop>
+                <prop key="velocimacro.permissions.allow.inline">true</prop>
+                <prop key="velocimacro.permissions.allow.inline.local.scope">true</prop>
+                <prop key="velocimacro.permissions.allow.inline.to.replace.global">false</prop>
+                <prop key="userdirective">
+                com.gdwz.core.web.view.velocity.directive.PermissionDirective,
+                com.gdwz.core.web.view.velocity.directive.PermissionForDataDirective,
+                com.gdwz.core.web.view.velocity.directive.PermissionForClassDirective,
+                com.gdwz.core.web.view.velocity.directive.PermissionForDataAndClassDirective,
+                com.gdwz.core.web.view.velocity.directive.BackPageUrlDirective,
+                com.gdwz.core.web.view.velocity.directive.CurrentAndReturnPageUrlDirective,
+                com.gdwz.core.web.view.velocity.directive.CurrentPageUrlDirective,
+                com.gdwz.core.web.view.velocity.directive.ExtendsBackPageUrlDirective,
+                com.gdwz.core.web.view.velocity.directive.NavigationDirective,
+                com.gdwz.core.web.view.velocity.directive.dict.DateFormatDirective,
+                com.gdwz.core.web.view.velocity.directive.dict.DictPropertyDirective,
+                com.gdwz.core.web.view.velocity.directive.dict.DictListDirective,
+                com.gdwz.core.web.view.velocity.directive.dict.DictSelectDirective,
+                com.gdwz.core.web.view.velocity.directive.dict.DictMultiSelectDirective,
+                com.gdwz.core.gdwz.view.velocity.directive.dict.DictTreeDirective,
+                com.gdwz.core.web.view.velocity.directive.form.ValidDirective,
+                com.gdwz.core.web.view.velocity.directive.form.ErrorsDirective,
+                com.gdwz.core.web.view.velocity.directive.form.CheckboxesDirective,
+                com.gdwz.core.web.view.velocity.directive.form.TokenDirective,
+                com.gdwz.energy.goods.directive.ItemAttrValueSelectDirective,
+                com.gdwz.energy.article.directive.ArticleDataSourcesInitDirective,
+                com.gdwz.energy.goods.directive.ResourceClassificationInitDirective,
+                com.gdwz.core.web.view.velocity.directive.PageConfigDirective,
+                com.gdwz.core.web.view.velocity.directive.SeoDirective,
+                com.gdwz.core.web.view.velocity.directive.Base64EncodeDecodeDirecive
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <!--配置velocity engine默认路径
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean"/>
+	-->
+    <!-- 校验 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+		<property name="validationMessageSource" ref="validationMessageSource" />
+	</bean>
+	<!-- 
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+	        <property name="customEditors">
+	            <map>
+	                <entry key="java.util.Date">
+	                    <bean class="org.springframework.beans.propertyeditors.CustomDateEditor">
+	                        <constructor-arg>
+	                            <bean class="java.text.SimpleDateFormat">
+	                                <constructor-arg value="yyyy-MM-dd" />
+	                            </bean>
+	                        </constructor-arg>
+	                        <constructor-arg value="true" />
+	                    </bean> 
+	                </entry>
+	                <entry key="java.lang.String">
+	                    <bean class="org.springframework.beans.propertyeditors.StringTrimmerEditor">
+	                        <constructor-arg value="true" />
+	                    </bean>
+	                </entry>
+	            </map>
+	        </property>
+	</bean> -->
+
+    <!-- 全局数据转换 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    	<property name="converters">
+    		<list>
+    			<bean class="com.gdwz.core.web.converter.CustomStringToDateConverter" />
+    			<bean class="com.gdwz.core.web.converter.StringToEnumConverterFactory" />
+    			<!-- 
+    			<bean class="com.gdwz.system.web.converter.CustomDateToStringConverter" /> -->
+    		</list>
+    	</property>
+    </bean>
+
+
+    <!-- 国际化定义 -->
+    <!-- 
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"></bean>
+     -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+    	<property name="defaultLocale" value="zh_CN" />
+    </bean>
+    
+    
+	<!-- 验证提示信息 -->
+    <bean id="validationMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+        	<list>
+        		<value>classpath:validmessages</value>
+        		<value>classpath:org/hibernate/validator/ValidationMessages</value>
+        	</list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    	<property name="cacheSeconds" value="60"/>
+    </bean>
+    
+    <!-- 页面国际化信息 -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+        	<list>
+        		<value>classpath:globalMessages</value>
+        	</list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    	<property name="useCodeAsDefaultMessage" value="true" />
+    </bean>
+    
+	<!-- 默认拦截器 -->
+	<mvc:interceptors>
+	     <bean class="com.gdwz.core.web.interceptor.mvc.AuthorizationInterceptor"/>
+	     <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+	</mvc:interceptors>
+	
+	<!-- 文件上传设置  -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"/> <!-- 默认编码 (ISO-8859-1) -->
+		<property name="maxInMemorySize" value="10240"/> <!-- 最大内存大小 (10240)-->
+   		<property name="maxUploadSize" value="1073741824"/> <!-- 以字节为单位的最大上传文件的大小,最大文件大小，-1为无限止(-1) -->
+   		<!--<property name="uploadTempDir" value="/upload/"/> 上传后的目录名 -->
+	</bean>
+	
+	<!-- 异常处理 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+        <property name="exceptionMappings">  
+            <props>
+            	<!-- 
+            	<prop key="com.gdwz.core.web.exception.TimeOutException">redirect:/timeOut</prop>
+            	 -->
+                <prop key="com.gdwz.core.web.exception.PermissionDeniedException">error/permissionDenied</prop>
+                <prop key="javax.validation.ConstraintViolationException">error/valid</prop>
+                <prop key="java.lang.Exception">error/error</prop>
+            </props>
+        </property>
+		<property name="defaultErrorView" value="error/error"/>
+    </bean>
+	
+	<!-- 定义首页 
+	<mvc:view-controller path="/" view-name="redirect:/index.htm"/>
+	<mvc:view-controller path="/index.htm" view-name="index"/>-->
+	
+	<!-- 登录页面 
+	<mvc:view-controller path="/center/security/login.htm" view-name="center/security/login"/>
+	-->
+	<!-- 注销页面 
+	<mvc:view-controller path="/center/security/logout.htm" view-name="center/security/logout"/>
+	-->
+	<!-- 公共信息提示页面 --> 
+	<mvc:view-controller path="/message.htm" view-name="public/message"/>
+	
+	<!-- 超时页面
+	<mvc:view-controller path="/timeOut.htm" view-name="error/timeOut"/>
+	--> 
+	
+	<!-- spring security 提示页面  
+	<mvc:view-controller path="/accessDenied.htm" view-name="error/accessDenied"/>
+	<mvc:view-controller path="/authorizationFailure.htm" view-name="error/authorizationFailure"/>
+	-->
+	
+	<!-- 系统主框架目录自动匹配--> 
+	<bean name="/manager/*" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" >
+		<property name="prefix" value="manager/" />
+	</bean>
+	
+	<!-- 配置报表目录下的jsp自动匹配--> 
+	<bean name="/report/sys/*" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" >
+		<property name="prefix" value="report/sys/" />
+	</bean>
+	
+	<!-- 直接使用的jsp自动匹配 -->
+	<bean name="/common/*" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" >
+		<property name="prefix" value="common/" />
+	</bean>
+	
+	<!-- 直接使用的jsp自动匹配 
+	<bean name="/center/*" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" >
+		<property name="prefix" value="center/" />
+	</bean>-->
+	
+</beans>

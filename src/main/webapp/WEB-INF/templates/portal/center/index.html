@@ -1,0 +1,78 @@
+#set($layout = "/WEB-INF/velocity/layout/usercenter.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<link type="text/css" rel="stylesheet"
+	href="#ctx()/resources/style/portal/fenye.css" />
+<script>
+function targetCreate(url){
+	 $('#ListForm').attr("action",url);
+	 $("#ListForm").submit();
+}
+</script>
+<body>
+<form id="ListForm" name="ListForm" action="#ctx()/center/index.htm" method="post">	
+#currentAndReturnPageUrl()
+<div class="company">
+	<div class="logo">
+		<img src="#ctx()/resources/style/portal/center/images/companylogo.jpg" />
+	</div>
+	<div class="companyname">
+		<strong>$!{SESSION_LOGGED_ON_USER.member.fullName}</strong>
+		<p>
+			会员类型：<span>#dictProperty("$!{SESSION_LOGGED_ON_USER.member.type}","ZDY_MEMBER_TYPE")</span> 
+		</p>
+		<p>入市时间：$!date.format("yyyy-MM-dd",$!{SESSION_LOGGED_ON_USER.member.addTime}) </p>
+	</div>
+	<div class="landtime">
+		<span>最近登录时间</span>：$!date.format("yyyy-MM-dd HH:mm:ss",$!{SESSION_LOGGED_ON_USER.lastLoginTime})<span style="padding-left:20px;">总挂牌量：$!{totalIssue}</span>
+	</div>
+</div>
+<div class="fbgp">
+	<strong>我的挂牌信息</strong>
+	#permissionForClass("com.gdwz.energy.web.controller.portal.center.issue.IssueInfoPortalController","create")
+	<a class="button1"  href="javascript:targetCreate('#ctx()/center/trade/issue/create.htm');">+ 发布挂牌</a>
+	#end
+ 	#permissionForClass("com.gdwz.energy.web.controller.portal.center.issue.IssueInfoPortalController","list")
+ 	<span class="kk"><a href="#ctx()/center/trade/issue/list.htm">更多挂牌信息 >></a> </span>
+ 	#end
+	<table cellspacing="0" width="98%" align="center">
+		<tr>
+			<td bgcolor="#f0f0f0" width="120">挂牌标题</td>
+			<td bgcolor="#f0f0f0" width="120">品名</td>
+			<td bgcolor="#f0f0f0" width="152">数量</td>
+			<td bgcolor="#f0f0f0" width="150">单价</td>
+			<td bgcolor="#f0f0f0" width="150">产地</td>
+			<td bgcolor="#f0f0f0" width="150">交收仓</td>
+		</tr>
+		#foreach( $IssueInfo in $page.result)
+					<tr bgcolor="#ffffff" onMouseOver="this.bgColor='#fff1e4'" onMouseOut="this.bgColor='#ffffff'">
+						<td  style="padding-left:5px; ">${IssueInfo.goodsTitle}</td>
+						<td  style="padding-left:5px; ">${IssueInfo.itemGoodsName}</td>
+						<td >${IssueInfo.amount} ${IssueInfo.goodsUnit}</td>
+						<td ><span>${IssueInfo.unitPriceExclud}</span>#dictProperty("$!{IssueInfo.currency}","ZDY_CURRENCY")/${IssueInfo.goodsUnit}</td>
+						<td>#set($attrCode = "_ZDY_GOODS_AREA") $!attrValuesMap.get(
+							"$!{IssueInfo.id.toString()}$!{attrCode}")</td>
+						<td >#dictProperty("$!{IssueInfo.deliveryWarehouse}","ZDY_TRAN_HOUSE")</td>
+					</tr>
+		#end
+	</table>
+		<div class="pages float_r padding_t10 padding_b10">
+			#if($!{page.totalCount} && $!{page.totalCount}!=0) 
+			<a href="javascript:void(0);" onclick="jumpPage(1)">首页</a>
+			 <a class="prev" href="javascript:void(0);" onclick="jumpPage($!{page.prePage})">上一页</a>
+					#set($indexs=[$!page.startindex .. $!page.endindex]) 
+					#foreach($index in $indexs) #if($!page.pageNo==$!index) 
+					<a class="menu_number" href="javascript:void(0);" onclick="jumpPage($!index)"">$!index</a>
+					 #else <a href="javascript:void(0);" onclick="jumpPage($!index)">$!index</a>
+					#end 
+					#end <a class="next" href="javascript:void(0);" onclick="jumpPage($!{page.nextPage})">下一页</a>
+					 <a href="javascript:viod(0);" onclick="jumpPage($!{page.totalPages})">尾页</a>
+			#end
+				</div>
+</div>
+</form>
+</body>
+</html>

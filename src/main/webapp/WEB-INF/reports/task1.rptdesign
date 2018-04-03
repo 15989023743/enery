@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <property name="createdBy">MyEclipse Report Designer Version 10.0</property>
+    <property name="units">in</property>
+    <text-property name="displayName">通用模版</text-property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="id" id="1397">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="1217">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">oracle.jdbc.driver.OracleDriver</property>
+            <property name="odaURL">jdbc:oracle:thin:@127.0.0.1:1521:APP</property>
+            <property name="odaUser">CEP</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Q0VQ</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ds" id="1218">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BGDWJGDM</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">BGDWJGDM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BGRDM</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">BGRDM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BGSJ</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">BGSJ</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DJDWJGDM</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">DJDWJGDM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DJRDM</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">DJRDM</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DJSJ</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DJSJ</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">VISIBLE</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">VISIBLE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ACCEPTANCEPOINT</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">ACCEPTANCEPOINT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">AMOUNT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">AMOUNT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">AUDITOPINION</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">AUDITOPINION</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">AUDITPERSON</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">AUDITPERSON</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">AUDITTIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">AUDITTIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">BH</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">BH</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CATEGORY</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CATEGORY</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">CODE</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">CODE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COURSESTYPE</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">COURSESTYPE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DECLARETIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">DECLARETIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DEPT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">DEPT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">FL</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">FL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">FUNDINGAMOUNT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">FUNDINGAMOUNT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">JB</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">JB</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LB</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">LB</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">LLH</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">LLH</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NAME</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NF</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">NF</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PARTICIPATEPERSON</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">PARTICIPATEPERSON</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RESPONSIBLEEMAIL</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">RESPONSIBLEEMAIL</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RESPONSIBLENAME</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">RESPONSIBLENAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RESPONSIBLEPHONE</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">RESPONSIBLEPHONE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">STATE</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">STATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TASK</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">TASK</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">TASKSTAGE</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">TASKSTAGE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COMPLETETASK</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">COMPLETETASK</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COMPLETETIME</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">COMPLETETIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">COORDINATORVIEWS</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">COORDINATORVIEWS</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">JFSBSJJED</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">JFSBSJJED</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MEDIUMTASK</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">MEDIUMTASK</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MEDIUMTIME</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">MEDIUMTIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PROJECTTIME</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">PROJECTTIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">SCHOOLVIEWS</property>
+                    <property name="analysis">attribute</property>
+                    <text-property name="displayName">SCHOOLVIEWS</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">id</property>
+                    <property name="paramName">id</property>
+                    <property name="dataType">string</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">ID</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">BGDWJGDM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">BGRDM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">BGSJ</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">DJDWJGDM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">DJRDM</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">DJSJ</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">VISIBLE</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">ACCEPTANCEPOINT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">AMOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">AUDITOPINION</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">AUDITPERSON</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">AUDITTIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">BH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">CATEGORY</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">CODE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">COURSESTYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">DECLARETIME</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">DEPT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">FL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">FUNDINGAMOUNT</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">JB</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">LB</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">LLH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">NF</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">PARTICIPATEPERSON</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">RESPONSIBLEEMAIL</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">RESPONSIBLENAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">RESPONSIBLEPHONE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">31</property>
+                        <property name="name">STATE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">32</property>
+                        <property name="name">TASK</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">33</property>
+                        <property name="name">TASKSTAGE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">34</property>
+                        <property name="name">COMPLETETASK</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">35</property>
+                        <property name="name">COMPLETETIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">36</property>
+                        <property name="name">COORDINATORVIEWS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">37</property>
+                        <property name="name">JFSBSJJED</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">38</property>
+                        <property name="name">MEDIUMTASK</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">39</property>
+                        <property name="name">MEDIUMTIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">40</property>
+                        <property name="name">PROJECTTIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">41</property>
+                        <property name="name">SCHOOLVIEWS</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">ID</property>
+                    <property name="nativeName">ID</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">BGDWJGDM</property>
+                    <property name="nativeName">BGDWJGDM</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">BGRDM</property>
+                    <property name="nativeName">BGRDM</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">BGSJ</property>
+                    <property name="nativeName">BGSJ</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">DJDWJGDM</property>
+                    <property name="nativeName">DJDWJGDM</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">DJRDM</property>
+                    <property name="nativeName">DJRDM</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">DJSJ</property>
+                    <property name="nativeName">DJSJ</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">VISIBLE</property>
+                    <property name="nativeName">VISIBLE</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">ACCEPTANCEPOINT</property>
+                    <property name="nativeName">ACCEPTANCEPOINT</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">AMOUNT</property>
+                    <property name="nativeName">AMOUNT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">AUDITOPINION</property>
+                    <property name="nativeName">AUDITOPINION</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">AUDITPERSON</property>
+                    <property name="nativeName">AUDITPERSON</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">AUDITTIME</property>
+                    <property name="nativeName">AUDITTIME</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">BH</property>
+                    <property name="nativeName">BH</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">CATEGORY</property>
+                    <property name="nativeName">CATEGORY</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">CODE</property>
+                    <property name="nativeName">CODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">COURSESTYPE</property>
+                    <property name="nativeName">COURSESTYPE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">DECLARETIME</property>
+                    <property name="nativeName">DECLARETIME</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">DEPT</property>
+                    <property name="nativeName">DEPT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">FL</property>
+                    <property name="nativeName">FL</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">FUNDINGAMOUNT</property>
+                    <property name="nativeName">FUNDINGAMOUNT</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">JB</property>
+                    <property name="nativeName">JB</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">LB</property>
+                    <property name="nativeName">LB</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">LLH</property>
+                    <property name="nativeName">LLH</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">NAME</property>
+                    <property name="nativeName">NAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">NF</property>
+                    <property name="nativeName">NF</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">PARTICIPATEPERSON</property>
+                    <property name="nativeName">PARTICIPATEPERSON</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">28</property>
+                    <property name="name">RESPONSIBLEEMAIL</property>
+                    <property name="nativeName">RESPONSIBLEEMAIL</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">29</property>
+                    <property name="name">RESPONSIBLENAME</property>
+                    <property name="nativeName">RESPONSIBLENAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">30</property>
+                    <property name="name">RESPONSIBLEPHONE</property>
+                    <property name="nativeName">RESPONSIBLEPHONE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">31</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">32</property>
+                    <property name="name">TASK</property>
+                    <property name="nativeName">TASK</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">33</property>
+                    <property name="name">TASKSTAGE</property>
+                    <property name="nativeName">TASKSTAGE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">34</property>
+                    <property name="name">COMPLETETASK</property>
+                    <property name="nativeName">COMPLETETASK</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">35</property>
+                    <property name="name">COMPLETETIME</property>
+                    <property name="nativeName">COMPLETETIME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">36</property>
+                    <property name="name">COORDINATORVIEWS</property>
+                    <property name="nativeName">COORDINATORVIEWS</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">37</property>
+                    <property name="name">JFSBSJJED</property>
+                    <property name="nativeName">JFSBSJJED</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">38</property>
+                    <property name="name">MEDIUMTASK</property>
+                    <property name="nativeName">MEDIUMTASK</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">39</property>
+                    <property name="name">MEDIUMTIME</property>
+                    <property name="nativeName">MEDIUMTIME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">40</property>
+                    <property name="name">PROJECTTIME</property>
+                    <property name="nativeName">PROJECTTIME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">41</property>
+                    <property name="name">SCHOOLVIEWS</property>
+                    <property name="nativeName">SCHOOLVIEWS</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select * from t_yw_cep_project t WHERE t.id=?]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="fbresultcontent" id="1216">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <structure name="dateTimeFormat">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
+            <structure name="numberFormat">
+                <property name="category">Unformatted</property>
+            </structure>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="fbresulthead" id="6">
+            <property name="backgroundColor">#F0F0F0</property>
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1px</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1px</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1px</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1px</property>
+            <property name="textAlign">center</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="fbresulttitle" id="5">
+            <property name="fontFamily">"仿宋_GB2312"</property>
+            <property name="fontSize">x-large</property>
+            <property name="fontWeight">bold</property>
+            <property name="color">#000000</property>
+            <property name="textAlign">center</property>
+            <property name="textIndent">10px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="text_12px_center" id="12">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">normal</property>
+            <property name="color">#000000</property>
+            <property name="textAlign">center</property>
+            <property name="textIndent">0px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="text_12px_left" id="11">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">normal</property>
+            <property name="color">#000000</property>
+            <property name="textAlign">left</property>
+            <property name="textIndent">0px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+        <style name="text_12px_right" id="9">
+            <property name="fontFamily">"宋体"</property>
+            <property name="fontSize">small</property>
+            <property name="fontWeight">normal</property>
+            <property name="color">#000000</property>
+            <structure name="numberFormat">
+                <property name="category">Currency</property>
+                <property name="pattern">###0.00</property>
+            </structure>
+            <property name="textAlign">right</property>
+            <property name="textIndent">0px</property>
+            <property name="verticalAlign">middle</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="leftMargin">0.7916666666666666in</property>
+            <property name="rightMargin">0.7916666666666666in</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="13">
+            <property name="masterPage">Simple MasterPage</property>
+            <property name="height">0.23958333333333334in</property>
+            <property name="width">6.666666666666667in</property>
+            <structure name="toc"/>
+            <column id="14">
+                <property name="width">6.666666666666667in</property>
+            </column>
+            <row id="1767">
+                <cell id="1768"/>
+            </row>
+            <row id="17">
+                <cell id="18">
+                    <label id="1401">
+                        <property name="fontFamily">"黑体"</property>
+                        <property name="fontSize">16pt</property>
+                        <property name="fontWeight">normal</property>
+                        <property name="textAlign">center</property>
+                        <text-property name="text">广州城市职业学院社区教育项目建设任务书</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="1399">
+                <cell id="1400">
+                    <data id="1771">
+                        <property name="fontWeight">bold</property>
+                        <property name="textAlign">center</property>
+                        <property name="dataSet">ds</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">NF</property>
+                                <text-property name="displayName">NF</text-property>
+                                <expression name="expression" type="javascript">"（"+dataSetRow["NF"]+"年）"</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">NF</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="1403">
+                <cell id="1404">
+                    <grid id="1643">
+                        <property name="height">7.875in</property>
+                        <column id="1644">
+                            <property name="width">0.8333333333333334in</property>
+                        </column>
+                        <column id="1645">
+                            <property name="width">1.25in</property>
+                        </column>
+                        <column id="1646"/>
+                        <column id="1647">
+                            <property name="width">1.15625in</property>
+                        </column>
+                        <column id="1648">
+                            <property name="width">0.7708333333333334in</property>
+                        </column>
+                        <column id="1649">
+                            <property name="width">1.53125in</property>
+                        </column>
+                        <row id="1650">
+                            <property name="height">0.28125in</property>
+                            <cell id="1651">
+                                <property name="style">fbresulthead</property>
+                                <label id="1791">
+                                    <text-property name="text">项目编号</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1652">
+                                <property name="colSpan">3</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <data id="1792">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">BH</property>
+                                            <text-property name="displayName">BH</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["BH"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">BH</property>
+                                </data>
+                            </cell>
+                            <cell id="1655">
+                                <property name="style">fbresulthead</property>
+                                <label id="1721">
+                                    <text-property name="text">负责人</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1656">
+                                <property name="style">fbresultcontent</property>
+                                <data id="1726">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">RESPONSIBLENAME</property>
+                                            <text-property name="displayName">RESPONSIBLENAME</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["RESPONSIBLENAME"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">RESPONSIBLENAME</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1784">
+                            <property name="height">0.28125in</property>
+                            <cell id="1785">
+                                <property name="style">fbresulthead</property>
+                                <label id="1720">
+                                    <text-property name="text">项目名称</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1786">
+                                <property name="colSpan">5</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <data id="1725">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">NAME</property>
+                                            <text-property name="displayName">NAME</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["NAME"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">NAME</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1657">
+                            <property name="height">0.59375in</property>
+                            <cell id="1658">
+                                <property name="style">fbresulthead</property>
+                                <label id="1722">
+                                    <text-property name="text">项目组成员</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1659">
+                                <property name="colSpan">5</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <data id="1727">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">PARTICIPATEPERSON</property>
+                                            <text-property name="displayName">PARTICIPATEPERSON</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["PARTICIPATEPERSON"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">PARTICIPATEPERSON</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1664">
+                            <property name="height">0.46875in</property>
+                            <cell id="1665">
+                                <property name="style">fbresulthead</property>
+                                <label id="1723">
+                                    <text-property name="text">资助经费（万元）</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1666">
+                                <property name="style">fbresultcontent</property>
+                                <data id="1728">
+                                    <property name="style">text_12px_right</property>
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">FUNDINGAMOUNT</property>
+                                            <text-property name="displayName">FUNDINGAMOUNT</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["FUNDINGAMOUNT"]</expression>
+                                            <property name="dataType">decimal</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">FUNDINGAMOUNT</property>
+                                </data>
+                            </cell>
+                            <cell id="1667">
+                                <property name="style">fbresulthead</property>
+                                <label id="1724">
+                                    <text-property name="text">经费下拨时间及额度</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1668">
+                                <property name="colSpan">3</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <data id="1729">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">JFSBSJJED</property>
+                                            <text-property name="displayName">JFSBSJJED</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["JFSBSJJED"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">JFSBSJJED</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1671">
+                            <property name="height">0.28125in</property>
+                            <cell id="1672">
+                                <property name="style">fbresulthead</property>
+                                <label id="1714">
+                                    <text-property name="text">立项时间</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1673">
+                                <property name="style">fbresultcontent</property>
+                                <data id="1717">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">AUDITTIME</property>
+                                            <text-property name="displayName">AUDITTIME</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["AUDITTIME"]</expression>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">AUDITTIME</property>
+                                </data>
+                            </cell>
+                            <cell id="1674">
+                                <property name="style">fbresulthead</property>
+                                <label id="1715">
+                                    <text-property name="text">中期检查时间</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1675">
+                                <property name="style">fbresultcontent</property>
+                                <data id="1718">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">MEDIUMTIME</property>
+                                            <text-property name="displayName">MEDIUMTIME</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["MEDIUMTIME"]</expression>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">MEDIUMTIME</property>
+                                </data>
+                            </cell>
+                            <cell id="1676">
+                                <property name="style">fbresulthead</property>
+                                <label id="1716">
+                                    <text-property name="text">完成时间</text-property>
+                                </label>
+                            </cell>
+                            <cell id="1677">
+                                <property name="style">fbresultcontent</property>
+                                <data id="1719">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">COMPLETETIME</property>
+                                            <text-property name="displayName">COMPLETETIME</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["COMPLETETIME"]</expression>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">COMPLETETIME</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1678">
+                            <property name="height">1.75in</property>
+                            <cell id="1679">
+                                <property name="colSpan">6</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <property name="verticalAlign">top</property>
+                                <label id="1739">
+                                    <text-property name="text">中期建设任务（即项目中期检查标准，建设任务是立项后到中期检查需完成的任务，检查时须提供任务完成的佐证材料）：</text-property>
+                                </label>
+                                <data id="1740">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">MEDIUMTASK</property>
+                                            <text-property name="displayName">MEDIUMTASK</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["MEDIUMTASK"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">MEDIUMTASK</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1685">
+                            <property name="height">1.75in</property>
+                            <cell id="1686">
+                                <property name="colSpan">6</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <property name="verticalAlign">top</property>
+                                <label id="1741">
+                                    <text-property name="text">建设任务（即项目完成时验收标准，建设任务是立项后到项目验收时需完成的任务，检查时须提供任务完成的佐证材料）：</text-property>
+                                </label>
+                                <data id="1742">
+                                    <property name="dataSet">ds</property>
+                                    <list-property name="boundDataColumns">
+                                        <structure>
+                                            <property name="name">COMPLETETASK</property>
+                                            <text-property name="displayName">COMPLETETASK</text-property>
+                                            <expression name="expression" type="javascript">dataSetRow["COMPLETETASK"]</expression>
+                                            <property name="dataType">string</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="resultSetColumn">COMPLETETASK</property>
+                                </data>
+                            </cell>
+                        </row>
+                        <row id="1692">
+                            <property name="height">0.9270833333333334in</property>
+                            <cell id="1693">
+                                <property name="colSpan">6</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <grid id="1743">
+                                    <property name="height">0.625in</property>
+                                    <column id="1744"/>
+                                    <row id="1745">
+                                        <property name="height">0.40625in</property>
+                                        <cell id="1746">
+                                            <property name="verticalAlign">top</property>
+                                            <label id="1749">
+                                                <property name="style">text_12px_left</property>
+                                                <text-property name="text">项目负责人签名：</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                    <row id="1747">
+                                        <property name="height">0.375in</property>
+                                        <cell id="1748">
+                                            <property name="verticalAlign">bottom</property>
+                                            <label id="1750">
+                                                <property name="textAlign">right</property>
+                                                <text-property name="text">年   月   日                  </text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                </grid>
+                            </cell>
+                        </row>
+                        <row id="1699">
+                            <property name="height">0.96875in</property>
+                            <cell id="1700">
+                                <property name="colSpan">6</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <grid id="1751">
+                                    <property name="height">0.625in</property>
+                                    <column id="1752"/>
+                                    <row id="1753">
+                                        <property name="height">0.40625in</property>
+                                        <cell id="1754">
+                                            <property name="verticalAlign">top</property>
+                                            <label id="1783">
+                                                <property name="style">text_12px_left</property>
+                                                <text-property name="text">项目协调人意见：</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                    <row id="1756">
+                                        <property name="height">0.375in</property>
+                                        <cell id="1757">
+                                            <property name="verticalAlign">bottom</property>
+                                            <label id="1758">
+                                                <property name="textAlign">right</property>
+                                                <text-property name="text">年   月   日                  </text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                </grid>
+                            </cell>
+                        </row>
+                        <row id="1706">
+                            <property name="height">1.0625in</property>
+                            <cell id="1707">
+                                <property name="colSpan">6</property>
+                                <property name="rowSpan">1</property>
+                                <property name="style">fbresultcontent</property>
+                                <grid id="1759">
+                                    <property name="height">0.625in</property>
+                                    <column id="1760"/>
+                                    <row id="1761">
+                                        <property name="height">0.40625in</property>
+                                        <cell id="1762">
+                                            <property name="verticalAlign">top</property>
+                                            <label id="1763">
+                                                <property name="style">text_12px_left</property>
+                                                <text-property name="text">学校意见：</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                    <row id="1764">
+                                        <property name="height">0.375in</property>
+                                        <cell id="1765">
+                                            <property name="verticalAlign">bottom</property>
+                                            <label id="1766">
+                                                <property name="textAlign">right</property>
+                                                <text-property name="text">年   月   日                  </text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
+                                </grid>
+                            </cell>
+                        </row>
+                    </grid>
+                </cell>
+            </row>
+            <row id="1779">
+                <cell id="1780">
+                    <label id="1781">
+                        <property name="style">text_12px_left</property>
+                        <text-property name="text">注：项目/课程须严格按照申请表中的验收点填写。中期检查不合格的，取消立项。&#13;
+佐证材料可以包括：总结性材料、视频、图片、协议、合同、证书、签到表等。</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+    </body>
+</report>

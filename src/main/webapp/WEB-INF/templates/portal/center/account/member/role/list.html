@@ -1,0 +1,82 @@
+#set($layout = "/WEB-INF/velocity/layout/usercenter.vm")
+<script src="#ctx()/resources/js/widgets/thirdWindow/back_window.js"></script> 
+<script language="javascript">
+</script>
+<link type="text/css" rel="stylesheet" href="#ctx()/resources/style/portal/fenye.css" />
+<form id="ListForm" name="ListForm" action="#ctx()/center/account/mamber/role/list.htm" method="post">	
+		<input type="hidden" id="entityid" name="id" value="" /> 
+		<input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" /> 
+		<input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+		<input type="hidden" id="order" name="order" value="$!{page.order}" />
+		<input type="hidden" id="changeState" name="changeState" value="" />
+		<input type="hidden" id="nowState" name="nowState" value="" />
+		<!-- 记录当前页&上一页URL -->
+		#currentAndReturnPageUrl()
+		<!-- 提示信息  -->
+		#messages()
+<div class="fbgp">
+ 	<strong>#navigation("角色管理")</strong>#permission("create")<a class="button1" id="gotoAddIssue" href="#" onclick="create()" >+ 新增角色</a>#end
+	<div style="margin-top: 50px;">
+			<span>角色名称</span>
+			 <input type="text" name="filter_LIKE_name" value="$!{request.getParameter('filter_LIKE_name')}"  class="SmallInput"  maxlength="20" size="20"/>
+			<span>描述</span>
+			 <input type="text" name="filter_LIKE_intro" value="$!{request.getParameter('filter_LIKE_intro')}"  class="SmallInput"  maxlength="20" size="20"/>
+			 <input type="button" onclick="search()" value=" 搜索 " name="dis" class="inputrelease"  />
+			 <input type="button" onclick="reload()" value=" 重置" name="b_act_clear" class="inputrelease" />
+		</div>
+	<table cellspacing="0" width="98%" align="center">
+	
+		<tr>
+			<td bgcolor="#f0f0f0" width="20%"><a href="#" onclick="sort('name')">角色名称</a></td>
+			<td bgcolor="#f0f0f0" width="20%"><a href="#" onclick="sort('intro')">描述</a></td>
+			<td bgcolor="#f0f0f0" width="10%"><a href="#" onclick="sort('status')">状态</a></td>
+			<td bgcolor="#f0f0f0" width="20%"  colspan="5" style="text-align:center;" >操作</td>
+		</tr>
+		 #foreach( $entity in $page.result)
+					<tr bgcolor="#ffffff" onMouseOver="this.bgColor='#fff1e4'"
+						onMouseOut="this.bgColor='#ffffff'">
+            <td class="TableData">$!{entity.name}</td>
+            <td class="TableData">$!{entity.intro}</td>
+            <td class="TableData">#if($!{entity.status})生效#{else}失效#{end}</td>
+            <td class="TableData" align="center">
+            <!-- 这个 还没完成 -->
+            #permission("view")
+            <a href="javascript:command('$!{entity.id}','view');">查看</a>
+			#end
+            </td>
+            <td class="TableData" align="center">
+            <!-- 这个要修改 -->
+            #permission("update")
+            <a href="javascript:command('$!{entity.id}','update');">修改</a>
+			#end
+			</td>
+            <td class="TableData" align="center">
+            #permission("kill")
+             <a href="#" onclick="command('$!{entity.id}','kill','确认要#if($!{entity.status})停用#{else}激活#{end}该记录吗')">#if($!{entity.status})停用#{else}激活#{end}</a>
+            #end
+            </td>
+            <td class="TableData" align="center">
+            <td class="TableData" align="center">
+	            #permission("delete")
+	            <a href="#" onclick="del('${entity.id}')">删除</a>
+	            #end
+	        </td>
+            </td>
+					</tr>
+		#end
+	</table>
+		<div class="pages float_r padding_t10 padding_b10">
+			#if($!{page.totalCount} && $!{page.totalCount}!=0) 
+			<a href="javascript:void(0);" onclick="jumpPage(1)">首页</a>
+			 <a class="prev" href="javascript:void(0);" onclick="jumpPage($!{page.prePage})">上一页</a>
+					#set($indexs=[$!page.startindex .. $!page.endindex]) 
+					#foreach($index in $indexs) #if($!page.pageNo==$!index) 
+					<a class="menu_number" href="javascript:void(0);" onclick="jumpPage($!index)"">$!index</a>
+					 #else <a href="javascript:void(0);" onclick="jumpPage($!index)">$!index</a>
+					#end 
+					#end <a class="next" href="javascript:void(0);" onclick="jumpPage($!{page.nextPage})">下一页</a>
+					 <a href="javascript:viod(0);" onclick="jumpPage($!{page.totalPages})">尾页</a>
+			#end
+				</div>
+</div>
+</form>

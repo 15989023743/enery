@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>运营管理参数-交易日期</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/cssjs.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <script src="#ctx()/resources/datePicker/WdatePicker.js"></script>
+    <script charset="utf-8" src="#ctx()/resources/editor/kindeditor.js"></script>
+    <!-- 页面JS函数编写 begin -->
+    <script>
+    jQuery(document).ready(function() {
+    	var btimeD = fmtTime("$!entity.bTimeD");
+    	var etimeD = fmtTime("$!entity.eTimeD");
+    	$("#sj").html(btimeD + " -- " + etimeD);
+    	var bpmtimeD = fmtTime("$!entity.bpmTimeD");
+    	var epmtimeD = fmtTime("$!entity.epmTimeD");
+    	$("#pmsj").html(bpmtimeD + " -- " + epmtimeD);
+    	$("#btu").val(fmtTime("$!entity.bTimeU"));
+    	$("#etu").val(fmtTime("$!entity.eTimeU"));
+    	$("#bpmtu").val(fmtTime("$!entity.bpmTimeU"));
+    	$("#epmtu").val(fmtTime("$!entity.epmTimeU"));
+    });
+    
+    function fmtTime(time){
+    	return time.substring(11,19);
+    }
+    function submit_Form(parm){
+    	jQuery("#optType").val(parm);
+    	jQuery("#inputForm").submit();
+    }
+    </script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/sysParam/runManage/run_mode_setting.htm?runFlag=time" method="post" class="validate">
+    <input type="hidden" name="id"  id="id" value="$!{entity.id}" />
+    <input type="hidden" name="optType" id="optType" />
+    #backPageUrl()
+     <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+	 <tr>
+	    <td height="30">
+	        <!--圆角表格头开始-->
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+		      <tr>
+		        <td width="12" height="30" class="TableHeadLeft"></td>
+		        <td class="TableHeader">
+			         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+			           <tr>
+			            <td width="46%" valign="middle">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+			              <tr>
+			                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+			                <td width="35%"><b>#navigation('交易时间')#if(!$!entity.id)创建#{else}修改#{end}</b></td>
+			                <td width="55%" align="right">
+			                	#permission("save")
+				                <input type="submit" class="SmallButton" name="b_act_subit" style="width:60"  value="修&nbsp;&nbsp;改" onclick="submit_Form('xg');" />&nbsp;&nbsp;
+				                <input type="submit" class="SmallButton" name="b_act_subit" style="width:60"  value="实时生效" onclick="submit_Form('sssx');" />
+				                #end
+			                </td>
+			              </tr>
+			            </table>
+						</td>
+			           </tr>
+			        </table>
+				</td>
+		        <td width="16" class="TableHeadRight"></td>
+		      </tr>
+		    </table>
+		    <!--圆角表格头结束-->
+		</td>
+	 </tr>
+	<!--业务表格区域开始-->
+	 <tr>
+	   <td height="18">
+	      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="8" class="TableLeft"></td>
+	        <td class="TableLine1">
+		        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+			        <tr>
+				        <td>
+						  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+							 <table style="width:100%" align="center" class="TableBlock" >
+							    <tr>
+									<td width="15%" align="right" class="TableContent">上午交易时间：</td>
+									<td width="90%" align="left" class="TableData">
+										<input name="btu" type="text" id="btu" size="12"
+										onclick="WdatePicker({dateFmt:'HH:mm:ss',maxDate:'#F{$dp.$D(\'etu\')}',isShowClear:false,readOnly:true,isShowToday:false})"/> - 
+										<input name="etu" type="text" id="etu" value="$!entity.eTimeU" size="12"
+										onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'btu\')}',maxDate:'#F{$dp.$D(\'bpmtu\')}',isShowClear:false,readOnly:true,isShowToday:false})"/>
+										    <font color='#FF0000'>*HH:MM:SS(24小时制)</font>
+									</td>
+								</tr>
+								<tr>
+      								<td width="15%" align="right" class="TableContent">上午交易时间(实时生效)：</td>
+      								<td width="90%" align="left" class="TableData">
+      									<span id="sj" style="color:#4D4DFF;"></span>
+      								</td>
+      							</tr>
+      							<tr>
+      								<td width="15%" align="right" class="TableContent">下午交易时间：</td>
+      								<td width="90%" align="left" class="TableData">
+      									<input name="bpmtu" type="text" id="bpmtu" value="$!entity.bpmTimeU" size="12"
+										onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'etu\')}',manDate:'#F{$dp.$D(\'epmtu\')}',isShowClear:false,readOnly:true,isShowToday:false})"/> - 
+										<input name="epmtu" type="text" id="epmtu" value="$!entity.epmTimeU" size="12"
+										onclick="WdatePicker({dateFmt:'HH:mm:ss',minDate:'#F{$dp.$D(\'bpmtu\')}',isShowClear:false,readOnly:true,isShowToday:false})"/>
+										    <font color='#FF0000'>*HH:MM:SS(24小时制)</font>
+      								</td>
+      							</tr>
+      							<tr>
+      								<td width="15%" align="right" class="TableContent">下午交易时间(实时生效)：</td>
+      								<td width="90%" align="left" class="TableData"><span id="pmsj" style="color:#4D4DFF;"></span></td>
+      							</tr>
+						      </table>
+						  </fieldset>
+					    </td>
+				    </tr> 
+			   </table>
+		   </td>
+		   <td width="8" class="TableRight"></td>
+	      </tr> 
+	    </table>
+	  </td>
+	 </tr>
+	<!--业务表格区域结束-->
+	<!--表格底部开始-->
+	 <tr>
+	    <td height="35">
+	    <!--圆角表格头开始-->
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="35" class="TableFooterLeft"></td>
+	        <td class="TableFooter"></td>
+	        <td width="16" class="TableFooterRight"></td>
+	 	  </tr>
+	 	</table>
+	    <!--圆角表格头结束-->
+	 	</td>
+	 </tr>
+ 	<!--表格底部结束-->
+ </table>
+</form>
+</body>
+</html>

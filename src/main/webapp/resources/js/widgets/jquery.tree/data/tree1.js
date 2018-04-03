@@ -1,0 +1,2 @@
+﻿var treedata = [{"id":"00","text":"所有选项","value":"00","showcheck":true,"isexpand":true,"checkstate":0,"hasChildren":true,"complete":true,"childNodes":[{"id":"1","text":"系统管理","value":"1","showcheck":true,"isexpand":false,"checkstate":0,"hasChildren":true,"complete":false,"childNodes":null},{"id":"30","text":"测试功能","value":"30","showcheck":true,"isexpand":false,"checkstate":0,"hasChildren":true,"complete":false,"childNodes":null}]}]
+;

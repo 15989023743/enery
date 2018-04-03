@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#parse("/WEB-INF/templates/portal/public/meta.html")
+#parse("/WEB-INF/templates/portal/public/css_portal.html")
+#parse("/WEB-INF/templates/portal/public/js_commons.html")
+
+<script language="javascript">
+/**
+ * 帮助中心文章函数。
+ */
+var articleFn = {
+	/* changeUl:function (obj){
+		$(obj).addClass("selected").siblings().removeClass("selected");
+		$(obj).find("img").attr("src","#ctx()/resources/style/portal/images/navleft/navlefticon1.png");
+		$(obj).siblings().find("img").attr("src","#ctx()/resources/style/portal/images/navleft/navlefticon2.png");
+		$(obj).find("ul").show();
+		$(obj).siblings().find("ul").hide();
+	}, */
+	changeContext:function (obj){
+		$(obj).find("a").addClass("selected2");
+		$(obj).siblings().find("a").removeClass("selected2");
+		$(obj).find("i").addClass("icon_navactive icon_navno");
+		$(obj).siblings().find("i").removeClass().addClass("icon_navno");
+		this.getArticleById($(obj).attr("id"));
+	},
+	getArticleById:function (articleId){
+		var url = "#ctx()/helpcenter/getArticleById.htm";
+		jQuery.ajax({
+			type:'POST',
+			url:url,
+			data:{articleId:articleId},
+			dataType:"json",
+			success:function(data){
+				jQuery("#contentInfo").html(data);
+			}
+		});
+	},
+	changeStyle:function (obj){
+		var pic1 = "navlefticon1.png";
+		var pic2 = "navlefticon2.png";
+		var strSrc = "#ctx()/resources/style/portal/images/navleft/";
+		$(obj).parent().addClass("selected").siblings().removeClass("selected");
+		if ($(obj).attr("src")==(strSrc+pic1)){
+			$(obj).attr("src",strSrc+pic2);
+			$(obj).parent().find("ul").hide();
+		}else{
+			$(obj).attr("src",strSrc+pic1);
+			$(obj).parent().find("ul").show();
+		}
+		$(obj).parent().siblings().find("img").attr("src",strSrc+pic2);
+		$(obj).parent().siblings().find("ul").hide();
+	}
+}
+
+$(function (){
+	#if(!$selectArticle)
+		var articleId = $("#first_article_id").val();
+		articleFn.getArticleById(articleId);
+	#end
+})
+</script>
+
+
+</head>
+
+<body>
+#parse("/WEB-INF/templates/portal/share/top.html")
+<div class="center2">
+     <div class="helpbanner"><img src="#ctx()/resources/style/portal/helpCenter/images/hlepcenter.jpg" /></div>
+     <div class="helpleft">
+     	<ul>
+     		#if($selectArticle)
+          		#foreach($articleList in $helpCenterAllArticle)
+          		<li #foreach($article in $articleList)
+	          			#if($!nav.id==$!article.articleClass.id) class="selected" #end 
+          			#end
+          			 id="$!articleList.get(0).id">
+               		<img  onclick="articleFn.changeStyle(this)"
+               		#foreach($article in $articleList)
+	               		#if($!nav.id==$!article.articleClass.id) src="#ctx()/resources/style/portal/images/navleft/navlefticon1.png"  
+	               		#else src="#ctx()/resources/style/portal/images/navleft/navlefticon2.png" #end 
+               		#end />
+               		<span>#getArticleClassName($articleList)</span>
+	                <ul class="smallli" 
+	                #foreach($article in $articleList)
+	                	#if($!nav.id!=$!article.articleClass.id)
+	                 	style="display:none" 
+	                 	#end
+	                 #end>
+	                    #foreach($article in $articleList)
+		       			 <li onclick="articleFn.changeContext(this)" id="$!article.id">
+       			 			#if($selectArticle.id==$article.id)
+       			 			<a class="selected2" href="#">$!article.title</a>
+       			 			<i class="icon_navactive icon_navno"></i>
+       			 			#else
+       			 			<a href="#">$!article.title</a>
+       			 			<i class="icon_navno"></i>
+       			 			#end
+		       			</li>
+		       			#end
+	                </ul>
+                </li>
+                #end	
+          	#else
+          		#set($count=0)
+          		#foreach($articleList in $helpCenterAllArticle)
+          		#set($count=$count+1)
+          	    <input type="hidden" id="first_article_id" value="$!articleList.get(0).id">
+                <li #if($velocityCount==1) class="selected" #end id="$!articleList.get(0).id">
+               		<img onclick="articleFn.changeStyle(this)" #if($velocityCount==1) src="#ctx()/resources/style/portal/images/navleft/navlefticon1.png"  #else src="#ctx()/resources/style/portal/images/navleft/navlefticon2.png" #end />
+               		<span>#getArticleClassName($articleList)</span>
+	                <ul class="smallli" #if($velocityCount>1) style="display:none" #end>
+	                    #foreach($article in $articleList)
+		       			 <li onclick="articleFn.changeContext(this)" id="$!article.id">
+       			 			#if($velocityCount==1 && $count==1)
+       			 			<a class="selected2" href="#">$!article.title</a>
+       			 			<i class="icon_navactive icon_navno"></i>
+       			 			#else
+       			 			<a href="#">$!article.title</a>
+       			 			<i class="icon_navno"></i>
+       			 			#end
+		       			</li>
+		       			#end
+	                </ul>
+                </li>          		
+          		#end
+             #end
+          </ul>
+     </div>
+     <div class="helpright">
+  		 <div id="contentInfo">$!selectArticle.content</div>
+	 </div>         
+</div>
+#parse("/WEB-INF/templates/portal/share/foot.html")
+</body>
+</html>

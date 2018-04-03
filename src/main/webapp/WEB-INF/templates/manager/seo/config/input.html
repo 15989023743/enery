@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>SEO管理</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/css.html")
+    #parse("/WEB-INF/templates/public/js.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <script src="#ctx()/resources/js/widgets/datePicker/WdatePicker.js"></script>
+    <!-- 页面JS函数编写 begin -->
+
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/seo/config/save.htm" method="post" class="validate">
+    <input type="hidden" name="id"  id="id" value="$!{entity.id}" />
+    #backPageUrl()
+    <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="30">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="30" class="TableHeadLeft"></td>
+                        <td class="TableHeader">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="46%" valign="middle">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                            <tr>
+                                                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                                                <td width="35%"><b>#navigation("SEO")#if(!$!entity.id)创建#else修改#end</b></td>
+                                                <td width="55%" align="right">
+                                                    #permission("save")
+                                                    <input type="submit" class="SmallButton"  name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交"/>&nbsp;&nbsp;
+                                                    #end
+                                                    <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableHeadRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+
+        <!--业务表格区域开始-->
+        <tr>
+            <td height="18">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="8" class="TableLeft"></td>
+                        <td class="TableLine1">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+                                <tr>
+                                    <td>
+                                        <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+                                            <table style="width:100%" align="center" class="TableBlock" >
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">页面URL<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData">
+                                                        #dictList(
+                                                        "url",
+                                                        "url",
+                                                        "$!{entity.url}",
+                                                        "SYS_URL",
+                                                        "",
+                                                        "Smallselect required",
+                                                        "width:250px;height: 20px;",
+                                                        "true")
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">标题<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" id="title" name="title" value="$!{entity.title}" class="SmallInput"  style="width:243px;height: 20px;"  maxlength="100" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">关键字<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><textarea  id="keywords" name="keywords" class="SmallInput"  style="width:243px;" rows="3" maxlength="255" >$!{entity.keywords}</textarea></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">描述<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><textarea  id="description" name="description" class="SmallInput"  style="width:243px;" rows="3" maxlength="400" >$!{entity.description}</textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">频道名<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" id="chanelName" name="chanelName" value="$!{entity.chanelName}" class="SmallInput"  style="width:243px;height: 20px;"  maxlength="100" /></td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="8" class="TableRight"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--业务表格区域结束-->
+
+        <!--表格底部开始-->
+        <tr>
+            <td height="35">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="35" class="TableFooterLeft"></td>
+                        <td class="TableFooter">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                <tr>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <table border="0" align="right" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="100">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableFooterRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格底部结束-->
+
+    </table>
+</form>
+</body>
+<script type="text/javascript">
+    jQuery.validator.addMethod("regex", function(value, element, regexp) {
+        var check = false;
+        var re = new RegExp(regexp);
+        return this.optional(element) || re.test(value);
+    }, "输入值格式错误");
+
+    function checkDataExist(form){
+        var url = "#ctx()/manager/seo/config/checkDataExist.htm"
+        var param = {};
+        param["id"] = jQuery("#id").val();
+        param["url"] = jQuery("#url").val();
+        jQuery.ajax({
+            type:'POST',
+            url:url,
+            data:param,
+            dataType:"json",
+            success:function(response){
+                if( response.success ){
+                    $.blockUI({ message: '<p style="font-size: 16px;font-weight: bold;">正在处理，请稍候...</p>' });
+                    form.submit();
+                }else{
+                    alert(response.message);
+                }
+            }
+        });
+    }
+    jQuery(function(){
+        $.validator.setDefaults({
+            submitHandler: function(form) {
+                checkDataExist(form);
+            }
+        });
+        // class为validate的表单都要验证
+        $("form.validate").validate();
+
+        jQuery("#title").rules("add",{
+            maxlength:100,
+            regex:"^[\\u4e00-\\u9fa50-9a-zA-Z\\-\\_\\#\\/\\s]+$",
+            messages:{
+                regex:"标题只能输入中文、英文、数字空格-_#/"
+            }});
+        jQuery("#keywords").rules("add",{
+            maxlength:255,
+            regex:"^[\\u4e00-\\u9fa50-9a-zA-Z\\-\\_\\#\\/\\s]+$",
+            messages:{
+                regex:"关键字只能输入中文、英文、数字空格-_#/"
+            }});
+        jQuery("#description").rules("add",{
+            maxlength:400,
+            regex:"^[\\u4e00-\\u9fa50-9a-zA-Z\\-\\_\\#\\/\\s]+$",
+            messages:{
+                regex:"描述只能输入中文、英文、数字空格-_#/"
+            }});
+        jQuery("#chanelName").rules("add",{
+            maxlength:100,
+            regex:"^[\\u4e00-\\u9fa50-9a-zA-Z\\-\\_\\#\\/\\s]+$",
+            messages:{
+                regex:"频道名只能输入中文、英文、数字空格-_#/"
+            }});
+    });
+</script>
+#errors($!{errors})
+</html>

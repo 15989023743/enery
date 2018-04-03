@@ -1,0 +1,38 @@
+<form id="ListForm" name="ListForm" action="#ctx()/list.htm?classIds=$!{selectArticleClass.parentids}-$!{selectArticleClass.id}" method="post" >
+    <input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+    <input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+    <input type="hidden" id="order" name="order" value="$!{page.order}" />
+#foreach( $article in $page.result)
+	#if($velocityCount % 5==1)
+	<div class="content_list">
+	    <ul>
+	#end
+	        <li>
+	            <a href="#ctx()/details.htm?classIds=$!{selectArticleClass.parentids}-$!{selectArticleClass.id}&amp;articleId=$!{article.id}" target="_blank" style="cursor: pointer">
+	                <span class="icon_artic"></span><span class="artconent">$!article.title</span>
+	            </a>
+	            <span class="time">[$!date.format("yyyy-MM-dd",$!article.addTime)]</span>
+	        </li>
+	#if($velocityCount % 5==0||$velocityCount==$page.result.size())
+	    </ul>
+	    <div class="clear"></div>
+	</div>
+	#end
+#end
+#if($!{page.totalCount} && $!{page.totalCount}!=0)
+<div class="pages">
+    <a href="javascript:jumpPage(1)">首页</a>
+    <a class="prev" href="javascript:void(0);" onclick="jumpPage($!{page.prePage})">上一页</a>
+    #set($indexs=[$!page.startindex .. $!page.endindex])
+    #foreach( $index in $indexs)
+    	#if($!page.pageNo==$!index)
+    		<a class="menu_number" href="javascript:void(0);" onclick="jumpPage($!index)">$!index</a>
+    	#else
+    		<a href="javascript:void(0);" onclick="jumpPage($!index)">$!index</a>
+    	#end
+    #end
+    <a class="next" href="javascript:void(0);" onclick="jumpPage($!{page.nextPage})">下一页</a>
+    <a href="javascript:viod(0);" onclick="jumpPage($!{page.totalPages})">尾页</a> 
+</div>
+#end
+</form>

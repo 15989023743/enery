@@ -1,0 +1,45 @@
+body { FONT-FAMILY: SimSun, Arial, Helvetica, sans-serif;
+	   font-size: 9pt;
+       margin: 0px; 
+       padding: 0px;
+       scrollbar-3dlight-color:#6E91C7; 
+       scrollbar-arrow-color:#074094; 
+       scrollbar-base-color:#074094; 
+       scrollbar-darkshadow-color:#ABCBFA; 
+       scrollbar-face-color:#C5DBFC; 
+       scrollbar-highlight-color:#FBFDFC; 
+       scrollbar-shadow-color:#074094
+       }
+/* form */
+input[type=text], input[type=password], textarea {
+  background-color:#fff;
+  border:1px solid #bbb;
+  padding:2px;
+}
+input[type=text]:focus, input[type=password]:focus, textarea:focus, select:focus {
+    border: 1px solid #666;
+}
+a:link,a:visited,a:active,a:hover {
+	color: #4d87ce;
+}
+
+div#listContent,div#footer {
+	margin-top:10px
+}
+	
+div#listContent table {
+	border-collapse: collapse;
+	border: none;
+}
+
+div#listContent th,div#listContent td {
+	border: solid #999 1px;
+}
+
+.actionMessage {
+	font-weight: bold;
+}
+
+div#comment {
+	margin-top:20px
+}

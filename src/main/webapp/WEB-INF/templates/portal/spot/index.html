@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#parse("/WEB-INF/templates/portal/public/meta.html")
+#parse("/WEB-INF/templates/portal/public/css_portal.html")
+#parse("/WEB-INF/templates/portal/public/js_commons.html")
+
+<link type="text/css" rel="stylesheet"
+	href="#ctx()/resources/style/portal/fenye.css" />
+<script type="text/javascript" language="javascript">
+        /*鼠标移上去品种选中样式和品名样式 开始*/
+       var parent;
+       	var child;
+       	var orderBy;
+       	var order;
+       function selectPZ(){
+	        parent= jQuery(".tb1_ > ul > li");
+	        jQuery(parent).hover(
+	                function () {
+	                    jQuery(".dis").attr("style","display:none;");
+	                    jQuery("#tb_0").removeClass();
+	                    jQuery("#tb_0").addClass("normaltab");
+	                    var id=jQuery(this).attr("thisId");
+/* 	                    if(parents!=null){
+	                        jQuery("#"+parents+"_parend").removeClass();
+	                        jQuery("#"+parents+"_parend").addClass("tabs_menus");
+	                    } */
+	                    parents=id;
+	                    var select=jQuery(this).attr("id");
+	                    jQuery("#parentId_"+id).removeAttr("style");
+	                    jQuery(parent).removeClass();
+	                    jQuery(parent).addClass("normaltab");
+	                    jQuery("#"+select).removeClass();
+	                    jQuery("#"+select).addClass("hovertab");
+	                },
+	                function () {
+	
+	                }
+	        );
+		}
+	
+	/*点击品种时触发事件*/
+	function selectChild(name,id){
+	jQuery("#pageNo").val(1);
+        if(id!=null){
+            jQuery(".dis").attr("style","display:none;");
+            jQuery("#parentId_"+id).removeAttr("style");
+            jQuery("#selectParentId").val(id);
+            //父类点击查询
+            jQuery("#itemGoodsNames").val(name);
+            //记录父类的id
+            jQuery("#parentids").val(id);
+            //点击全部时触发事件
+            if(id==0||name==''){
+                jQuery("#itemGoodsNames").val('');
+                jQuery("#parentids").val('');
+                jQuery("#selectItemGoodsName").val('');
+                jQuery("#itemGoodsName").val('');
+            }
+            /* 清空子选项开始*/
+            jQuery("#selectItemGoodsName").val("");
+            jQuery("#itemGoodsName").val("");
+             /* 清空子选项结束*/
+            jQuery("#pageNo").attr("value",1);
+            jQuery("#ListForm").submit();
+        }
+    }
+    
+    function init(){
+    	orderBy = jQuery("#orderBy").val();
+    	order =jQuery("#order").val();;
+    	child=jQuery(".dis > ul > li > a");
+		selectPZ();
+		//获取父类Id
+		 var par = jQuery("#parentids").val();
+	 	var cId=jQuery("#selectItemGoodsName").val();
+	        if(par!=""){
+	        	jQuery("#"+par).css("color","#fa8617");
+	        	jQuery("#tb_0").removeClass();
+		        jQuery("#tb_0").addClass("normaltab");
+		        jQuery(parent).removeClass();
+		        jQuery(parent).addClass("normaltab");
+		        jQuery("#"+par).addClass("hovertab");
+		        jQuery(".dis").attr("style","display:none;");
+		        var id=jQuery("#"+par).attr("thisId");
+		        jQuery("#parentId_"+id).removeAttr("style");
+		        if(cId!=null)
+		        {
+		        	jQuery(child).removeClass();
+		        	jQuery("#"+cId).addClass("selected");	
+		        }
+	        }
+    }
+
+
+//选择品名触发事件
+function selectByItemGoodsName(itemGoodsName,pId,cId)
+{
+	if(pId!=null||itemGoodsName!=null){
+		jQuery("#itemGoodsName").val(itemGoodsName);
+		jQuery("#parentids").val(pId);
+		jQuery("#selectItemGoodsName").val(cId);
+		jQuery("#pageNo").attr("value",1);
+        jQuery("#ListForm").submit();
+	}
+}
+
+function quest_submit(){
+	    jQuery("#pageNo").val(1);
+        jQuery("#ListForm").submit();
+}
+
+
+//默认排序
+function orderByAddTime()
+{
+jQuery("#pageNo").val(1);
+	   if(orderBy=="checkTime"){
+            sort(orderBy,order);
+        }else{
+            $("#orderBy").attr("value","checkTime");
+            $("#order").attr("value","desc");
+            $("#ListForm").submit();
+        }
+}
+//价格排序
+function orderByJg()
+{
+jQuery("#pageNo").val(1);
+	   if(orderBy=="unitPriceExclud"){
+            sort(orderBy,order);
+        }else{
+            $("#orderBy").attr("value","unitPriceExclud");
+            $("#order").attr("value","desc");
+            $("#ListForm").submit();
+        }
+}
+//销量排序
+
+function orderByXl()
+{
+jQuery("#pageNo").val(1);
+	   if(orderBy=="volumes"){
+            sort(orderBy,order);
+        }else{
+            $("#orderBy").attr("value","volumes");
+            $("#order").attr("value","desc");
+            $("#ListForm").submit();
+        }
+}
+
+jQuery(function(){
+	init();
+});
+function down(id)
+{
+	if(id!=null){
+		jQuery("#entityId").val(id);
+		window.location.href="#ctx()/spot/downloadAccesory.htm?id="+id;
+	}
+	//
+}
+
+function show(id){
+	jQuery("#"+id).show();
+}
+function hide(id){
+	jQuery("#"+id).hide();
+}
+</script>
+</head>
+
+<body>
+	#parse("/WEB-INF/templates/portal/share/top.html")
+	<form id="ListForm" name="ListForm" action="#ctx()/spot/index.htm" method="get">
+		<input type="hidden" id="entityId" name="id" value="" />			
+		<input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+		<input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+		<input type="hidden" id="order" name="order" value="$!{page.order}" />
+		<input type="hidden" name="selectItemGoodsName" id="selectItemGoodsName" value="$!{request.getParameter('selectItemGoodsName')}" />
+		<input type="hidden" name="filter_LIKER_itemGoodsNames" value="$!{request.getParameter('filter_LIKER_itemGoodsNames')}" id="itemGoodsNames" />
+		<input type="hidden" name="filter_EQ_itemGoodsName" value="$!{request.getParameter('filter_EQ_itemGoodsName')}" id="itemGoodsName" />
+		<input type="hidden" name="parentids" id="parentids" value="$!{request.getParameter('parentids')}" />
+		<div class="center">
+			#parse("/WEB-INF/templates/portal/share/goodsItems.html")
+			<div class="search3">
+				<span>挂牌标题</span> <input type="text" name="filter_LIKE_goodsTitle" value="$!{request.getParameter('filter_LIKE_goodsTitle')}" id="filter_LIKE_goodsTitle" />
+				 <span>价格</span> <input type="text" style="width:90px;" name="filter_GT_unitPriceExclud" value="$!{request.getParameter('filter_GT_unitPriceExclud')}" id="filter_GT_unitPriceExclud" /> 
+				<span style="width:12px;">至</span><input type="text" style="width:90px;" name="filter_LT_unitPriceExclud" value="$!{request.getParameter('filter_LT_unitPriceExclud')}" id="filter_LT_unitPriceExclud" />
+				<span>产地</span>
+				 #dictSelect(
+					"attr_ZDY_GOODS_AREA", 
+					"attr_ZDY_GOODS_AREA",
+					"$!{request.getParameter('attr_ZDY_GOODS_AREA')}",
+					"DICT_GOODS_AREA", 
+					"", 
+					"Smallselect required", 
+					"", 
+					"true",
+					 "",
+					  ""
+				)
+				 <span>交收仓</span> 
+				#dictSelect(
+					"filter_EQ_deliveryWarehouse", 
+					"filter_EQ_deliveryWarehouse",
+					"$!{request.getParameter('filter_EQ_deliveryWarehouse')}",
+					"ZDY_TRAN_HOUSE", 
+					"", 
+					"Smallselect required", 
+					"", 
+					"true",
+					 "",
+					  ""
+				)
+				 <input type="submit"  value=" 搜索 " name="dis" class="inputrelease"  />
+			</div>
+			<div class="shopdata">
+				<table cellspacing="0">
+					<tr>
+						<td bgcolor="f6f6f6" colspan="9" style="padding-left:5px;">
+							#if($!{page.orderBy}=="checkTime" && $!{page.order}=="desc") 
+								<a onclick="orderByAddTime()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/mr2.jpg" />
+								</a>
+							#elseif($!{page.orderBy}=="checkTime" && $!{page.order}=="asc")
+								<a onclick="orderByAddTime()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/mr1.jpg" /> 
+								</a>
+							#else
+								<a onclick="orderByAddTime()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/mr0.jpg" /> 
+								</a>
+							#end 
+							#if($!{page.orderBy}=="unitPriceExclud" && $!{page.order}=="desc") 
+								<a onclick="orderByJg()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/jg2.jpg" />
+								</a>
+							#elseif($!{page.orderBy}=="unitPriceExclud" && $!{page.order}=="asc") 
+								<a onclick="orderByJg()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/jg1.jpg" />
+								</a>
+							#else 
+								<a onclick="orderByJg()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/jg0.jpg" />
+								</a>
+							#end 
+							#if($!{page.orderBy}=="volumes" && $!{page.order}=="desc")
+								<a onclick="orderByXl()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/xl2.jpg" />
+								</a>
+							#elseif($!{page.orderBy}=="volumes" && $!{page.order}=="asc") 
+								<a onclick="orderByXl()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/xl1.jpg" />
+								</a>
+							#else 
+								<a onclick="orderByXl()" style="margin-top:7px;" href="#">
+									<img src="#ctx()/resources/style/portal/images/order/xl0.jpg" />
+								</a>
+							#end 
+							<span class="shopopen">开市中</span></td>
+					</tr>
+					<tr>
+						<th width="185" style="padding-left:5px;">挂牌编号</th>
+						<th width="185" style="padding-left:5px;">挂牌标题</th>
+						<th width="185" style="padding-left:5px;">品名</th>
+						<th width="100">数量</th>
+						<th width="130">单价</th>
+						<th width="136">产地</th>
+						<th width="136">交收仓</th>
+						<th colspan="2" width="200"></th>
+					</tr>
+
+					#foreach( $IssueInfo in $page.result)
+					<tr bgcolor="#ffffff" onMouseOver="this.bgColor='#fff1e4'" onMouseOut="this.bgColor='#ffffff'">
+						<td width="185" style="padding-left:5px; ">${IssueInfo.issueCode}</td>
+						<td width="185" style="padding-left:5px; ">${IssueInfo.goodsTitle}</td>
+						<td width="185" style="padding-left:5px; ">${IssueInfo.itemGoodsName}</td>
+						<td width="100">${IssueInfo.amount} ${IssueInfo.goodsUnitmc}</td>
+						<td width="130"><span>${IssueInfo.unitPriceExclud}</span>$!{IssueInfo.currencymc}/${IssueInfo.goodsUnitmc}</td>
+						<td>#set($attrCode = "_ZDY_GOODS_AREA") $!attrValuesMap.get("$!{IssueInfo.id.toString()}$!{attrCode}")</td>
+						<td width="136">$!{IssueInfo.deliveryWarehousemc}</td>
+						<td width="90">
+							<div class="pzim">
+							<a href="javascript:void(0);" onclick="down('$!{IssueInfo.id}')">
+								<img  src="#ctx()/resources/style/portal/images/pz.jpg" /><br />
+							</a>	
+							</div></td>
+						<td width="80"><!-- <a href="#" > -->
+						<img onmouseover="show('${IssueInfo.id}')" onmouseout="hide('${IssueInfo.id}')" src="#ctx()/resources/style/portal/images/buy.jpg"  title="敬请期待"/>
+						<div id="${IssueInfo.id}" class="pzzb" style="height: 31px;width: 65px;display: none;">
+							<span>敬请期待</span>
+						</div>
+						 <!-- </a> -->
+						</td>
+					</tr>
+					#end
+
+				</table>
+				
+				<div class="pages float_r padding_t10 padding_b10">
+					#if($!{page.totalCount} && $!{page.totalCount}!=0) <a
+						href="javascript:void(0);" onclick="jumpPage(1)">首页</a> <a
+						class="prev" href="javascript:void(0);"
+						onclick="jumpPage($!{page.prePage})">上一页</a>
+					#set($indexs=[$!page.startindex .. $!page.endindex]) #foreach(
+					$index in $indexs) #if($!page.pageNo==$!index) <a
+						class="menu_number" href="javascript:void(0);"
+						onclick="jumpPage($!index)"">$!index</a> #else <a
+						href="javascript:void(0);" onclick="jumpPage($!index)">$!index</a>
+					#end #end <a class="next" href="javascript:void(0);"
+						onclick="jumpPage($!{page.nextPage})">下一页</a> <a
+						href="javascript:viod(0);" onclick="jumpPage($!{page.totalPages})">尾页</a>
+					#end
+				</div>
+			</div>
+		</div>
+	</form>
+	<div style="clear:both;"></div>
+	#parse("/WEB-INF/templates/portal/share/foot.html")
+</body>
+</html>

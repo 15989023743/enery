@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    #parse("/WEB-INF/templates/portal/public/meta.html")
+    #parse("/WEB-INF/templates/portal/public/css_portal.html")
+    <link href="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">var ctx = '#ctx()';</script>
+    <!--<script type="text/javascript" src="#ctx()/resources/js/widgets/slider/jquery-1.10.2.js"></script>-->
+    #parse("/WEB-INF/templates/portal/public/js_commons.html")
+    <script src="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.js" type="text/javascript"></script>
+    <script src="#ctx()/resources/js/widgets/chart/echarts/asset/js/esl/esl.js"></script>
+    <style type="text/css">
+        .csshelpleft{
+            width:204px;
+            border-right:2px solid #e6e6e6;
+            display:block;
+            float:left;
+            padding-bottom:30px;
+            padding-top:17px;
+            color:#323232;
+        }
+    </style>
+</head>
+
+<body>
+#parse("/WEB-INF/templates/portal/share/top.html")
+<div class="center2">
+    <div class="helpbanner"><img src="#ctx()/resources/style/portal/priceTrend/images/nhimages1.jpg"/></div>
+    <div class="helpleft" style="height:auto;min-height:845px;" >
+        <!--<div id="tree" style="height:auto;min-height:845px;overflow: auto">-->
+        <!--</div>-->
+        <ul id="goodsItemUL" ></ul>
+    </div>
+    <div class="helpright">
+        <div class="jgzs">
+            <strong id="selectGoodsName"></strong>
+            <div class="search2">
+                <form>
+                    <span>当前时间段: </span>
+                        <input type="text" style="border: 1px solid #EEEEEE;" readonly="readonly" size="15" disabled="disabled" name="stime" id="stime"/> <span style="padding-left:13px;"> 至 </span>
+                        <input type="text" style="border: 1px solid #EEEEEE;" readonly="readonly" size="15" disabled="disabled" name="etime" id="etime"/>
+                        <input style="border:none;" type="radio" value="3"  name="time" id="three" /><span>3个月</span>
+                        <input style="border:none;" type="radio" value="6"  name="time" id="six"   /><span> 6个月</span>
+                        <input style="border:none;" type="radio" value="12" name="time" id="one"    checked="checked"/><span> 1年</span>
+                        <input style="border:none;" type="radio" value="24" name="time" id="two"   /><span>2年</span>
+                        <input style="border:none;" type="radio" value="0"  name="time" id="all"   /><span>全部</span>
+                        <input type="hidden" name="itemId" id="itemId" value="$!goodsItem.id"/>
+                        <input type="hidden" name="itemName" id="itemName" value="$!goodsItem.name"/>
+                        <input type="hidden" name="parentids" id="parentids" value="$!goodsItem.parentids"/>
+                </form>
+            </div>
+        </div>
+        <div class="jdata" id="priceTrendChart" style="width:730px;height:387px;">
+
+        </div>
+        <div class="jg" style="height:338px;overflow-y: auto;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+                <thead>
+                <tr>
+                    <th width="130" >分类</th>
+                    <th width="100">指数</th>
+                    <th width="100">环比</th>
+                    <th width="100">环比涨跌幅</th>
+                    <th width="100">同比</th>
+                    <th width="100">同比涨跌幅</th>
+                    <th width="100">发布时间</th>
+                </tr>
+                </thead>
+                <tbody id="data">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+#parse("/WEB-INF/templates/portal/share/foot.html")
+</body>
+
+<script type="text/javascript" src="#ctx()/resources/js/portal/priceTrend/priceTrend_chart.js"></script>
+<script type="text/javascript">
+    $(function() {
+
+    });
+</script>
+<!--<script type="text/javascript" src="#ctx()/resources/js/portal/priceTrend/goodItemTree.js"></script>-->
+<script type="text/javascript" src="#ctx()/resources/js/portal/priceTrend/index.js"></script>
+</html>

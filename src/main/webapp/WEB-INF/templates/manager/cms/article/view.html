@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>$!config.websiteName -  文章预览</title>
+    <link href="#ctx()/resources/css/article/portal.css" rel="stylesheet" type="text/css" />
+
+<body>
+<h2 style="padding-top: 20px;padding-left: 400px;"><input type="button" style="cursor: pointer;color: blue;padding: 5px;10px;5px;10px;" value="返回" onclick="javascript:history.back(-1)"/></h2>
+<form id="ListForm" name="queryForm" action="" method="post">
+    <div class="top wp">
+        <div id="topAdvert" class="wrap"></div>
+        <div class="banner wrap">
+            <div class="logo" style="width: 226px;height: 52px;"></div>
+            <div class="mbxian"><p><a href="#">首页</a><span>&gt;</span>
+                <a href="#">$!{entity.articleClass.name}</a><span>&gt;</span>#if($!type=="0")<span>列表</span>#else<span>正文</span>#end</p></div>
+            <div id="cont1">
+                <div class="weizhigai">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="middle color4e t_px10">
+        <div class="wrap midcont">
+            <div id="cont2" class="newsarea t_px10">
+                <div id="contentsData" class="newscont bor_e0">
+                    <div class="nwbt"><p>${entity.title}</p><span style="font-size:15px;"> $!date.format('yyyy-MM-dd HH:mm:ss',$!entity.addTime)</span></div>
+                    <div class="article_class">
+                        $!entity.content
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body></html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>会员部门信息</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+     <link href="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.css" rel="stylesheet" type="text/css" />
+    <script src="#ctx()/resources/js/widgets/jquery.tree/common.js" type="text/javascript"></script>
+    <script src="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.js" type="text/javascript"></script>
+    <script src="#ctx()/resources/js/widgets/jquery.tree/jquery.contextmenu.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function addProduct(t){
+        	var item = jQuery("#tree").getItem(t);
+            jQuery('#rightid').attr('src',jQuery("#tree").getConfig().action+'item.htm?option=create&IsLeaf=true&parentId='+item.value);
+        }
+        
+        function addItem(t){
+        	var item = jQuery("#tree").getItem(t);
+            jQuery('#rightid').attr('src',jQuery("#tree").getConfig().action+'item.htm?option=create&parentId='+item.value);
+        }
+
+		function viewItem(item){
+			jQuery('#rightid').attr('src',jQuery("#tree").getConfig().action+'item.htm?id='+item.value+'&parentId='+item.parentId);
+		}
+		
+		function updateItem(t){
+			var item = jQuery("#tree").getItem(t);
+			jQuery('#rightid').attr('src',jQuery("#tree").getConfig().action+'item.htm?option=update&id='+item.value+'&parentId='+item.parentId);
+		}
+
+    	function initTree(){
+        	var action = "";
+    		var actionurl = "#ctx()/manager/goods/goodsItem/load.htm";
+	    	jQuery.getJSON(actionurl,null,function(response){
+	            var o = {
+	                     ctx:"#ctx()/",
+	                     action:action,
+	            		 url: actionurl,
+	                     showcheck: false,
+	            		 onnodeclick:viewItem,
+	                     bindings_m:{
+	                    	 		'reflash':{val:'刷新',ismy:1,cb:reflash}
+				        	    	#permission("create")
+	             					,'add':{val:'新增类目',ismy:1,cb:addItem}
+	             					,'addProduct':{val:'新增品名',ismy:1,cb:addProduct}
+	             					#end
+	             					#permission("update")
+                 	 				,'update':{val:'修改',ismy:1,cb:updateItem}
+                 	 				#end
+	             					/* #permission("delete")
+	             					,'remove':{val:'删除',ismy:1,cb:remove}
+	             					#end */
+	             					#permission("sort")
+									,'sort':{val:'排序',ismy:1,cb:sort}
+									#end
+	             					},
+	                     bindings_f:{
+	                    	 		#permission("update")
+                 	 				'update':{val:'修改',ismy:1,cb:updateItem}
+                 	 				#end
+                 	 				/* #permission("delete")
+		             				,'remove':{val:'删除',ismy:1,cb:remove}
+		             				#end */
+	                     			}
+	            };
+	            o.data = eval(response.treedata);
+	            $("#tree").treeview(o);
+	    	});
+	    	
+	        $("#showchecked").click(function(e){
+                var s=$("#tree").getTSVs();
+                if(s !=null)
+                alert(s.join(","));
+                else
+                alert("NULL");
+            });
+             $("#showcurrent").click(function(e){
+                var s=$("#tree").getTCT();
+                if(s !=null)
+                    alert(s.text);
+                else
+                    alert("NULL");
+             });
+            $("#reflashshanghai").click(function(e) {
+                $("#tree").reflash("1"); //9 为节点的ID
+            });
+            $("#addtop").click(function(e) {
+            	$('#rightid').attr('src','#ctx()/manager/goods/goodsItem/item.htm?parentId=&type=01&option=create')
+            });
+            $("#sorttop").click(function(e) {
+            	$('#rightid').attr('src','sort.htm?parentId=&xh=0');
+            });
+            
+    	};
+    	
+        if( $.browser.msie6){
+        	initTree();
+        }
+        else{
+            $(document).ready(initTree);
+        }
+        
+        
+        
+        
+        
+        
+        //动态布局控制---开始
+       /*  function changeWidth(left,right){
+        	var bdwidth=jQuery("body").width();
+        	jQuery(right).width(bdwidth-jQuery(left).width()-20);
+        }
+        
+        function synBond(res,tar,dir){
+        	if(dir&&dir==1){
+        		jQuery(tar).height(jQuery(res).height());
+        	}else{
+        		jQuery(tar).width(jQuery(res).width());
+        	}
+        		
+        }
+        
+        jQuery(function(){
+        	changeWidth("#treeview_left","#treeview_right");
+			window.onresize = function (){
+				changeWidth("#treeview_left","#treeview_right");
+			};
+			      	
+        	jQuery("#rightid").load(function(){
+        		var height=window.frames[jQuery(this).attr("name")].document.body.scrollHeight+10;
+        		jQuery(this).css("height",height+"px");
+        		synBond("#treeview_right","#treeview_left",1);
+    		});
+        }); */
+    </script>
+</head>
+<body>
+    <div id="treeview" style="width:100%;">
+	    <div id="treeview_top">
+	    	<input id="reflashButton" type="hidden" onclick="updatereflash(this.value)"/>
+	    	<input id="reflashtree" type="button" class="SmallButton" onclick="initTree()"  value="重启加载" />
+	    	#permission("create")
+	    	<input id="addtop" type="button" class="SmallButton" value="添加顶层分类" />
+	    	#end
+	    	#permission("sort")
+	    	<input id="sorttop" type="button" class="SmallButton"  value="排序顶层分类" />
+	    	#end
+	    </div>
+	    <div id="treeview_left" style="height:auto;min-height:437px;">
+	        <div id="tree"></div>
+	    </div>
+	    <div id="treeview_right"  style="width:100%;height:auto;min-height:437px;float:left;margin-left:8px;">
+	    	<iframe id="rightid" name="rightid" src="item.htm" style="width: 100%;height: auto" scrolling="auto" frameborder="0" ></iframe>
+	    </div>
+   	</div>
+</body>
+</html>

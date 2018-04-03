@@ -1,0 +1,21 @@
+<ul class="navigationUl">
+	#foreach($navgation in $navgations) 
+		#if(!$!{navgation.url} || $!{navgation.url} == '')
+			<li id="$!{navgation.id}"><a href="#ctx()/list.htm?classIds=$!{navgation.id}">$!{navgation.name}</a></li>
+		##elseif($!{navgation.url}=='/')##根目录
+			##<li id="nav_index"><a href="#ctx()">$!{navgation.name}</a></li>
+		#else
+			<li id="nav_$!{navgation.code}"><a href="#ctx()$!{navgation.url}">$!{navgation.name}</a></li>
+		#end
+	#end
+</ul>
+<script>
+	
+	(function() {
+		if (pageConfig.navId) {
+			var object = document.getElementById("nav_" + pageConfig.navId);
+			if (object)
+				object.className += " selected";
+		}
+	})();
+</script>

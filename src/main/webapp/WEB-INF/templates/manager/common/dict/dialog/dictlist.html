@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>信息查询</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css">
+<script type="text/javascript">
+<!--
+/**
+ * FunName: reValue
+ * Description: 根据选定的记录，返回代码和名称给MISD请求
+ * @author lf  2008-12-08
+ * @return DM+MC
+ */
+var flag = true;
+function reValue(dm,mc){
+	flag = false;
+	/*
+	var records = window.dialogArguments;
+    var result= new Array();
+	result["value"]=dm;
+	result["mcvalue"]=mc;
+	result["clickField"]=records["clickField"];
+	result["mcField"]=records["mcField"];
+	window.returnValue = result;
+	window.close();
+	*/
+	window.parent.reValue(dm,mc);
+}
+
+/*
+//重置
+function reload(){
+	document.location.href = document.getElementById('ListForm').action;
+}*/
+
+// 清空输入
+function clearInput(){
+	document.getElementById("searchInput").value="";
+}
+function init(){
+    var records = window.dialogArguments;
+    //alet(records["typeid"]);
+}
+function closewin(){
+	if(flag){
+		window.returnValue = null;
+	}
+}
+//-->
+</script>
+</head>
+ <body onLoad="//init()" onUnload="closewin()" >
+<form id="ListForm" name="ListForm" action="query.htm" method="post" >
+<input type="hidden" name="id" value="" />
+<input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+<input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+<input type="hidden" id="order" name="order" value="$!{page.order}" />
+<input type="hidden" id="typeid" name="typeid" value="" />
+<input type="hidden" id="dictName" name="dictName" value="$!{dictName}" />
+<input type="hidden" id="condition" name="condition" value="$!{condition}" />
+#messages()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+<!--表格顶部开始-->
+ <tr>
+    <td height="30">
+      <!--圆角表格头开始-->
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="30" class="TableHeadLeft"></td>
+        <td class="TableHeader">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="46%" valign="middle">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+              <tr>
+                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                <td width="35%"><b>信息查询</b></td>
+                <td width="55%" align="right">
+	             <input type="button" name="zdsearch" value="查  询" style="width:60" class="SmallButton02" onClick="search()"/>
+	             <input type="button" name="zdreset" value="重  置" Style="width:60" Class="SmallButton02" onClick="clearInput()"/>
+	             <input type="reset" name="zdclear" value="清空字典项" style="width:70" class="SmallButton02" onClick="reValue('','')"/>
+				</td>
+              </tr>
+            </table>
+			</td>
+          </tr>
+        </table>
+		</td>
+        <td width="16" class="TableHeadRight"></td>
+      </tr>
+    </table>
+	 <!--圆角表格头结束-->
+	</td>
+ </tr>
+<!--表格顶部结束-->
+
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td>
+        <!--业务表格区域开始-->
+        	<!--过滤条件开始-->
+	 	<table style="width:100%"  align="center" class="TableBlock1" >
+	 	<tr height="18">
+	 	<td align="right" class="TableContent" style="width: 10%;">搜索条件</td>
+	 	<td align="left" class="TableData" style="width: 65%;" >
+	 	<textarea id="searchInput" name="otherCondition" style="width:98%" class="SmallInput" >$!{otherCondition}</textarea>
+	 	☆汉字模糊或拼音首字母
+	 	</td>
+	 	</tr>
+	 	</table>
+			<!--过滤条件结束-->
+	 	<br>
+	 	<!-- 第七个表格开始 -->
+        <table style="width:100%" align="center" class="TableBlock1" >
+        <tr align="center">
+        	<td width="3%" class="TableHeader1">代码</td>
+        	<td width="10%" class="TableHeader1">名称</td>
+       	</tr>
+       	#foreach($e in $page.result)
+            <tr>
+            <td class="TableData" align="left">$!{e.DM}</td>
+            <td class="TableData" align="left">
+            <a href="#" onClick="reValue('$!{e.DM}','$!{e.MC}');">$!{e.MC}</a>
+            </td>
+            </tr>
+        #end
+	 	<tr>
+	 	<td colspan="3" height="22" class="TableData" align="center">
+	 	☆点击记录中“名称”可关联到登记表中
+	 	</td>
+	 	</tr>
+	 	</table>
+		<!--业务表格区域结束-->
+      </td>
+        <td width="8" class="TableRight"></td>
+	   </tr>
+	   </table>
+	</td>
+ </tr>
+ 
+<!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+          <tr>
+            <td>&nbsp;&nbsp;共有$!{page.totalCount}条记录，当前第 $!{page.pageNo}/$!{page.totalPages}页</td>
+            <td>$!{page.pageBar}</td>
+          </tr>
+        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+      </tr>     
+    </table>
+    <!--圆角表格头结束-->
+    </td>
+ </tr>
+<!--表格底部结束-->    
+
+ </table>
+</form>
+</body>
+</html>

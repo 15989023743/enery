@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>商品分类/品名</title>
+<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+<!-- 共通head区域标签 end-->
+<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../resources/style/theme/1/style.css" />
+	<link href="#ctx()/resources/article/template.css"  rel="stylesheet" type="text/css"/>
+<!-- 页面JS函数编写 begin -->
+<script language="JavaScript">
+
+	jQuery(function(){
+		refreshTree();
+		jQuery("#item_info").load(function(){
+       		var height=window.frames[jQuery(this).attr("name")].document.body.scrollHeight+15;
+       		jQuery(this).css("height",height+"px");
+   		});
+   		
+   		#if($!{request.getParameter('id')})
+   		jQuery("input[name^='attrValue']").click(function(){
+   			var attrValue=jQuery(this);
+   			var itemId=jQuery("#id").val();
+   			var attrId=(attrValue.attr("id").split("_")[1]);
+   			var valueId=(attrValue.attr("id").split("_")[2]);
+   			var isBind=false;
+   			if(!attrValue.is(":checked")){
+   				isBind=true;
+   			}
+   			jQuery.post("../goodsItemAttrValue/goods_attr_value_bind.htm",{"itemId":itemId,"attrId":attrId,"valueId":valueId,"isBind":isBind},function(result){
+   				if(result=="1"||result=="2"){
+   					alert("操作失败");
+   					if(attrValue.is(":checked")){
+   						attrValue.removeAttr("checked");
+   					}else{
+   						attrValue.attr("checked","checked");
+   					}
+   				}
+   			},"text");
+   		});
+   		#end
+   		
+   		
+   		/* #if($!{request.getParameter('parentId')})
+   		jQuery("#item_info").load(function(){
+   			$("#reflashButton",window.parent.document).val("$!{request.getParameter('parentId')}").click();
+   		});eval('window.parent.' + functionName + '()');
+		#end */
+		
+	});
+	
+	
+	function refreshTree(){
+		#if($!{request.getParameter("parentId")})
+		//window.parent.document.initTree()
+		$("#reflashButton",window.parent.document).val("$!{request.getParameter('parentId')}").click();
+		#end
+	}
+	
+	function gotoAddSelfAttr(gid){
+		window.location.href="../goodAttr/create.htm?goodsItemId="+gid+"&REQUEST_ENCODED_CURRENT_PATH="+jQuery("input[name='PARAMETER_RETURN_PATH']").val();
+	}
+
+</script>
+<style>
+.TableBlock1{background-color:#EBF2FA !important;border-top:#83accf 1px solid !important; border-left:#83accf 1px solid !important;}
+.TableBlock1 td{border-bottom:#83accf 1px solid !important; border-right:#83accf 1px solid !important;}
+.TableData{background-color:white !important;}
+.TableHeader1{background-image: url("/resources/style/theme/1/bg.gif")}
+</style>
+</head>
+<body class="bodycolor" style="margin-top: 2px">
+#messages()
+#macro(goodsAttrValuesCategory $attrs $attrValues $type)
+
+	#foreach($!attr in $!{attrs})
+	<tr height="30">
+		<td align="center" class="TableData">$!{attr.name}</td>
+		<td class="TableData"> 
+			#foreach($!attrVal in $!{attrValues.get($!attr.id)})
+				<input type="checkbox" name="$!{type}_$!{attr.id}" #itemAttrValueSelect($!{request.getParameter('id')},$!{attr.id},$!{attrVal.id}) checked="checked" #end id="$!{type}_$!{attr.id}_$!{attrVal.id}"/><label for="$!{type}_$!{attr.id}_$!{attrVal.id}">$!{attrVal.MC}</label>
+			#end
+		</td>
+	</tr>
+	#end
+
+#end
+
+
+#macro(goodsAttrCategory $attrs)
+	#foreach($!attr in $!{attrs})
+		<tr>
+			<td class="TableData" align="center">$!{attr.name}</td>
+			<td class="TableData" align="center">
+                #dictProperty("$!{attr.type}","ZDY_DATA_TYPE")
+            </td>
+            <td class="TableData" align="center">
+                #dictProperty("$!{attr.inputType}","ZDY_INPUT_TYPE")
+            </td>
+            <td class="TableData" align="center">
+                $!{attr.dictName}
+            </td>
+		</tr>
+	#end
+#end
+
+#currentAndReturnPageUrl()
+ <table style="width:99%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>商品类目管理</b></td>
+		                <td width="55%" align="right">&nbsp;</td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+		<input type="hidden" id="id" value="$!{request.getParameter('id')}"/>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+			<fieldset ><legend>&nbsp; 类目信息 &nbsp;</legend>
+				#if($!{request.getParameter('option')}=='update')
+					#set($tempurl='update.htm')
+				#elseif($!{request.getParameter('option')}=='create')
+					#set($tempurl='create.htm')
+				#else
+					#set($tempurl='view.htm')
+				#end
+			
+				<iframe name="item_info" id="item_info" src="$!{tempurl}?$!{paramterStr}" style="width: 100%;height: auto" scrolling="auto" frameborder="0"></iframe>
+			
+			</fieldset>
+			
+			<fieldset ><legend>&nbsp; 类目属性 &nbsp;</legend>
+			#if($!{entity.leaf})
+			
+				<table width="100%"  class="TableBlock1" border="1" cellspacing="0" cellpadding="0">
+					<tr height="30">
+						<td width="200" class="TableHeader1" align="center">属性名称</td>
+						<td class="TableHeader1" align="center" >属性值</td>
+					</tr>
+					<tr><td align="center" colspan="2">公共属性↓</td></tr>
+					
+					#goodsAttrValuesCategory( $!{pubAttr},$!{attrValues}, "attrValuePub")
+					
+					<tr><td align="center" colspan="2">继承属性↓</td></tr>
+					
+					#goodsAttrValuesCategory( $!{parAttrs},$!{attrValues}, "attrValuePur")
+					
+					<tr><td align="center" colspan="2">私有属性↓</td></tr>
+					
+					#goodsAttrValuesCategory( $!{selfAttr},$!{attrValues}, "attrValueSelf")
+					
+					#if($!{entity})
+					<tr><td align="left" colspan="2">
+							<input type="button" onclick="gotoAddSelfAttr($!{request.getParameter('id')})" class="SmallButton" name="b_act_update" id="b_act_update" style="width:60;cursor: pointer;"  value="新增私有属性" />&nbsp;&nbsp;
+						</td></tr>
+						#end
+				</table>
+			
+			
+			#else
+			
+				<table width="100%"  class="TableBlock1" cellspacing="0" cellpadding="0">
+					<tr height="30">
+						<td width="25%" class="TableHeader1" align="center">属性名称</td>
+						<td width="25%" class="TableHeader1" align="center">属性类型</td>
+						<td width="25%" class="TableHeader1" align="center">输入方式</td>
+						<td width="25%" class="TableHeader1" align="center">字典名称</td>
+					</tr>
+					<tr><td align="center" colspan="4">公共属性↓</td></tr>
+					#goodsAttrCategory( $!{pubAttr})
+					<tr><td align="center" colspan="4">继承属性↓</td></tr>
+					#goodsAttrCategory( $!{parAttrs})
+					<tr><td align="center" colspan="4">私有属性↓</td></tr>
+					#goodsAttrCategory( $!{selfAttr})
+					
+					#if($!{entity})
+					<tr>
+						<td align="left" colspan="4"><input type="button" onclick="gotoAddSelfAttr($!{request.getParameter('id')})" class="SmallButton" name="b_act_update" id="b_act_update" style="width:60;cursor: pointer;"  value="新增私有属性" />&nbsp;&nbsp;</td>
+					</tr>
+					#end
+				</table>
+			
+			#end
+			
+			</fieldset>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</body>
+</html>

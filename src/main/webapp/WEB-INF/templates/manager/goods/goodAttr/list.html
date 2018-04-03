@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>属性管理</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/cssjs.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <link href="#ctx()/resources/article/template.css"  rel="stylesheet" type="text/css"/>
+    <!-- 页面JS函数编写 begin -->
+    <script src="#ctx()/resources/js/widgets/datePicker/WdatePicker.js"></script>
+    <script src="#ctx()/resources/js/jquery.shop.common.js"></script>
+    <script language="javascript">
+       /*  function ajax_update(id,fieldName,obj,val){
+            //var val=jQuery(obj).val();
+            jQuery.ajax({type:'POST',
+                url:'#ctx()/manager/product/product/product_ajax.htm',
+                data:{"id":id,"fieldName":fieldName,"value":val},
+                beforeSend:function(){
+
+                },
+                success:function(data){
+                    jQuery(obj).attr("src","#ctx()/resources/images/article/"+data+".png");
+                }
+            });
+        } */
+        
+        function changeEnabled(id,enable,obj){
+        jQuery.blockUI({message:'<p style="font-size: 16px;font-weight: bold;">正在执行，请稍候...</p>'});
+        	jQuery.post("changeEnable.htm",{"id":id,"enable":enable},function(result){
+        		if(result&&result=="true"){
+        			//jQuery(obj).removeAttr("onclick");
+        			var parent=jQuery(obj).parent();
+        			if(enable){
+        				jQuery(obj).remove();
+        				//jQuery(obj).text("停用");
+        				//jQuery(obj).replaceWith('<a href="javascript:void(0);" onclick="changeEnabled('+id+',false,this);">启用</a>');
+        				//jQuery(obj).attr("onclick","changeEnabled('"+id+"',false,this)");
+        				parent.append('<a href="javascript:void(0);" onclick="changeEnabled('+id+',false,this);">停用</a>');
+        			}else{
+        				jQuery(obj).remove();
+        				//jQuery(obj).replaceWith('<a href="javascript:void(0);" onclick="changeEnabled('+id+',true,this);">启用</a>');
+        				//jQuery(obj).text("启用");
+        				/* 
+        				jQuery(obj).attr("onclick","changeEnabled('"+id+"',true,this)"); */
+        				parent.append('<a href="javascript:void(0);" onclick="changeEnabled('+id+',true,this);">启用</a>');
+        			}
+        		}
+        		jQuery.unblockUI();
+        	},"text");
+        }
+    </script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="ListForm" name="ListForm" action="#ctx()/manager/goods/goodAttr/list.htm" method="post" >
+    <input type="hidden" id="entityid" name="id" value="" />
+    <input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+    <input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+    <input type="hidden" id="order" name="order" value="$!{page.order}" />
+    #currentAndReturnPageUrl()
+    #backPageUrl()
+    #messages()
+    <table style="width:98%" align="center" cellspacing="0" cellpadding="0">
+        <!--表格顶部开始-->
+        <tr>
+            <td height="30">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="30" class="TableHeadLeft"></td>
+                        <td class="TableHeader">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="46%" valign="middle">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                            <tr>
+                                                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                                                <td width="35%"><b>#navigation("属性管理")</b></td>
+                                                <td width="55%" align="right">&nbsp;&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableHeadRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格顶部开始-->
+
+        <tr>
+            <td height="18">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="8" class="TableLeft"></td>
+                        <td>
+                            <!--业务表格区域开始-->
+                            <!--过滤条件开始-->
+                            <table style="width:100%" align="center" class="TableBlock1" >
+                                <tr style="display: none;">
+                                    <td class="TableHeader1" align="center" colspan="6">查询条件</td>
+                                </tr>
+                                <tr>
+                                    <td nowrap class="TableContent" width="12%" align="center">属性名称</td>
+                                    <td nowrap class="TableData" width="38%" ><input type="text" name="filter_LIKE_name" value="$!{request.getParameter('filter_LIKE_name')}"  class="SmallInput" style="width:97%" maxlength="30" size="30"/></td>
+                                    <!-- 这里没有产品分类  -->
+                                    <td nowrap class="TableContent" width="12%" align="center">数据类型</td>
+                                    <td nowrap class="TableData" width="38%" >
+                                    #dictSelect(
+                                     "filter_EQ_type",
+                                     "filter_EQ_type",
+                                     "$!{request.getParameter('filter_EQ_type')}",
+                                     "ZDY_DATA_TYPE",
+                                     "",
+                                     "Smallselect",
+                                     "",
+                                     "true",
+                                     "",
+                                     "")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td nowrap class="TableContent" width="12%" align="center">输入方式</td>
+                                    <td nowrap class="TableData" width="38%" >
+                                    #dictSelect(
+                                     "filter_EQ_inputType",
+                                     "filter_EQ_inputType",
+                                     "$!{request.getParameter('filter_EQ_inputType')}",
+                                     "ZDY_INPUT_TYPE",
+                                     "",
+                                     "Smallselect",
+                                     "",
+                                     "true",
+                                     "showDictSelect(this.value,'$!{entity.inputType}')",
+                                     "")
+                                    <!-- 这里没有产品分类  -->
+                                    <td nowrap class="TableContent" width="12%" align="center">类别</td>
+                                    <td nowrap class="TableData" width="38%" >
+                                    #dictSelect(
+                                      "filter_EQ_category",
+                                      "filter_EQ_category",
+                                      "$!{request.getParameter('filter_EQ_category')}",
+                                      "ZDY_GOODS_CATEGORY",
+                                      "",
+                                      "Smallselect",
+                                      "",
+                                      "true",
+                                      "",
+                                      "")
+                                    </td>
+                                </tr>
+                                <!-- 到这里  -->
+<!--                                <tr>
+                                    <td nowrap class="TableContent" align="center"><span>发布时间起止日期:从</span></td>
+                                    <td nowrap class="TableContent" align="left"><input id="startTime1"  name="filter_GT_onLineTime" value="$!{request.getParameter('filter_GT_onLineTime')}" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" size="12" style="height: 22px;"/>
+                                        到
+                                        <input id="endTime1" name="filter_LT_onLineTime" value="$!{request.getParameter('filter_LT_onLineTime')}" type="text" onclick="WdatePicker({minDate:'#F{$dp.$D(\'$!startTime1\')}'})" readonly="readonly" size="12" style="height: 22px;"/>
+                                    </td>
+                                    <td nowrap class="TableContent" align="center"><span>下线时间起止日期:从</span></td>
+                                    <td nowrap class="TableContent" align="left"><input id="startTime1"  name="filter_GT_offLineTime" value="$!{request.getParameter('filter_GT_offLineTime')}" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" size="12" style="height: 22px;"/>
+                                        到
+                                        <input id="endTime1" name="filter_LT_offLineTime" value="$!{request.getParameter('filter_LT_offLineTime')}" type="text" onclick="WdatePicker({minDate:'#F{$dp.$D(\'$!startTime1\')}'})" readonly="readonly" size="12" style="height: 22px;"/>
+                                    </td>
+                                </tr>-->
+                                <tr>
+                                    <td align="center" class="TableContent" colspan="6">
+                                        <input type="button" class="SmallButton" name="b_act_query" onclick="search()" value="查&nbsp;&nbsp;询" style="width:60" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="button" class="SmallButton" name="b_act_clear" onclick="reload()" value="重&nbsp;&nbsp;置" style="width:60" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                         <input type="button" class="SmallButton" name="b_act_new" onclick="create()" value="新&nbsp;&nbsp;增" style="width:60" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--过滤条件结束-->
+                            <br/>
+                            <table style="width:100%" align="center" class="TableBlock1" onmousemove="changeto()" onmouseout="changeback()">
+                                <tr align="center">
+                                    <td width="3%" class="TableHeader1">序号</td>
+                                    <!-- <td width="3%" class="TableHeader1">&nbsp;</td> -->
+                                    <!-- 这里不需要排序 
+									<td width="5%" class="TableHeader1"><a href="#" onclick="sort('sequence')">排序</a></td>
+									-->
+		
+                                    <td width="8%" class="TableHeader1"><a href="#" onclick="sort('name')">属性名称</a></td>
+                                    <td width="12%" class="TableHeader1"><a href="#" onclick="sort('goodsItem.name')">所属类目</a></td>
+                                    <td width="8%" class="TableHeader1"><a href="#" onclick="sort('category')">类别</a></td>
+                                    <td width="12%" class="TableHeader1"><a href="#" onclick="sort('type')">属性类型</a></td>
+                                    <td width="12%" class="TableHeader1"><a href="#" onclick="sort('inputType')">输入方式</a></td>
+                                    <td width="12%" class="TableHeader1"><a href="#" onclick="sort('dictName')">字典名称</a></td>
+                               <!--      <td style="display: none;" width="3%" class="TableHeader1"><a href="#" onclick="sort('recommended')">推荐</a></td> -->
+                                    <td width="8%" class="TableHeader1" colspan="2"><a href="#" onclick="sort('id')">操作</a></td>
+                                </tr>
+                                <tbody id="bbsTab">
+                                #foreach( $entity in $page.result)
+                                <tr>
+                                    <td class="TableData" align="center">#getNo($velocityCount)</td>
+                                    <!--  
+                                    <td class="TableData" align="center"><input name="checkbox" type="checkbox" id="checkbox" value="$!{entity.id}" /> </td>
+                                    -->
+                                    <!-- sequence 
+                                    <td class="TableData" align="center">$!{entity.sequence}</td>
+                                    -->
+                                    <td class="TableData" align="left">$!{entity.name}</td>
+                                    <td class="TableData" align="left">$!{entity.goodsItem.name}</td>
+                                    <td class="TableData" align="left">#dictProperty("$!{entity.category}","ZDY_GOODS_CATEGORY")</td>
+                                    <td class="TableData" align="left">
+                                        #dictProperty("$!{entity.type}","ZDY_DATA_TYPE")
+                                    </td>
+                                    <td class="TableData" align="left">
+                                        #dictProperty("$!{entity.inputType}","ZDY_INPUT_TYPE")
+                                    </td>
+                                    <td class="TableData" align="left">
+                                        $!{entity.dictName}#if($!{dictMap.get($!{entity.dictName}).getZDLBMC()})($!{dictMap.get($!{entity.dictName}).getZDLBMC()})#end
+                                    </td>
+                                    <td class="TableData" align="center">
+                                    #permission("update")
+                                        <a href="#" onclick="update('$!{entity.id}')" >修改</a>
+                                    #end
+                                    </td>
+                                    <td class="TableData" align="center">
+                                    	#if($!{entity.enabled})
+                                    	<a href="javascript:void(0);" onclick="changeEnabled('$!{entity.id}',false,this);">停用</a>
+                                    	#else
+                                    	<a href="javascript:void(0);" onclick="changeEnabled('$!{entity.id}',true,this);">启用</a>
+                                    	#end
+                                    </td>
+                                </tr>
+                                #end
+                                </tbody>
+<!--                                <tr>
+                                    <td width="3%">&nbsp;</td>
+                                    <td align="center"><input type="checkbox" name="all" id="all" onclick="selectAll(this)" value="" /></td>
+                                    <td colspan="13"><span class="allevel"><label for="all">全部</label></span><span class="shop_btn_del">
+                                      <input name="" class="SmallButton" type="button" value="显示" style="cursor:pointer;" onclick="cmd('#ctx()/manager/productManage/productManage/product_manage_display.htm')"/>
+                                      <input name="" class="SmallButton"  type="button" value="推荐" style="cursor:pointer; display: none;" onclick="cmd('#ctx()/manager/productManage/productManage/product_manage_recommended.htm')"/>
+                                      <input name="" class="SmallButton"  type="button" value="发布" style="cursor:pointer;" onclick="cmd('#ctx()/manager/productManage/productManage/product_manage_auditStatus.htm')"/>
+                                       <input name="" class="SmallButton"  type="button" value="不显示" style="cursor:pointer;" onclick="cmd('#ctx()/manager/productManage/productManage/product_manage_display_NO.htm')"/>
+                                      <input name="" class="SmallButton"  type="button" value="不推荐" style="cursor:pointer;display: none;" onclick="cmd('#ctx()/manager/productManage/productManage/product_manage_recommended_NO.htm')"/>
+                                      <input name="" class="SmallButton"  type="button" value="不发布" style="cursor:pointer;" onclick="cmd('#ctx()/manager/productManage/productManage/product_manage_auditStatus_NO.htm')"/>
+                                      <input name="" class="SmallButton"  type="button" value="退回" style="cursor:pointer;display: none;" onclick="cmd('#ctx()/manager/productManage/productManage/product_manage_return.htm')"/>
+                                      <input name="" class="SmallButton"  type="button" value="删除" style="cursor:pointer;" onclick="cmd('#ctx()/manager/productManage/productManage/product_managedel.htm')"/>
+                                      </span></td>
+                                </tr>-->
+                            </table>
+                            <!--业务表格区域结束-->
+                        </td>
+                        <td width="8" class="TableRight"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!--表格底部开始-->
+        <tr>
+            <td height="35">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="35" class="TableFooterLeft"></td>
+                        <td class="TableFooter">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                <tr>
+                                    <td>&nbsp;&nbsp;共有$!{page.totalCount}条记录，当前第 $!{page.pageNo}/$!{page.totalPages}页</td>
+                                    <td>$!{page.pageBar}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableFooterRight"></td>
+                        <input name="mulitId" type="hidden" id="mulitId" />
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格底部结束-->
+
+    </table>
+</form>
+</body>
+</html>

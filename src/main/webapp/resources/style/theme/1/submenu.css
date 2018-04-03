@@ -1,0 +1,66 @@
+body {
+	margin:0;
+	padding:0;
+	font: bold 12px 宋体;
+}
+
+h2 {
+	font: 12px 宋体;
+	color: #000000;
+	margin: 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+img {
+border: none;
+}
+
+/*- Menu Tabs 1--------------------------- */
+
+
+#tabs1 {
+  float:left;
+  width:100%;
+  font-size:100%;
+  BACKGROUND: url(submenu_bg.jpg) #F4F7FB repeat-x 50% bottom;
+  }
+#tabs1 ul {
+	  margin:0;
+	  padding:5px 5px 0 5px;
+	  list-style:none;
+  }
+#tabs1 li {
+  display:inline;
+  margin:0;
+  padding:0;
+  }
+#tabs1 a:link,a:visited {
+  float:left;
+  background:url("tableft1.gif") no-repeat left top;
+  margin:0;
+  padding:0 0 0 4px;
+  text-decoration:none;
+  background-position:0% -42px;
+  }
+#tabs1 a:link span,a:visited span {
+  float:left;
+  display:block;
+  background:url("tabright1.gif") no-repeat right top;
+  padding:5px 8px 4px 5px;
+  color:#627EB7;
+  background-position:100% -42px;
+  cursor:hand;
+  }
+#tabs1 a:hover {
+  background-position:0% 0px;
+  }
+#tabs1 a:hover span {
+  background-position:100% 0px;
+  }
+
+#tabs1 a:link.active,  a:hover.active, a:active.active, a:visited.active {
+	  background-position:0% 0px;
+}
+#tabs1 a:link.active span,a:hover.active span,a:active.active span,a:visited.active span {
+	  background-position:100% 0px;PADDING-BOTTOM: 5px;
+}

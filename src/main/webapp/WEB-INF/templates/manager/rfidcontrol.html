@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>用户信息登记</title>
+<!-- 共通head区域标签 begin-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+#parse("/WEB-INF/templates/public/meta.html")
+#parse("/WEB-INF/templates/public/cssjs.html")
+<!-- 共通head区域标签 end-->
+<!-- 外部CSS样式表以及JS引入 begin-->
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/menu/menu.css" />
+<!-- 页面JS函数编写 begin -->
+<script>
+function rfid_open(){
+	rfidWebView1.open();
+	document.getElementById("rfid_open").disabled = true;
+	document.getElementById("rfid_close").disabled = false;
+	document.getElementById("rfid_start").disabled = false;
+	document.getElementById("rfid_stop").disabled = true;
+}
+function rfid_close(){
+	rfidWebView1.close();
+	document.getElementById("rfid_open").disabled = false;
+	document.getElementById("rfid_close").disabled = true;
+	document.getElementById("rfid_start").disabled = true;
+	document.getElementById("rfid_stop").disabled = true;
+}
+function rfid_start(){
+	rfidWebView1.start();
+	document.getElementById("rfid_start").disabled = true;
+	document.getElementById("rfid_stop").disabled = false;
+}
+function rfid_stop(){
+	rfidWebView1.stop();
+	document.getElementById("rfid_start").disabled = false;
+	document.getElementById("rfid_stop").disabled = true;
+}
+function init(){
+	document.getElementById("rfid_open").disabled = false;
+	document.getElementById("rfid_close").disabled = true;
+	document.getElementById("rfid_start").disabled = true;
+	document.getElementById("rfid_stop").disabled = true;
+}
+
+function acceptData(antenna,id){
+	//rfidWebView1.powerOff();
+	//alert("天线："+antenna+";ID："+id);
+	document.getElementById("rdif_data").innerHTML="TID"+"("+antenna+"#):"+id;
+	//rfidWebView1.powerOn();
+}
+</script>
+</head>
+<body onload="init()">
+<object id="rfidWebView1" classid='clsid:37816b5f-9364-4657-81e7-9e125f593a09' 
+		Width="0" Height="0" codebase="ActiveX/setup.exe"></object>
+<table border="0" cellspacing='0' cellpadding='0' style='height:50;width:168' valign="top" align="center">
+   <tr>
+   <td align="center" style='width:25%;'><input style="display: block" class="SmallButton" onclick="rfid_open()" type="button" name="rfid_open" id="rfid_open" title="连接" value="连接" /></td>
+   <td align="center" style='width:25%;'><input style="display: block" class="SmallButton" onclick="rfid_close()" type="button" name="rfid_close" id="rfid_close" title="断开" value="断开" /></td>
+   <td align="center" style='width:25%;'><input style="display: block" class="SmallButton" onclick="rfid_start()" type="button" name="rfid_start" id="rfid_start" title="读卡" value="读卡" /></td>
+   <td align="center" style='width:25%;'><input style="display: block" class="SmallButton" onclick="rfid_stop()" type="button" name="rfid_stop" id="rfid_stop" title="停止" value="停止" /></td>
+   </tr>
+   <tr><td colspan="4" align="left" style='width:100%;'><span style="width:100%;color: red;" id="rdif_data">&nbsp;</span></td></tr>
+</table>
+</body>
+</html>

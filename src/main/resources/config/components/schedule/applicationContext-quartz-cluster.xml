@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	default-lazy-init="true">
+
+	<description>Quartz的定时集群任务配置</description>
+	<!-- 调度工厂 -->
+	<bean id="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	    <property name="dataSource" ref="dataSource" /><!-- 保存Job数据到数据库所需的带事务数据源 -->
+	    <!--  quartz配置文件路径-->
+		<property name="configLocation" value="classpath:config/components/schedule/quartz-cluster.properties" />
+		<!--  
+		<util:properties location="classpath:config/components/schedule/quartz-cluster.properties"/>
+	    <property name="quartzProperties">
+	        <props>
+	            <prop key="org.quartz.scheduler.instanceName">${org.quartz.scheduler.instanceName}</prop>
+	            <prop key="org.quartz.scheduler.instanceId">${org.quartz.scheduler.instanceId}</prop>
+	            <prop key="org.quartz.threadPool.class">${org.quartz.threadPool.class}</prop>
+	            <prop key="org.quartz.threadPool.threadCount">${org.quartz.threadPool.threadCount}</prop>
+	            <prop key="org.quartz.threadPool.threadPriority">${org.quartz.threadPool.threadPriority}</prop>
+	            <prop key="org.quartz.jobStore.class">${org.quartz.jobStore.class}</prop>
+	            <prop key="org.quartz.jobStore.isClustered">${org.quartz.jobStore.isClustered}</prop>
+	            <prop key="org.quartz.jobStore.clusterCheckinInterval">${org.quartz.jobStore.clusterCheckinInterval}</prop>
+	            <prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">${org.quartz.jobStore.maxMisfiresToHandleAtATime}</prop>
+	            <prop key="org.quartz.jobStore.misfireThreshold">${org.quartz.jobStore.misfireThreshold}</prop>
+	            <prop key="org.quartz.jobStore.tablePrefix">${org.quartz.jobStore.tablePrefix}</prop>
+	        </props>
+	    </property>
+		-->
+		
+	    <property name="schedulerName" value="ClusteredScheduler" />
+	
+	    <!--必须的，QuartzScheduler 延时启动，应用启动完后 QuartzScheduler 再启动 -->
+	    <property name="startupDelay" value="10" />
+	
+	    <property name="applicationContextSchedulerContextKey" value="applicationContextKey" />
+	
+	    <!--可选，QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了 -->
+	    <property name="overwriteExistingJobs" value="true" />
+		
+		<!--可选，  -->
+		<property name="exposeSchedulerInRepository" value="true"></property>
+		
+		<property name="waitForJobsToCompleteOnShutdown" value="false"></property>
+		
+	    <!-- 设置自动启动 -->
+	    <property name="autoStartup" value="true" />
+	
+	    <!-- 注册触发器--> 
+	    <property name="triggers">
+	        <list>
+				<ref bean="reportCronTrigger" />
+	        </list>
+	    </property>
+	
+	    <!-- 注册jobDetail -->
+	    <property name="jobDetails">
+	        <list>
+	        	<ref bean="reportJobDetail"/>
+	        </list>
+	    </property>
+		<!-- 
+	    <property name="schedulerListeners">
+	        <list>
+	            <ref bean="quartzExceptionSchedulerListener" />
+	        </list>
+	    </property>
+	     -->
+	</bean>
+	<bean id="reportCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   
+		<property name="jobDetail" ref="reportJobDetail" />   
+		<property name="cronExpression">
+            <value>0/0 12 * * * ?</value>
+		</property>
+	</bean>
+	 
+	<!-- 
+	<context:property-placeholder location="classpath*:/filterChar.properties" ignore-unresolvable="true"/>
+	 -->
+	<!-- Timer JobDetail, 基于JobDetailBean实例化Job Class,可持久化到数据库实现集群--> 
+	<bean name="reportJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.gdwz.crawler.Crawler" />
+		<property name="durability" value="true" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobs">
+					<list>
+                        <bean class="com.gdwz.crawler.JobProperties">
+                            <property name="url" value="http://www.yuzhuprice.com/data/index/exponent_chart_day.txt"></property>
+                            <property name="jobFilePath" value="crawler/"></property>
+                            <property name="jobFileName" value="mcjgzszst.html"></property>
+                            <property name="description" value="木材价格指数走势图"></property>
+                            <property name="outFormat" value="text"></property>
+                        </bean>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!-- 
+	<bean id="testCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   
+		<property name="jobDetail" ref="jobTest" />   
+		<property name="cronExpression">
+            <value>0/30 * * * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="jobTest" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.gdwz.system.web.controller.manager.schedule.JobTest" />
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	 -->
+</beans>

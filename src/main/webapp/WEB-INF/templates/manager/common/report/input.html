@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>报表信息修改</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+	<script type='text/javascript' src='#ctx()/dwr/util.js'></script>
+	<!-- 共通head区域标签 begin-->
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../../resources/style/theme/1/style.css" />
+<!-- 页面JS函数编写 begin -->
+	<script>
+	$(function(){
+	    $("input[name=name]").focus().addClass("required").attr("remote", "checkName.htm?orgName="+encodeURIComponent('$!{entity.name}'));
+		$("input[name=title]").addClass("required");
+		$.validator.messages["remote"] = "名称已经存在";
+	});
+	
+	function reloadmeta(selectValue){
+	    	document.location.href="create.htm?metadataid="+selectValue+"&REQUEST_ENCODED_CURRENT_PATH=$!{REQUEST_ENCODED_CURRENT_PATH}";
+	}
+	
+	function showDictSelect(value,obj){
+		if(value==2||value==3||value==4){
+			document.getElementById("dictNamemc"+obj).style.display="";
+			document.getElementById("dictNameid"+obj).style.display="";
+			document.getElementById("but"+obj).style.display="";
+			$("#dictNamemc"+obj).addClass("required");
+		}else{
+			document.getElementById("dictNamemc"+obj).style.display="none";
+			document.getElementById("dictNameid"+obj).style.display="none";
+			document.getElementById("but"+obj).style.display="none";
+			$("#dictNamemc"+obj).removeClass("required");
+		}
+	}
+	
+	var count=$!{reportParameterSize};
+	function addPar(){
+		var id = ++count;
+		dwr.util.cloneNode("listPattern", { idSuffix:id});
+	    dwr.util.setValue("no" + id, id);
+	    dwr.util.setValue("id" + id, id);
+		document.getElementById("id" + id).setAttribute('name', "parids");
+		
+	    dwr.util.setValue("name" + id, "");
+		document.getElementById("name" + id).setAttribute('name', id+"_name");
+		$("#name" + id).addClass("required");
+		
+		dwr.util.setValue("column" + id, "");
+		document.getElementById("column" + id).setAttribute('name', id+"_column");
+		$("#column" + id).addClass("required");
+		
+		dwr.util.setValue("promptText" + id, "");
+		document.getElementById("promptText" + id).setAttribute('name', id+"_promptText");
+		
+		dwr.util.setValue("matchType" + id, "");
+		document.getElementById("matchType" + id).setAttribute('name', id+"_matchType");
+		$("#matchType" + id).addClass("required");
+		
+		dwr.util.setValue("enterType" + id, "");
+		document.getElementById("enterType" + id).setAttribute('name', id+"_enterType");
+		$("#enterType" + id).addClass("required");
+		
+		document.getElementById("enterType" + id).onchange=function(){showDictSelect(this.value,""+id);};
+		document.getElementById("dictNamemc" + id).setAttribute('name', id+"_dictNamemc");
+		document.getElementById("dictNameid" + id).setAttribute('name', id+"_dictName");
+		document.getElementById("but" + id).onclick=function(){dictListOnClick("dictNameid"+id,"dictNamemc"+id,"DICT_CONFIG","");};
+	    $("#listPattern" + id).css({'display':''});
+	}
+	
+    function deleteCurrentRow(obj){
+           if(confirm("确定要删除该参数吗？")){
+	        	var tr=obj.parentNode.parentNode;
+	        	var tbody=tr.parentNode; 
+	        	tbody.removeChild(tr);
+            }
+     }
+	</script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/common/report/save.htm" method="post" class="validate">
+<input type="hidden" name="id" value="$!{entity.id}" />
+<input type="hidden" name="metaName" value="$!{entity.metaName}" />
+<input type="hidden" name="procedure" value="$!{entity.procedure}" />
+#backPageUrl()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>#navigation("报表")#if(!$!entity.id)创建#else修改#end</b></td>
+		                <td width="55%" align="right">
+		                	#permission("save")
+			                <input type="submit" class="SmallButton" name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+			                #end
+			                <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">元数据</td>
+					<td width="40%" align="left" class="TableData" colspan="3" >
+					#dictSelect(
+						"metadataid",
+						"metadataid",
+						"$!{entity.metadataid}",
+						"METADATA",
+						"",
+						"Smallselect",
+						"",
+						"true",
+						"reloadmeta(this.value)",
+						"")
+					</td>
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">名称</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="name" value="$!{entity.name}" class="SmallInput"  style="width:80%"  maxlength="60" /></td>			                       
+					<td width="10%" align="right" class="TableContent">标题</td>
+					<td width="40%" align="left" class="TableData"><input type="text" name="title" value="$!{entity.title}" class="SmallInput"  style="width:70%"  maxlength="200" /><label>显示标题</label><input onclick="$('#showTitleid').val(checked)" #if($!entity.showTitle) checked #end  type='checkbox'  /><input type="hidden" id="showTitleid" name="showTitle" value="$!{entity.showTitle}"/></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+	#if($!metadata)
+		  <fieldset ><legend>&nbsp;列信息&nbsp;</legend>
+		  <table style="width:100%" align="center" class="TableBlock1" border="1">
+		  	<tr align="center">
+		  	<td class="TableHeader1">序号</td>
+		  	<td class="TableHeader1">选择</td>
+		  	<td class="TableHeader1">字段名称</td>
+			<td class="TableHeader1">列表头名称</td>
+		  	<td class="TableHeader1">数据类型</td>
+		  	<td class="TableHeader1">类型名称</td>
+		  	<td class="TableHeader1">类型(java类)名称</td>
+			<td class="TableHeader1">大小</td>
+			<td class="TableHeader1">精确</td>
+			<td class="TableHeader1">可为空</td>
+		  	</tr>
+			#foreach( $e in $metadata.columns)
+		  	<tr>
+			  	<td class="TableData" >${velocityCount}</td>
+			  	<td class="TableData" ><input #if($!e.selected) checked #end  type="checkbox" name="colids" value="${e.id}" /></td>
+			  	<td class="TableData" ><input readonly="" name="$!{e.id}_columnName" value="$!{e.columnName}" /> </td>
+				<td class="TableData" ><input name="$!{e.id}_head" value="$!{e.remarks}" /> </td>
+				<td class="TableData" >$!{e.columnType}</td>
+				<td class="TableData" >$!{e.columnTypeName}</td>
+				<td class="TableData" >$!{e.columnClassName}</td>
+				<td class="TableData" >$!{e.columnDisplaySize}</td>
+				<td class="TableData" >$!{e.precision}</td>
+				<td class="TableData" >$!{e.nullable}</td>
+		  	</tr>
+		  	#end
+		  </table>
+		  </fieldset>
+		  #if($!metadata.typeName.equals("存储过程"))
+		  <fieldset ><legend>&nbsp;参数信息&nbsp;</legend>
+		  <table style="width:100%" align="center" class="TableBlock1" border="1">
+		  	<tr align="center">
+		  	<td width="4%" class="TableHeader1">序号</td>
+		  	<td width="8%" class="TableHeader1">名称</td>
+			<td width="12%" class="TableHeader1">参数名称提示</td>
+		  	<td width="4%" class="TableHeader1">类型</td>
+		  	<td width="6%" class="TableHeader1">类型名称</td>
+			<td width="22%" class="TableHeader1">输入方式</td>
+			<td width="30%" class="TableHeader1">数据字典</td>
+		  	</tr>
+			#foreach( $e in $metadata.procedureParameterColumns)
+		  	<tr>
+			  	<td class="TableData" >${velocityCount}<input type="hidden" name="parids" value="$!{e.id}" /></td>
+			  	<td class="TableData" >$!{e.COLUMN_NAME}</td>
+				<td class="TableData" ><input style="width:80px;" name="$!{e.id}_promptText" value="$!{e.REMARKS}" /> </td>
+			  	<td class="TableData" >$!{e.COLUMN_TYPE}</td>
+				<td class="TableData" >$!{e.TYPE_NAME}</td>
+				<td class="TableData" >
+				#if($!e.COLUMN_TYPE==1)
+				<select name="$!{e.id}_enterType" id="$!{e.id}_enterTypeid" class="required smallselect" onchange="showDictSelect(this.value,'$!{e.id}')">
+				<option value=""></option>
+				<option value="1" #if($e.enterType.equals("1")) selected="selected" #end>人工输入</option>
+				<option value="2" #if($e.enterType.equals("2")) selected="selected" #end>数据字典选择(select)</option>
+				<option value="3" #if($e.enterType.equals("3")) selected="selected" #end>数据字典选择(list)</option>
+				<option value="4" #if($e.enterType.equals("4")) selected="selected" #end>数据字典选择(tree)</option>
+				<option value="5" #if($e.enterType.equals("5")) selected="selected" #end>日期选择(yyyy/MM/dd)</option>
+				<option value="6" #if($e.enterType.equals("6")) selected="selected" #end>日期选择(yyyy/MM/dd HH:mm)</option>
+				<option value="7" #if($e.enterType.equals("7")) selected="selected" #end>日期选择(yyyy/MM/dd HH:mm:ss)</option>
+				</select>
+				#end
+				</td>
+				<td class="TableData" >
+<input type="text" name="$!{e.id}_dictNamemc"  value="$!{e.dictName}" id="dictNamemc$!{e.id}" class="SmallInput" style="width:180px;#if(!$!e.enterType||$!e.enterType==1||$!e.enterType==5||$!e.enterType==6||$!e.enterType==7) display:none; #end" title="请单击旁边的按钮进行选择"/>&nbsp;
+<input readonly="" type="button" id="but$!{e.id}" name="dictNameBut" value="选择字典" class="SmallButton" style="width:60px;#if(!$!e.enterType||$!e.enterType==1||$!e.enterType==5||$!e.enterType==6||$!e.enterType==7) display:none; #end" onclick='dictListOnClick("dictNameid$!{e.id}","dictNamemc$!{e.id}","DICT_CONFIG","")' TABINDEX="-1"><input type="hidden" name="$!{e.id}_dictName" value="$!{e.dictName}" id="dictNameid$!{e.id}" />
+				</td>
+		  	</tr>
+		  	#end
+		  </table>
+		  </fieldset>
+		#else
+		  <fieldset ><legend>&nbsp;参数信息&nbsp;</legend>
+		  <table style="width:100%" align="center" class="TableBlock1" border="1">
+		  	<tr align="center">
+		  	<td width="4%" class="TableHeader1">序号</td>
+			<td width="8%" class="TableHeader1">关联字段名称</td>
+		  	<td width="8%" class="TableHeader1">参数名称</td>
+			<td width="12%" class="TableHeader1">参数名称提示</td>
+			<td width="12%" class="TableHeader1">比较类型</td>
+			<td width="22%" class="TableHeader1">输入方式</td>
+			<td width="15%" class="TableHeader1">数据字典</td>
+			<td width="15%" class="TableHeader1"><input class="SmallButton"  type="button" onclick="addPar()" name="addpar" value="添加一个参数" /></td>
+		  	</tr>
+			#foreach( $e in $entity.reportParameters)
+		  	<tr align="center">
+			  	<td class="TableData" ><span id="no">${velocityCount}</span><input type="hidden" id="id" name="parids" value="${e.id}" /></td>
+				<td class="TableData" ><input style="width:60px;" id="column$!{e.id}" name="$!{e.id}_column" value="$!{e.column}" /> </td>
+			  	<td class="TableData" ><input style="width:60px;" id="name$!{e.id}" name="$!{e.id}_name" value="$!{e.name}" /> </td>
+				<td class="TableData" ><input style="width:80px;" id="promptText$!{e.id}" name="$!{e.id}_promptText" value="$!{e.promptText}" /> </td>
+				<td class="TableData" >$!{e.matchTypeValue}
+				<select name="$!{e.id}_matchType" id="$!{e.id}_matchType" class="required smallselect">
+					<option value=""></option>
+					<option value="EQ" #if($!e.matchTypeValue.equals("EQ")) selected="selected" #end>等于</option>
+					<option value="GE" #if($!e.matchTypeValue.equals("GE")) selected="selected" #end>大于或等于</option>
+					<option value="GT" #if($!e.matchTypeValue.equals("GT")) selected="selected" #end>大于</option>
+					<option value="ISNULL" #if($!e.matchTypeValue.equals("ISNULL")) selected="selected" #end>Null值</option>
+					<option value="LE" #if($!e.matchTypeValue.equals("LE")) selected="selected" #end>小于或等于</option>
+					<option value="LIKE" #if($!e.matchTypeValue.equals("LIKE")) selected="selected" #end>全文模糊like '%value%'</option>
+					<option value="LIKEL" #if($!e.matchTypeValue.equals("LIKEL")) selected="selected" #end>左边模糊like '%value'</option>
+					<option value="LIKER" #if($!e.matchTypeValue.equals("LIKER")) selected="selected" #end>右边模糊like 'value%'</option>
+					<option value="LT" #if($!e.matchTypeValue.equals("LT")) selected="selected" #end>小于</option>
+					<option value="NE" #if($!e.matchTypeValue.equals("NE")) selected="selected" #end>不等于</option>
+				</select>
+				</td>
+				<td class="TableData" >
+				<select name="$!{e.id}_enterType" id="$!{e.id}_enterTypeid" class="required smallselect" onchange="showDictSelect(this.value,'$!{e.id}')">
+				<option value=""></option>
+				<option value="1" #if($!e.enterType.equals("1")) selected="selected" #end>人工输入</option>
+				<option value="2" #if($!e.enterType.equals("2")) selected="selected" #end>数据字典选择(select)</option>
+				<option value="3" #if($!e.enterType.equals("3")) selected="selected" #end>数据字典选择(list)</option>
+				<option value="4" #if($!e.enterType.equals("4")) selected="selected" #end>数据字典选择(tree)</option>
+				<option value="5" #if($!e.enterType.equals("5")) selected="selected" #end>日期选择(yyyy/MM/dd)</option>
+				<option value="6" #if($!e.enterType.equals("6")) selected="selected" #end>日期选择(yyyy/MM/dd HH:mm)</option>
+				<option value="7" #if($!e.enterType.equals("7")) selected="selected" #end>日期选择(yyyy/MM/dd HH:mm:ss)</option>
+				</select>
+				</td>
+				<td class="TableData" colspan="2" >
+				<input type="text" id="dictNamemc$!{e.id}" name="dictNamemc"  value="$!{e.dictName}" class="SmallInput" style="width:100px;#if(!$!e.enterType||$!e.enterType==1||$!e.enterType==5||$!e.enterType==6||$!e.enterType==7) display:none; #end" title="请单击旁边的按钮进行选择"/>&nbsp;
+				<input readonly="" type="button" id="but$!{e.id}" name="dictNameBut" value="选择字典" class="SmallButton" style="width:60px;#if(!$!e.enterType||$!e.enterType==1||$!e.enterType==5||$!e.enterType==6||$!e.enterType==7) display:none; #end" onclick='dictListOnClick("dictNameid$!{e.id}","dictNamemc$!{e.id}","DICT_CONFIG","")' TABINDEX="-1"><input type="hidden" name="$!{e.id}_dictName" value="$!{e.dictName}" id="dictNameid$!{e.id}" />
+				<a href="#" onclick="deleteCurrentRow(this)">删除</a></td>
+		  	</tr>
+			#end
+			
+		  	<tr id="listPattern" style="display: none;" align="center">
+			  	<td class="TableData" ><span id="no"></span><input type="hidden" id="id" name="ids" value="" /></td>
+				<td class="TableData" >
+				<select name="matchType" id="column" class="smallselect">
+					<option value=""></option>
+				#foreach( $e in $metadata.columns)
+					<option value="$!{e.columnName}" >$!{e.columnName}</option>
+				#end
+				</select>
+				</td>
+			  	<td class="TableData" ><input style="width:60px;" id="name" name="names" value="" /> </td>
+				<td class="TableData" ><input style="width:80px;" id="promptText" name="promptTexts" value="" /> </td>
+				<td class="TableData" >
+					#dictSelect(
+						"matchType",
+						"matchType",
+						"$!{matchType}",
+						"ZDY_MatchType",
+						"",
+						"Smallselect",
+						"",
+						"true",
+						"",
+						"")
+				</td>
+				<td class="TableData" >
+				    #dictSelect(
+						"enterType",
+						"enterType",
+						"$!{enterType}",
+						"ZDY_ENTERTYPE",
+						"",
+						"Smallselect",
+						"",
+						"true",
+						"",
+						"")
+				</td>
+				<td class="TableData" colspan="2" >
+<input type="text" id="dictNamemc" name="dictNamemc"  value="" class="SmallInput" style="width:100px;display:none;" title="请单击旁边的按钮进行选择"/>&nbsp;
+<input readonly="" type="button" id="but" name="dictNameBut" value="选择字典" class="SmallButton" style="width:60px;display:none; " TABINDEX="-1"><input type="hidden" name="dictName" value="" id="dictNameid" />
+				<a href="#" onclick="deleteCurrentRow(this)">删除</a></td>
+		  	</tr>
+		  	
+		  </table>
+		  </fieldset>
+		#end
+		
+	#end
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+#errors($!{errors})
+</html>

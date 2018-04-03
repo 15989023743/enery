@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>交易参数管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/submenu.css"/>
+<script src="#ctx()/resources/js/menu.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id="tabs1">
+    <ul>
+    #foreach( $resource in $submenu)
+	    #if($velocityCount==1)
+			<li><a href="#" id="submenu_$!resource.id" onclick="submenulink('submenu_$!resource.id','$!resource.id','$!resource.executeObject','$!resource.type');" class="active"><span>$!resource.name</span></a></li>
+		    #set($first_menuid = $!resource.id)
+		    #set($first_url = $!resource.executeObject)
+		    #set($first_nodeurltype = $!resource.type)
+	    #else
+			<li><a href="#" id="submenu_$!resource.id" onclick="submenulink('submenu_$!resource.id','$!resource.id','$!resource.executeObject','$!resource.type');"><span>$!resource.name</span></a></li>
+	    #end
+    #end
+	</ul>
+</div>
+</body>
+</html>
+<script Language="JavaScript">
+//-------- 卡片点击链接相关页面 -------
+function submenulink(srcelement,menuid,url,nodeurltype)
+{
+  var targetid,srcelement,targetelement;
+  var strbuf;
+  targetelement=document.getElementById(srcelement);
+  targetelement.className="active";
+  SubMenuUrl(menuid,url,nodeurltype);
+  //parent.main.location.href=url;
+  var links=document.getElementsByTagName("A");
+  for (i=0; i<links.length; i++)
+  {
+	  temp_srcelement=links[i];
+	  if (temp_srcelement.id!=srcelement)
+	  {
+		  if (temp_srcelement.className=="active")
+		  {
+		     temp_srcelement.className="";
+			 break;
+		  }
+		     
+	  }
+  }
+}
+submenulink('submenu_$!first_menuid','$!first_menuid','$!first_url','$!first_nodeurltype');
+</script>

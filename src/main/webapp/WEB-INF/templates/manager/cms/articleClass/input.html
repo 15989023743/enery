@@ -1,0 +1,424 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>文章分类信息登记</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <script charset="utf-8" src="#ctx()/resources/js/widgets/kindeditor/kindeditor.js"></script>
+    <script language="JavaScript">
+
+
+        KindEditor.ready(function(K) {
+/*            var editor = K.editor({
+                allowFileManager : true,
+                uploadJson:'#ctx()/kindeditor_upload.htm?fileName=imgFile',
+                fileManagerJson:'#ctx()/file_manage.htm'
+            });*/
+            K('#selectImg').click(//选择图片的按钮
+                    function() {
+                        editor.loadPlugin('image', function() {
+                            editor.plugin.imageDialog({
+                                showRemote : false,
+                                imageUrl : K('#adImg').val(),//上传图片成功后，用来存放路径的文本框
+                                clickFn : function(url, title, width, height,
+                                                   border, align) {
+                                	/*
+                                    var contextPath = document.location.pathname;
+                                    var contextPath1 = "#ctx()";
+                                    //var index1 =contextPath.substr(1).lastIndexOf("/");
+                                    var index =contextPath.substr(1).indexOf("/");
+                                    contextPath = contextPath.substr(0,index+1);
+                                    contextPath1 = contextPath1.replace(contextPath,"")+"/";
+                                    url = url.replace(contextPath1,"");
+                                    url = url.replace(contextPath,"");*/
+                                    K('#adImg').val(url);//上传图片成功后，用来存放路径的文本框
+                                    //K('#disImg').attr("src",window.location.protocol+"//"+window.location.host+url.replace(contextPath,""));//预览图片
+                                    if(url!=null&&url.toLowerCase().indexOf("http")>-1){
+                                        K('#disImg').attr("src",url);//预览图片
+                                    }else{
+                                        K('#disImg').attr("src","#ctx()"+url);//预览图片
+                                    }
+                                    
+                                    editor.hideDialog();
+                                    var adImg = jQuery("#adImg").val();
+                                    if(adImg==""){
+                                        jQuery("#disImg").hide();
+                                    }else{
+                                        jQuery("#disImg").show();
+                                    }
+                                }
+                            });
+                        });
+                    });
+        });
+
+        KindEditor.ready(function(K) {
+        	/*            var editor = K.editor({
+        	                allowFileManager : true,
+        	                uploadJson:'#ctx()/kindeditor_upload.htm?fileName=imgFile',
+        	                fileManagerJson:'#ctx()/file_manage.htm'
+        	            });*/
+        	            K('#bgselectImg').click(//选择图片的按钮
+        	                    function() {
+        	                        editor.loadPlugin('image', function() {
+        	                            editor.plugin.imageDialog({
+        	                                showRemote : false,
+        	                                imageUrl : K('#bgadImg').val(),//上传图片成功后，用来存放路径的文本框
+        	                                clickFn : function(url, title, width, height,
+        	                                                   border, align) {
+        	                                    var contextPath = document.location.pathname;
+        	                                    var contextPath1 = "#ctx()";
+        	                                    //var index1 =contextPath.substr(1).lastIndexOf("/");
+        	                                    var index =contextPath.substr(1).indexOf("/");
+        	                                    contextPath = contextPath.substr(0,index+1);
+        	                                    contextPath1 = contextPath1.replace(contextPath,"")+"/";
+        	                                    url = url.replace(contextPath1,"");
+        	                                    url = url.replace(contextPath,"");
+        	                                    K('#bgadImg').val(url);//上传图片成功后，用来存放路径的文本框
+        	                                    //K('#disImg').attr("src",window.location.protocol+"//"+window.location.host+url.replace(contextPath,""));//预览图片
+        	                                    K('#bgdisImg').attr("src","#ctx()"+url.replace(contextPath1,""));//预览图片
+        	                                    editor.hideDialog();
+        	                                    var adImg = jQuery("#bgadImg").val();
+        	                                    if(adImg==""){
+        	                                        jQuery("#bgdisImg").hide();
+        	                                    }else{
+        	                                        jQuery("#bgdisImg").show();
+        	                                    }
+        	                                }
+        	                            });
+        	                        });
+        	                    });
+        	        });
+        
+        var options = {
+            cssPath : '#ctx()/resources/js/widgets/kindeditor/themes/default/default.css',
+            filterMode : true,
+            uploadJson:'#ctx()/kindeditor_upload.htm',
+            width : '700px',
+            height:'400px',
+            syncType:"form",
+            afterCreate : function() {
+                var self = this;
+                self.sync();
+            },
+            afterChange : function() {
+                var self = this;
+                self.sync();
+            },
+            afterBlur : function() {
+                var self = this;
+                self.sync();
+            },
+            items:['source', '|', 'fullscreen', 'undo', 'redo', 'print', 'cut', 'copy', 'paste',
+                'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+                'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about']
+        };
+
+$(function(){
+    editor = KindEditor.create('#content',options);
+    	    //$("input[name=code]").focus().attr("remote", "checkCode.htm?id=$!{entity.id}");
+    	    $("input[name=code]").focus().attr("remote", "checkCode.htm?orgCode="+encodeURIComponent('$!{entity.code}'));
+     		$.validator.messages["remote"] = "文章分类代码已存在";
+            jQuery("td > select").addClass("required");
+            var parent=jQuery("#parent").val();
+            if(!parent){
+            jQuery("#textfield1").addClass("required");
+            }
+
+    jQuery("#acc").change(function(){
+        jQuery("#textfield1").val(jQuery("#acc").val());
+    })
+    jQuery("#logoShow").mouseover(function(){
+        jQuery("#logoImg").css('display','block');
+    }).mouseout(function(){
+                jQuery("#logoImg").css('display','none').css('position','absolute');
+            });
+    var parent=jQuery("#parent").val();
+    var imgName=jQuery("#textfield1").val();
+    if(imgName!=null){
+        jQuery("#imgUrl").fadeIn("fast");
+    }
+
+    var adImg = jQuery("#adImg").val();
+    if(adImg=="" || adImg==undefined){
+        jQuery("#disImg").hide();
+    }else{
+        jQuery("#disImg").show();
+    }
+
+    jQuery("#cleanImg").click(function(){
+        jQuery("#adImg").val("");
+        //jQuery("#accessoryImg").val("");
+        jQuery("#disImg").hide();
+    });
+    
+    var bgadImg = jQuery("#bgadImg").val();
+    if(bgadImg=="" || bgadImg==undefined){
+        jQuery("#bgdisImg").hide();
+    }else{
+        jQuery("#bgdisImg").show();
+    }
+    
+    jQuery("#bgcleanImg").click(function(){
+        jQuery("#bgadImg").val("");
+        //jQuery("#accessoryImg").val("");
+        jQuery("#bgdisImg").hide();
+    });
+    
+    selectType('$!{entity.type}');
+});
+
+function selectType(id){
+    if(id=='1'|| id=='3'){
+        jQuery("#a_css").css("display","");
+    }else{
+        jQuery("#a_css").css("display","none");
+    }
+}
+
+</script>
+</head>
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/cms/articleClass/save.htm" method="post" class="validate" enctype="multipart/form-data">
+<input type="hidden" name="id" value="$!{entity.id}" />
+ <table style="width:99%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>#navigation("文章类别信息")#if(!$!{entity.id})创建#{else}修改#{end}</b></td>
+		                <td width="55%" align="right">
+			                #permission("save")
+			                <input type="submit" class="SmallButton"  name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+			                #end
+			                <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="history.back()" />
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">父节点</td>
+                    <td width="90%" align="left" class="TableData" id="articleClass">
+                        #dictTree(
+                        "parent",
+                        "parentId",
+                        "$!{request.getParameter('parentId')}",
+                        "ARTICLECLASS",
+                        "",
+                        "Smallselect",
+                        "",
+                        "true")
+                    </td>
+                    <!--<td width="90%" align="left" class="TableData" ><input type="text" id="parent" name="parentId" value="$!{request.getParameter('parentId')}" class="SmallInput"  style="width:85%" readonly="readonly" maxlength="70" /></td>-->
+                </tr>
+				#if($!{entity.id})
+			    <tr>
+					<td width="10%" align="right" class="TableContent">序号</td>
+					<td width="90%" align="left" class="TableData" ><input type="text" name="index" value="$!{entity.index}" class="SmallInput"  style="width:85%"  maxlength="3" /></td>			                       
+				</tr>
+				#end
+			    <tr>
+					<td width="10%" align="right" class="TableContent">类别代码</td>
+					<td width="90%" align="left" class="TableData" ><input type="text" id="code" name="code" value="$!{entity.code}" class="SmallInput required"  style="width:85%" maxlength="30"/></td>
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">类别名称</td>
+					<td width="90%" align="left" class="TableData" ><input type="text" name="name" value="$!{entity.name}" class="SmallInput required"  style="width:85%" /></td>			                       
+				</tr>
+                 <tr id="a_type">
+                     <td width="10%" align="right" class="TableContent">类型</td>
+                     <td width="90%" align="left" class="TableData" id="typeSelect">
+                         #dictSelect(
+                         "type",
+                         "type",
+                         "$!{entity.type}",
+                         "ZDY_ArticleType",
+                         "",
+                         "Smallselect",
+                         "",
+                         "true",
+                         "selectType(this.value)",
+                         "")
+
+                     </td>
+                 </tr>
+                 <tr id="url" style="">
+                     <td width="8%" align="right" class="TableContent">导航URL</td>
+                     <td width="34%" align="left" class="TableData"><input type="text" name="url" value="$!{entity.url}" class="SmallInput"  style="width:230px"  maxlength="200" />
+                     </td>
+                 </tr>
+                 <tr id="a_css" style="display: none">
+                     <td width="10%" align="right" class="TableContent">样式</td>
+                     <td width="90%" align="left" class="TableData" >
+                         #dictSelect(
+                         "css",
+                         "css",
+                         "$!{entity.css}",
+                         "ZDY_ArticleCss",
+                         "",
+                         "Smallselect",
+                         "",
+                         "true",
+                         "selectGg(this.options[this.selectedIndex].value)",
+                         "")
+
+                     </td>
+                 </tr>
+
+
+<!--                 <tr id="advert_img" style="">
+                     <td width="10%" align="right" class="TableContent">横幅图片</td>
+                     <td >
+                         <input name="textfield" type="text" id="textfield1" value="#if($!{entity.TCmsAccessory.name}) $!{entity.TCmsAccessory.name} #else #end"/>
+                         </span> &lt;!&ndash;<span class="filebtn">&ndash;&gt;
+                         <input name="button" type="button" id="button1" value="" class="filebtn"/>
+                         &lt;!&ndash;</span>&ndash;&gt; <span style="" class="file">
+		          <input name="acc" type="file" id="acc" class="file-text" size="30"/>
+		          <input type="hidden" name="path" value="add_image" />
+		          <input type="hidden" name="fileName" value="acc" />
+		          </span> &lt;!&ndash;<span class="preview"> <img src="#ctx()/resources/style/theme/1/preview.jpg" width="25" height="25"  id="logoShow" style="cursor:help"/> </span>#if(!$!{entity.TCmsAccessory})<span id="nothis"><strong class="q"></strong><strong class="w">暂无图片</strong><strong class="c"></strong></span>#end
+                         #if($!{entity.TCmsAccessory})
+                         <div class="bigimgpre" id="logoImg" style="position: absolute; display:none;"><img src="#ctx()/$!{entity.TCmsAccessory.acPath}/$!{entity.TCmsAccessory.Name}"  width="$!{entity.TCmsAccessory.width}" height="$!{entity.TCmsAccessory.height}" id="logoShow2"/> </div>
+                         #end&ndash;&gt;
+
+                     </td>
+                 </tr>-->
+
+                 <tr id="imgUrl" style="">
+                     <td width="8%" align="right" class="TableContent">横幅图片URL</td>
+                     <td width="34%" align="left" class="TableData"><input type="text" name="imgurl" value="$!{entity.imgurl}" class="SmallInput"  style="width:230px"  maxlength="200" />
+                     </td>
+                 </tr>
+
+<!--                 <tr id="img">
+                     <td width="10%" align="right" class="TableContent"></td>
+                     <td width="40%" align="left" class="TableData">
+                         #if($!{entity.TCmsAccessory})
+                         <div class="bigimgpre" id="logoImg" style=""><img src="#ctx()/$!{entity.TCmsAccessory.acPath}/$!{entity.TCmsAccessory.Name}"  width="200px" height="100px" id="logoShow2"/> </div>
+                         #end
+                     </td>
+                 </tr>-->
+
+                 <tr>
+                     <td width="8%" align="right" class="TableContent">横幅图片</td>
+                     <td width="34%" align="left" class="TableData">
+                         <span><input type="text" id="adImg" name="img" readonly="readonly" value="$!{entity.img}" class="SmallInput"  style="width:230px"  maxlength="200" /></span>
+                         <span><input type="button" value="选择图片" id="selectImg" style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span><input type="button" value="清空图片" id="cleanImg"  style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span id="nothis"><strong style="color: cornflowerblue">最佳尺寸:100px * 100px</strong></span>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td width="8%" align="right" class="TableContent">背景图片</td>
+                     <td width="34%" align="left" class="TableData">
+                         <span><input type="text" id="bgadImg" name="bgimg" readonly="readonly" value="$!{entity.bgimg}" class="SmallInput"  style="width:230px"  maxlength="200" /></span>
+                         <span><input type="button" value="选择图片" id="bgselectImg" style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span><input type="button" value="清空图片" id="bgcleanImg"  style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span id="nothis"><strong style="color: cornflowerblue">最佳尺寸:100px * 100px</strong></span>
+                     </td>
+                 </tr>
+                 <tr>#set($isNetDisImg=$entity.img.toLowerCase().indexOf('http'))
+                     <td width="8%" align="right" class="TableContent">横幅图片展示</td>
+                     <td width="34%" align="left" class="TableData"><img width="200" height="100"
+                                                                         id="disImg" name="disImg"
+                                                                         src="#if(${isNetDisImg}==-1)#ctx()#{end}$!{entity.img}" /></td>
+                 </tr>
+                 <tr>#set($isNetBgDisImg=$entity.bgimg.toLowerCase().indexOf('http'))
+                     <td width="8%" align="right" class="TableContent">背景图片展示</td>
+                     <td width="34%" align="left" class="TableData"><img width="200" height="100"
+                                                                         id="bgdisImg" name="bgdisImg"
+                                                                         src="#if(${isNetBgDisImg}==-1)#ctx()#{end}$!{entity.bgimg}" /></td>
+                 </tr>
+		      </table>
+		  </fieldset>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+#errors($!{errors})
+</html>

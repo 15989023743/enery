@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-lazy-init="true">
+
+	<description>Apache CXF的Web Service配置</description>
+
+	<!-- jax-ws endpoint定义  
+	<jaxws:endpoint address="/UserService">
+		<jaxws:implementor ref="userWebService" />
+	</jaxws:endpoint>
+	<jaxws:endpoint address="/SecurityService">
+		<jaxws:implementor ref="securityWebService" />
+	</jaxws:endpoint>-->
+	<!-- WebService的实现Bean定义 
+	<bean id="userWebService" class="com.gdwz.examples.ws.impl.UserWebServiceImpl" />
+	-->
+	
+	<!-- WebService的实现Bean定义 
+	<bean id="securityWebService" class="com.gdwz.common.webservice.impl.SecurityService" />
+	-->
+	
+</beans>

@@ -1,0 +1,4 @@
+*{margin:0px;padding:0px;}
+.panel{ background:  url("menubottom.png");padding: 0px 0px 0px 0px;}
+.DownButton{height: 14px;width: 43px; background: url('arrow_down.png');Cursor:hand;border:0px}
+.UpButton{height: 14px;width: 43px; background: url('arrow_up.png');Cursor:hand;border:0px}

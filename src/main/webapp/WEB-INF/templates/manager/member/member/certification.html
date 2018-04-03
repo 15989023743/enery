@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>会员用户信息登记</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../resources/style/theme/1/style.css" />
+<script type="text/javascript">    
+    	$(function(){
+    		//$("input[name=organizationCode]").addClass("required");
+    		$("input[name=organizationCode]").addClass("required").attr("minlength", "6").attr("maxlength","32").attr("remote", "organizationCode.htm?orgOrganizationCode="+encodeURIComponent('$!{entity.organizationCode}'));
+    		//$.validator.messages["remote"] = "组织机构代码证编号";
+    		
+    		$("input[name=businessScope]").addClass("required").attr("minlength", "6").attr("maxlength","32").attr("remote", "businessScope.htm?orgBusinessScope="+encodeURIComponent('$!{entity.businessScope}'));
+    		//$.validator.messages["remote"] = "营业执照号";
+    		
+    		$("input[name=taxCertificate]").addClass("required").attr("minlength", "6").attr("maxlength","32").attr("remote", "taxCertificate.htm?orgTaxCertificate="+encodeURIComponent('$!{entity.taxCertificate}'));
+ 	   		//$.validator.messages["remote"] = "税务登记证（国）编号";
+ 	   		
+ 	   		$("input[name=areaTaxCertificate]").addClass("required").attr("minlength", "6").attr("maxlength","32").attr("remote", "areaTaxCertificate.htm?orgAreaTaxCertificate="+encodeURIComponent('$!{entity.areaTaxCertificate}'));
+    	 	//$.validator.messages["remote"] = "税务登记证（地）编号";
+    	 	
+    	 	$("input[name=memberNum]").addClass("digits").addClass("required").attr("minlength", "1").attr("maxlength","16").attr("remote", "memberNum.htm?orgMemberNum="+encodeURIComponent('$!{entity.memberNum}'));
+    	 	$.validator.messages["remote"] = "该信息已经存在";
+    	
+    	});
+</script>
+</head>
+<body class="bodycolor" style="margin-top: 2">
+<form id="inputForm" action="#ctx()/manager/member/member/certification.htm" method="post" class="validate">
+<input type="hidden" name="id" value="$!{entity.id}" />
+#backPageUrl()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>#navigation('会员用户信息')#if(!$!entity.id)创建#{else}修改#{end}</b></td>
+		                <td width="55%" align="right">
+		                	#permission("certification")
+			                <input type="submit" class="SmallButton" name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+			                #end
+			                <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">企业简称</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="name" value="$!{entity.name}" class="SmallInput"  style="width:230px"  maxlength="70" #if($!{entity.id}) disabled="disabled" #{end} /></td>			                       
+					<td width="10%" align="right" class="TableContent">企业全称</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="fullName" value="$!{entity.fullName}" class="SmallInput"  style="width:230px"  maxlength="70" #if($!{entity.id}) disabled="disabled" #{end} /></td>			                       
+				</tr>
+				<tr>
+					<td width="10%" align="right" class="TableContent">会员等级</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="type" value="#dictProperty("$!{entity.type}","ZDY_MEMBER_TYPE")" class="SmallInput"  style="width:230px"  maxlength="70" #if($!{entity.id}) disabled="disabled" #{end} /></td>			                       
+<!-- 					<td width="10%" align="right" class="TableContent">会员编号</td>
+					<td width="40%" align="left" class="TableData" >
+						<input type="text" name="memberNum" value="$!{entity.memberNum}" class="SmallInput"  style="width:230px"  maxlength="70" />
+					</td> -->
+		                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <br/>
+		  <fieldset ><legend>&nbsp;需填信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">组织机构代码证编号</td>
+					<td width="40%" align="left" class="TableData" >
+						<input type="text" name="organizationCode" value="$!{entity.organizationCode}" class="SmallInput"  style="width:230px"  maxlength="70" />
+					</td>			                       
+					<td width="10%" align="right" class="TableContent">营业执照号</td>
+					<td width="40%" align="left" class="TableData" >
+						<input type="text" name="businessScope" value="$!{entity.businessScope}" class="SmallInput"  style="width:230px"  maxlength="70" />
+					</td>			                       
+				</tr>
+				<tr>
+					<td width="12%" align="right" class="TableContent">税务登记证（国）编号</td>
+					<td width="40%" align="left" class="TableData" >
+						<input type="text" name="taxCertificate" value="$!{entity.taxCertificate}" class="SmallInput"  style="width:230px"  maxlength="70" />
+					</td>
+					<td width="12%" align="right" class="TableContent">税务登记号（地）编号</td>
+					<td width="40%" align="left" class="TableData" >
+						<input type="text" name="areaTaxCertificate" value="$!{entity.areaTaxCertificate}" class="SmallInput"  style="width:230px"  maxlength="70" />
+					</td>				                       	                       
+				</tr>
+				<tr>
+					<td width="12%" align="right" class="TableContent">会员编号</td>
+					<td width="40%" align="left" class="TableData" >
+						<input type="text" name="memberNum" value="$!{entity.memberNum}" class="SmallInput"  style="width:230px"  maxlength="70" />
+					</td>			                       	                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <br/>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+#errors($!{errors})
+</html>

@@ -1,0 +1,43 @@
+    #if($!{entity.css}=="2"&&$!entity.articles)
+    	<ul>
+	    #foreach($article in $entity.articles)
+		    <li><a id="$!{article.id}" class="main_menu" href="#ctx()/list.htm?classIds=$!{entity.id}&articleId=$!{article.id}" title="$!article.title">
+		        #set($title= $!article.title)
+		        #if($title.length()>8)
+		        #set($title=$title.substring(0,7))
+		        <span class="menu_textfield">$title...</span>
+		        #else
+		        <span class="menu_textfield">$!article.title</span>
+		        #end
+		    </a></li>
+	    #end
+	    </ul>
+    #end
+    <ul>
+    #foreach($ac in $entity.children)
+    	#if($!{ac.css}=="1")
+		    <li><a id="$!{ac.id}" class="main_menu" href="#ctx()/list.htm?classIds=$!{ac.parentids}-$!{ac.id}" title="$!ac.className"><span class="menu_textfield">$!ac.className</span></a></li>
+	    #else
+		    <li><a id="$!{ac.id}" class="main_menu" title="$!ac.className" href="javascript:void(0);"><span class="menu_textfield">$!ac.className</span></a></li>
+	    #end
+	    	#if($!{ac.css}=="2" && $!ac.articles)
+				<div class="dis_menu">
+					<ul>
+					    #foreach($article in $ac.articles)
+					    <li><a id="dis_$!{article.id}" href="#ctx()/list.htm?classIds=$!{ac.parentids}-$!{ac.id}&articleId=$!{article.id}" title="$!article.title">
+					       <span class="icon-menulist"></span>
+					        #set($title= $!article.title)
+					        #if($title.length()>8)
+					        #set($title=$title.substring(0,7))
+					        <span class="menu_textfield">$title...</span>
+					        #else
+					        <span class="menu_textfield">$!article.title</span>
+					        #end
+					    	</a>
+					    </li>
+					    #end
+			        </ul>
+				</div>
+		    #end
+	#end
+    </ul>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>$!{APP.frontSystemName} - 期货数据</title>
+    <!--<link type="text/css" rel="stylesheet" href="#ctx()/resources/style/portal/base.css"/>-->
+    <!--<script type="text/javascript" src="#ctx()/resources/js/widgets/slider/jquery-1.10.2.js"></script>-->
+    <!--<script type="text/javascript">-->
+    <!--var ctx = '#ctx()';-->
+    <!--</script>-->
+    <!--<script src="#ctx()/resources/js/widgets/chart/echarts/asset/js/esl/esl.js"></script>-->
+    <!--<script type="text/javascript" src="#ctx()/resources/js/portal/priceTrend/priceTrend_chart.js"></script>-->
+    <script type="text/javascript" src="#ctx()/resources/js/portal/dynamicFutures/portal_overview.js"></script>
+</head>
+
+<body style="width:$!{width}px;">
+    <div style="width:$!{width}px;" class="w$!{width}">
+        <div id="tb3_" class="tb1_">
+            <ul id="itemInfoDynamicFutures">
+            </ul>
+        </div>
+        <div class="ctt21" id="dynamicFuturesChartDivs">
+        </div>
+    </div>
+
+    <!--<a style="cursor: pointer" target="_blank" id="href_01">-->
+        <!--<div style="width:$!{width}px;">-->
+            <!--<div class="jdata" id="priceTrendChart_01" style="width:$!{width}px;height:$!{height}px;">-->
+            <!--</div>-->
+            <!--<div id="chartTitle_01" style="width:$!{width}px;text-align: center;">-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</a>-->
+
+
+</body>
+
+<script type="text/javascript">
+    function g(o){return document.getElementById(o);}
+    function HoverLiDynamicFutures(n,num){
+//如果有N个标签,就将i<=N;
+        for(var i=1;i<=num;i++){
+            g('tb3_'+i).className='normaltab';
+            g('tbc3_0'+i).className='undis';
+        }
+        g('tbc3_0'+n).className='dis';
+        g('tb3_'+n).className='hovertab';
+    }
+
+    jQuery(function(){
+        var url = ctx+"/portal/goods/goodsItem/queryGoodsItemWithDynamicFutures.htm";
+        var param = {};
+        param["rownum"]=3;
+        var width = $!{width};
+        var height= $!{height};
+        jQuery.ajax({
+            type:'POST',
+            url:url,
+            data:param,
+            dataType:"json",
+            success:function(data){
+                var itemInfo = "";
+                if (data!=null && data.length>0){
+                    var num = 0;
+                    var divStr = "";
+                    var css = "dis";
+                    for(var i=0,len=data.length;i<len;i++){
+                        num = i+1;
+                        if (i==0){
+                            itemInfo += '<li id="tb3_'+num+'" class="hovertab" onmouseover="HoverLiDynamicFutures('+num+','+data.length+');">'+data[i].name+'</li>';
+                        }else{
+                            itemInfo += '<li id="tb3_'+num+'" class="normaltab" onmouseover="HoverLiDynamicFutures('+num+','+data.length+');">'+data[i].name+'</li>';
+                            css ="undis";
+                        }
+                       divStr += '<div class="'+css+'" id="tbc3_0'+num+'" >'+
+//                                     '<a style="cursor: pointer" target="_blank" id="href'+data[i].id+'">'+
+                                         '<div style="width:'+width+'px;">'+
+                                            '<div class="jdata" id="dynamicFuturesChart'+data[i].id+'" style="width:'+width+'px;height:'+height+'px;">'+
+                                            '</div>'+
+                                            '<div id="dynamicFuturesChartTitle'+data[i].id+'" style="width:'+width+'px;text-align: center;">'+
+                                            '</div>'+
+                                        ' </div>'+
+//                                    ' </a>'+
+                                ' </div>';
+                    }
+                    jQuery("#itemInfoDynamicFutures").html(itemInfo);
+                    jQuery("#dynamicFuturesChartDivs").html(divStr);
+                    for(var i=0,len=data.length;i<len;i++){
+                        var itemId = data[i].id;
+                        var itemName = data[i].name;
+                        var x2width = '$!{width}'
+                        new DynamicFuturesChart(itemId,itemName,x2width)
+                    }
+                }
+            }
+        });
+   ;
+    })
+</script>
+
+</html>

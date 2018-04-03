@@ -1,0 +1,254 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>资源信息登记</title>
+<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+<!-- 共通head区域标签 end-->
+<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../resources/style/theme/1/style.css" />
+<!-- 页面JS函数编写 begin -->
+<script language="JavaScript">
+#if($!{request.getParameter("parentId")})
+	$("#reflashButton",window.parent.document).val("$!{request.getParameter('parentId')}").click();
+#{end}
+
+jQuery(function(){
+    jQuery("td > select").attr("disabled",true);
+    selectType("$!{entity.type}");
+
+    if(jQuery("#textfield1").val()!=""){
+        /*        jQuery("#a_type").show();
+         jQuery("#a_css").show();*/
+        jQuery("#imgUrl").show();
+    }
+});
+
+function selectType(id){
+    if(id==1 || id==3){
+        jQuery("#a_css").fadeIn("fast");
+    }
+    if(id==2){
+        jQuery("#a_css").hide();
+    }
+
+    var adImg = jQuery("#adImg").val();
+    if(adImg=="" || adImg==undefined){
+        jQuery("#disImg").hide();
+    }else{
+        jQuery("#disImg").show();
+    }
+
+    jQuery("#cleanImg").click(function(){
+        jQuery("#adImg").val("");
+        jQuery("#accessoryImg").val("");
+        jQuery("#disImg").hide();
+    });
+}
+</script>
+</head>
+<body class="bodycolor" style="margin-top: 2px">
+ <table style="width:99%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>分类信息</b></td>
+		                <td width="55%" align="right">&nbsp;</td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr style="display: none;">
+					<td width="10%" align="right" class="TableContent">主ID</td>
+					<td width="90%" align="left" class="TableData" ><input type="text" name="id" value="$!{entity.id}" class="SmallInput"  style="width:97%" readonly="readonly" maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">序号</td>
+					<td width="90%" align="left" class="TableData" ><input disabled="disabled" type="text" name="index" value="$!{entity.index}" class="SmallInput"  style="width:97%"  maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">分类代码</td>
+					<td width="90%" align="left" class="TableData" ><input disabled="disabled" type="text" name="code" value="$!{entity.code}" class="SmallInput"  style="width:97%" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">分类名称</td>
+					<td width="90%" align="left" class="TableData" ><input disabled="disabled" type="text" name="name" value="$!{entity.name}" class="SmallInput"  style="width:97%" /></td>			                       
+				</tr>
+
+                 <tr>
+                     <td width="10%" align="right" class="TableContent">类型</td>
+                     <td width="90%" align="left" class="TableData" >
+                         #dictSelect(
+                         "type",
+                         "type",
+                         "$!{entity.type}",
+                         "ZDY_ArticleType",
+                         "",
+                         "Smallselect",
+                         "",
+                         "true",
+                         "selectType(this.options[this.selectedIndex].value)",
+                         "")
+
+                     </td>
+                 </tr>
+                 <tr id="url" style="">
+                     <td width="8%" align="right" class="TableContent">导航URL</td>
+                     <td width="34%" align="left" class="TableData"><input disabled="disabled" type="text" name="url" value="$!{entity.url}" class="SmallInput"  style="width:230px"  maxlength="200" />
+                     </td>
+                 </tr>
+                 <tr id="a_css">
+                     <td width="10%" align="right" class="TableContent">样式</td>
+                     <td width="90%" align="left" class="TableData">
+                         #dictSelect(
+                         "css",
+                         "css",
+                         "$!{entity.css}",
+                         "ZDY_ArticleCss",
+                         "",
+                         "Smallselect",
+                         "",
+                         "true",
+                         "selectGg(this.options[this.selectedIndex].value)",
+                         "")
+                     </td>
+                 </tr>
+
+<!--                 <tr id="advert_img" style="">
+                     <td width="10%" align="right" class="TableContent">横幅图片</td>
+
+                     <td width="40%" align="left" class="TableData"><input type="accName" name="accName" value="$!{entity.TCmsAccessory.name}" class="SmallInput"  style="width:230px"  maxlength="4" disabled="true" /></td>
+
+                 </tr>-->
+
+                 <tr id="imgUrl" style="">
+                     <td width="8%" align="right" class="TableContent">横幅图片URL</td>
+                     <td width="34%" align="left" class="TableData"><input disabled="disabled" type="text" name="imgurl" value="$!{entity.imgurl}" class="SmallInput"  style="width:230px"  maxlength="70" />
+                     </td>
+                 </tr>
+
+<!--                 <tr>
+                     <td width="10%" align="right" class="TableContent"></td>
+                     <td width="40%" align="left" class="TableData">
+                         #if($!{entity.TCmsAccessory})
+                         <div class="bigimgpre" id="logoImg" style=""><img src="#ctx()/$!{entity.TCmsAccessory.acPath}/$!{entity.TCmsAccessory.Name}"  width="200px" height="100px" id="logoShow2"/> </div>
+                         #end
+                     </td>
+                 </tr>-->
+
+                 <tr >
+                     <td width="8%" align="right" class="TableContent">横幅图片</td>
+                     <td width="34%" align="left" class="TableData">
+                         <span><input type="text" id="adImg" disabled="disabled"  name="img" readonly="readonly" value="$!{entity.img}" class="SmallInput"  style="width:230px"  maxlength="200" /></span>
+                         <span><input type="button" disabled="disabled"  value="选择图片" id="selectImg" style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span><input type="button" disabled="disabled"  value="清空图片" id="cleanImg"  style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span id="nothis"><strong style="color: cornflowerblue">最佳尺寸:100px * 100px</strong></span>
+                     </td>
+                 </tr>
+
+                 <tr>#set($isNetDisImg=$entity.img.toLowerCase().indexOf('http'))
+                     <td width="8%" align="right" class="TableContent">横幅图片展示</td>
+                     <td width="34%" align="left" class="TableData"><img width="200" height="100"
+                                                                         id="disImg" name="disImg"
+                                                                         src="#if($!{isNetDisImg}==-1)#ctx()#{end}$!{entity.img}" /></td>
+                 </tr>
+                 <tr >
+                     <td width="8%" align="right" class="TableContent">背景图片</td>
+                     <td width="34%" align="left" class="TableData">
+                         <span><input type="text" id="bgadImg" disabled="disabled"  name="bgimg" readonly="readonly" value="$!{entity.bgimg}" class="SmallInput"  style="width:230px"  maxlength="200" /></span>
+                         <span><input type="button" disabled="disabled"  value="选择图片" id="bgselectImg" style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span><input type="button" disabled="disabled"  value="清空图片" id="bgcleanImg"  style="width: 80px;height: 30px;margin-left: 5px;"/></span>
+                         <span id="nothis"><strong style="color: cornflowerblue">最佳尺寸:100px * 100px</strong></span>
+                     </td>
+                 </tr>
+
+                 <tr>#set($isNetBgDisImg=$entity.bgimg.toLowerCase().indexOf('http'))
+                     <td width="8%" align="right" class="TableContent">背景图片展示</td>
+                     <td width="34%" align="left" class="TableData"><img width="200" height="100"
+                                                                         id="bgdisImg" name="bgdisImg"
+                                                                         src="#if(${isNetBgDisImg}==-1)#ctx()#{end}$!{entity.bgimg}" /></td>
+                 </tr>
+		      </table>
+		  </fieldset>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</body>
+</html>

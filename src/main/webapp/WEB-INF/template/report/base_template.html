@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>${report.title}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	\#parse("/WEB-INF/templates/public/meta.html")
+	\#parse("/WEB-INF/templates/public/cssjs.html")
+	<script type="text/javascript" src="#ctx()/resources/js/widgets/calendar/openCalendar.js"></script>
+	<!-- 页面JS函数编写 begin -->
+	<script language="javascript">
+	<!--
+	-->
+	</script>
+
+</head>
+<body class="bodycolor" style="margin-top: 2px">
+<form id="ListForm" name="ListForm" action="#ctx()/birt.htm" method="post"  target="result">
+<input type="hidden" name="reportName" value="sys/${report.name}"/>
+ <table style="width:98%" align="center" cellspacing="0" cellpadding="0">
+
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td>
+        <!--业务表格区域开始-->
+        	<!--过滤条件开始-->
+        <table style="width:100%" align="center" class="TableBlock1" >
+		   <tr>
+			<td class="TableHeader1" align="center" colspan="4">${report.title}-查询条件</td>
+		   </tr>
+	#foreach ($param in ${report.parameters})
+		#if(($velocityCount % 2) ==1)
+			<tr>
+			<td nowrap class="TableContent" width="12%" align="center">${param.promptText}</td>
+			<td nowrap class="TableData" width="38%" >
+                #if($param.enterType=="2")
+                #set($dict="#dictSelect")
+			    ${dict}(
+					"$!{param.name}id",
+					"$!{param.name}",
+					"",
+					"$!{param.dictName}",
+					"",
+					"Smallselect",
+					"width:97%",
+					"true",
+					"",
+					"")
+                #elseif($param.enterType=="3")
+                #set($dict="#dictList")
+				${dict}(
+					"$!{param.name}id",
+					"$!{param.name}",
+					"",
+					"$!{param.dictName}",
+					"",
+					"SmallInput",
+					"width:80%",
+					"")
+           		#elseif($param.enterType=="4")
+           		 #set($dict="#dictTree")
+				${dict}(
+					"$!{param.name}id",
+					"$!{param.name}",
+					"",
+					"$!{param.dictName}",
+					"",
+					"SmallInput",
+					"width:80%",
+					"")
+                #elseif($param.enterType=="5")
+            	<input readonly="readonly" type="text" onclick="showCalendarYmd('${param.name}')"  id="${param.name}" name="${param.name}" value="" class="SmallInput"  style="width:97%" />
+                #elseif($param.enterType=="6")
+            	<input readonly="readonly" type="text" onclick="showCalendarYmdHM('${param.name}')"  id="${param.name}" name="${param.name}" value="" class="SmallInput"  style="width:97%" />
+            	#elseif($param.enterType=="7")
+            	<input readonly="readonly" type="text" onclick="showCalendarYmdHMS('${param.name}')"  id="${param.name}" name="${param.name}" value="" class="SmallInput"  style="width:97%" />
+            	#else
+				<input type="text" name="${param.name}" value=""  class="SmallInput" style="width:97%" maxlength="30" size="30"/>
+                #end
+			</td>
+			#if($velocityCount==$report.parameters.size())
+			</tr>
+			#end
+		#else
+			<td nowrap class="TableContent" width="12%" align="center">${param.promptText}</td>
+			<td nowrap class="TableData" width="38%" >
+                #if($param.enterType=="2")
+                #set($dict="#dictSelect")
+			    ${dict}(
+					"$!{param.name}id",
+					"$!{param.name}",
+					"",
+					"$!{param.dictName}",
+					"",
+					"Smallselect",
+					"width:97%",
+					"true",
+					"",
+					"")
+                #elseif($param.enterType=="3")
+                #set($dict="#dictList")
+				${dict}(
+					"$!{param.name}id",
+					"$!{param.name}",
+					"",
+					"$!{param.dictName}",
+					"",
+					"SmallInput",
+					"width:80%",
+					"")
+           		#elseif($param.enterType=="4")
+           		 #set($dict="#dictTree")
+				${dict}(
+					"$!{param.name}id",
+					"$!{param.name}",
+					"",
+					"$!{param.dictName}",
+					"",
+					"SmallInput",
+					"width:80%",
+					"")
+                #elseif($param.enterType=="5")
+            	<input readonly="readonly" type="text" onclick="showCalendarYmd('${param.name}')"  id="${param.name}" name="${param.name}" value="" class="SmallInput"  style="width:97%" />
+                #elseif($param.enterType=="6")
+            	<input readonly="readonly" type="text" onclick="showCalendarYmdHM('${param.name}')"  id="${param.name}" name="${param.name}" value="" class="SmallInput"  style="width:97%" />
+            	#elseif($param.enterType=="7")
+            	<input readonly="readonly" type="text" onclick="showCalendarYmdHMS('${param.name}')"  id="${param.name}" name="${param.name}" value="" class="SmallInput"  style="width:97%" />
+            	#else
+				<input type="text" name="${param.name}" value=""  class="SmallInput" style="width:97%" maxlength="30" size="30"/>
+                #end
+			</td>
+			</tr>
+		#end
+	#end
+			\#parse("/WEB-INF/templates/report/common/button.html")
+		</table>
+			<!--过滤条件结束-->
+		<!--业务表格区域结束-->
+      </td>
+        <td width="8" class="TableRight"></td>
+	   </tr>
+	   </table>
+	</td>
+ </tr>
+ \#include("/WEB-INF/templates/report/common/result.html")
+ </table>
+</form>
+</body>
+</html>

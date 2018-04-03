@@ -1,0 +1,95 @@
+<html>
+  <head>
+<!-- 共通head区域标签 begin-->  
+   	<title>字典树对话框（双击字典项确认选择）</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+<!-- 外部CSS样式表以及JS引入 begin-->
+	<script language="JavaScript" src="#ctx()/resources/js/widgets/MzTreeView/MzTreeView10.js"></script>
+<!-- 页面JS函数编写 begin -->
+	<script language="javascript">
+		//确定按钮按下
+		function selectOnClick(){
+			var records = window.dialogArguments;
+			var result=new Array();
+			var list=sysMessageInfo.elements['dict'];
+			result["value"]=list.value;
+			result["mcvalue"]=list.options[list.selectedIndex].text;
+			result["clickField"]=records["clickField"];
+			result["mcField"]=records["mcField"];
+			window.returnValue=result;
+		    window.close();
+		}
+
+	//确定按钮按下
+	function dmSelectOnClick(){
+        tree.focus(otherValue.value);
+	}
+	function pervNodeOnClick(){
+		tree.pervNode();
+	}
+	function nextNodeOnClick(){
+		tree.nextNode();
+	}
+	function expandAllOnClick(){
+		//tree.expandAll();
+		findTextId();
+	}
+	function findTextId(){
+		  var a = new Array();
+		  var b = new Array();
+		  var v =otherValue.value;
+		  var r;
+  			for (var id in tree.nodes){
+   				a[a.length] = id;
+  			}
+  			for (var i=0;i<a.length;i++){
+				if (tree.nodes[a[i]].indexOf(v)>0){
+					b =a[i].split("_");
+					tree.focus(b[1]);
+					break;
+				}
+  			}
+	}
+</script>		
+  </head>
+  <body>
+  <table border="1">
+  	<TR>
+	<td align="left">
+	<FONT color="red">
+  		   <input type="text" name="otherValue" id="other" class="SmallInput"/>
+  		   <input type="button" class="SmallButton" value="代码搜索" onClick="dmSelectOnClick();" />
+  		   <input type="button" class="SmallButton" value="文字搜索" onClick="expandAllOnClick();" />
+  		   <!-- 2008-12-06 lf 添加清空字典项 -->
+  		   <input type="button" class="SmallButton" value="清空字典项" onClick="clearAllOnClick();" />
+  	</FONT>
+  	</td>
+  	</TR>
+  	
+  </table>
+    <SCRIPT LANGUAGE="JavaScript">
+    <!--
+       
+    window.tree = new MzTreeView("tree");
+
+    tree.icons["property"] = "";//property.gif
+    tree.icons["css"] = "";
+    tree.icons["book"]  = "";
+    tree.iconsExpand["book"] = ""; //展开时对应的图片
+    tree.setIconPath("#ctx()/resources/js/widgets/MzTreeView/"); //可用相对路径
+    
+    tree.nodes["0_1"] = "text:字典表;";
+    //nodes为树控件 服务期端 节点
+     $!{nodes}
+	
+    tree.setURL("#");
+//    tree.setTarget("");			//target 目标框架名  若不设置, 其初始值为 _self
+    document.write(tree.toString());    //亦可用 obj.innerHTML = tree.toString();
+    tree.initTree();
+
+    //-->
+    </SCRIPT>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>控制左菜单显隐</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/style.css">
+<script language="JavaScript">
+
+var LEFT_MENU_VIEW=0;
+
+function leftmenu_open()
+{
+   LEFT_MENU_VIEW=0;
+   leftmenu_ctrl();
+}
+
+function leftmenu_ctrl()
+{
+   if(LEFT_MENU_VIEW==0)
+   {
+      parent.document.getElementById('frame2').cols="178,8,*";
+      LEFT_MENU_VIEW=1;
+      myarrow.src="#ctx()/resources/style/theme/1/menu/arrow_l.gif";
+   }
+   else
+   {
+      parent.document.getElementById('frame2').cols="0,8,*";
+      LEFT_MENU_VIEW=0;
+      myarrow.src="#ctx()/resources/style/theme/1/menu/arrow_r.gif";
+   }
+}
+
+function setPointer(theRow, thePointerColor)
+{
+    if (typeof(theRow.style) == 'undefined' || typeof(theRow.cells) == 'undefined')
+    {
+        return false;
+    }
+
+    var row_cells_cnt=theRow.cells.length;
+    for (var c = 0; c < row_cells_cnt; c++)
+    {
+        theRow.cells[c].bgColor = thePointerColor;
+    }
+
+    return true;
+}
+
+</script>
+</head>
+
+<body topmargin="0" leftmargin="0" onLoad="leftmenu_ctrl()">
+
+ <TABLE cellspacing="0" width="100%" height="100%" cellpadding="0" align="center" class="col">
+   <TR>
+     <TD>
+       <TABLE cellspacing="0" width="100%" height="50" bgcolor="#EEEEEE" border="1" bordercolorlight="#000000" bordercolordark="#FFFFFF" cellpadding="0">
+         <TR onClick="leftmenu_ctrl()" onMouseOver="setPointer(this, '#D3E5FF')" onMouseOut="setPointer(this, '#EEEEEE')">
+           <TD style="cursor:hand">
+           <img id="myarrow" src="#ctx()/resources/style/images/menu/arrow_l.gif" >
+           </TD>
+           </TR>
+         </TABLE>
+     </TD>
+   </TR>
+ </TABLE>
+
+</body>
+</html>

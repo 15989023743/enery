@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+#set($ctx = "${request.scheme}://${request.serverName}")
+#if( $request.serverPort!=80 && $request.serverPort!=443 )
+#set($ctx = "${ctx}:${request.serverPort}")
+#{end}
+#set($ctx = "${ctx}${request.contextPath}")
+#macro(disTopOrFloor $tof)
+	#set($path = $!{request.getHeader("referer").replace("${ctx}/","")})
+	
+	#if($path.indexOf("/")>=0)
+		#set($path = $path.substring(0,$path.indexOf("/")))
+	#else
+		#set($path = $path.replace(".htm",""))
+	#end
+	
+	#if($path != "manager")
+		#if($tof=="top")
+			#parse("/WEB-INF/templates/portal/share/top.html")
+		#end
+		
+		#if($tof=="foot")
+			#parse("/WEB-INF/templates/portal/share/foot.html")
+		#end
+	#end
+#end
+
+#macro(urlPrex $url)#if($!url.startsWith(${ctx}))${url}#{else}${ctx}/${url}#{end}#end
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>消息</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+#parse("/WEB-INF/templates/portal/public/meta.html")
+#parse("/WEB-INF/templates/portal/public/css_portal.html")
+#parse("/WEB-INF/templates/portal/public/js_commons.html")
+</head>
+<body>
+
+#disTopOrFloor("top")
+<div align="center">
+<table>
+<tr>
+	<td height="40"></td>
+</tr>
+<tr>
+	<td align="center">
+		<table width="305" border="0" cellpadding="0" cellspacing="0" align="center">
+		  <tr>
+			<td height="212" align="center" valign="middle" bgcolor="#95CBFD"><table width="295" border="0" cellpadding="0" bgcolor="#FFFFFF">
+			  <tr>
+				<td width="288" align="center" bgcolor="#C2E1FE"><table width="100" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+					  <td>&nbsp;</td>
+					</tr>
+				  </table>
+					<table width="273" border="0" cellpadding="0" cellspacing="10" bgcolor="#FFFFFF">
+					  <tr>
+						<td width="253" height="60" align="center" valign="bottom" class="font12">
+							<p>$!{message}</p>
+						</td>
+					  </tr>
+					  <tr>
+						<td height="80" align="center" valign="middle"><font size="2"><span class="content">
+						 <input type="button" name="sure" value="确 定"
+						 #if($!{urladdress})
+						 	onclick="javascript:window.location.href='#urlPrex($urladdress)'"
+						 #elseif($!{request.getParameter('urladdress')})
+						 	onclick="javascript:window.location.href='#Base64EncodeDecode($!{request.getParameter('urladdress')},2)'"
+						 #elseif($!{close})
+						 	onclick="javascript:window.close()"
+						 #else
+						 	onclick="javascript:window.location.href='#ctx()/center/index.htm'"
+						 #end	 
+						 >
+						</span></font></td>
+					  </tr>
+					</table>
+					<table width="100" border="0" cellpadding="0" cellspacing="0">
+					  <tr>
+						<td>&nbsp;</td>
+					  </tr>
+				  </table></td>
+			  </tr>
+			</table></td>
+		  </tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td height="40"></td>
+</tr>
+</table>
+</div>
+
+#disTopOrFloor("foot")
+</body>
+</html>

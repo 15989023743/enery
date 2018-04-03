@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" 
+"http://getahead.ltd.uk/dwr/dwr20.dtd" >
+
+<dwr>
+	<allow>
+	
+        <create creator="spring" javascript="sysPersonFavManager">
+            <param name="beanName" value="sessionLogin" />
+ 			<include method="addPersonFav"/>
+ 			<include method="delPersonFav"/>
+        </create>
+		<create creator="spring" javascript="systemConfigService">
+            <param name="beanName" value="systemConfigService" />
+ 			<include method="pv"/>
+        </create>
+		<create creator="spring" javascript="articleService">
+            <param name="beanName" value="articleService" />
+ 			<include method="pv"/>
+        </create>
+        <!-- 
+        <create creator="new" javascript="checkService" scope="application">
+            <param name="class" value="com.gdwz.system.CheckService"/>
+        </create> -->
+        <!-- 
+        <create creator="new" javascript="DESPlus" scope="application">
+            <param name="class" value="com.gdwz.utils.DESPlus"/>
+            <include method="doEncrypt"/>
+            <include method="doDecrypt"/>
+        </create> -->
+        
+        <!-- 
+        <create creator="new" javascript="acegi" scope="application">
+            <param name="class" value="com.gdwz.modules.security.springsecurity.SpringSecurityUtils"/>
+            <include method="loginCheck"/>
+            <include method="getUsername"/>
+        </create> -->
+        <!--  
+        <create creator="spring" javascript="typeService">
+            <param name="beanName" value="typeService" />
+ 			<include method="getTypeByPanentId"/>
+        </create>-->
+        <!--  
+        <create creator="spring" javascript="workflowEngine">
+            <param name="beanName" value="workflowEngine" />
+ 			<include method="countTasks"/>
+        </create>-->
+        
+	</allow>
+</dwr>

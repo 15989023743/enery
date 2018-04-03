@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#parse("/WEB-INF/templates/portal/public/meta.html")
+
+#parse("/WEB-INF/templates/portal/public/css_portal.html")
+<link type="text/css" rel="stylesheet" href="#ctx()/resources/style/portal/fenye.css"/>
+
+#parse("/WEB-INF/templates/portal/public/js_commons.html")
+</head>
+<body>
+#parse("/WEB-INF/templates/portal/share/top.html")
+<div class="center">
+     <div class="navcenter">
+          <a href="#ctx()/info/index.htm">资讯中心</a> &gt;
+          #foreach($articleClass in $nav)
+          	#if($velocityCount == $nav.size())
+          		<a class="nav-last" href="javascript:void(0);">$!articleClass.name</a>
+          	#else
+          		<a href="#ctx()/info/list.htm?classId=$!{articleClass.id}">$!articleClass.name</a>&gt;
+          	#end
+          #end
+     </div>
+     <div class="zxleft2">
+          <div >
+               <ul>
+               	   #if($!selectArticle && !$!page)
+                           #if(!$!{selectArticle.includePage} || $!{selectArticle.includePage} =="")
+                           <!-- <li><span class="indextext"><a href="#">$!selectArticle.title</a></span><span class="data">2014-05-12 14:21:56</span></li>
+                               <div class="titleframe">
+   							<span class="title" style="font-size: 16px;">$!{selectArticle.title}</span>
+							</div>
+							<div class="artframe">
+   							<p>$!selectArticle.content</p>
+							</div> -->
+                           #else
+                                #parse($!{selectArticle.includePage})
+                           #end
+                        #else
+                            <form id="ListForm" name="ListForm" action="#ctx()/info/list.htm?classId=$!{selectArticleClass.id}" method="post" >
+	    						<input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+	    						<input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+	    						<input type="hidden" id="order" name="order" value="$!{page.order}" />
+	    						#currentAndReturnPageUrl()
+							    #backPageUrl()
+							    #messages()
+							#foreach( $article in $page.result)
+								#if($velocityCount % 5==1)
+								<div class="listbox">
+			    					<ul>
+								#end
+					        			<li>
+					                		<span class="indextext"><a href="#counselingCenterHref($article)" target="_blank" style="cursor: pointer">$!article.title</a></span>
+					            			<span class="data">[$!date.format("yyyy/MM/dd",$!article.addTime)]</span>
+					        			</li>
+								#if($velocityCount % 5==0||$velocityCount==$page.result.size())
+			   					 	</ul>
+			    					<div class="clear"></div>
+								</div>
+							#end
+						#end
+					#gotoPageFormHTML($page)
+				</form>
+                #end
+               </ul>  
+          </div>
+     </div>
+     <div class="zxright2">
+     	 #foreach($articleList in $counselingCenterArticle)
+          <div class="rdxw">
+              	<div class="title"><span>#getArticleClassName($articleList)</span><p><a href="#articleMore($firstArticle)" target="_blank">更多&gt;&gt;</a></p></div>
+              	<div class="list">
+                   <ul>
+           			#foreach($article in $articleList)
+           			<li><span class="indextext"><a target="_blank" href="#counselingCenterHref($article)">$!article.title</a></span><span class="data">$!date.format('yyyy-MM',$!{article.auditTime})</span></li>
+           			#end
+              		</ul>
+            </div>
+          </div>
+		  #end
+          <!-- <div class="data"><img src="#ctx()/resources/style/portal/images/images/data6.jpg" /></div> -->
+     </div>
+</div>
+#parse("/WEB-INF/templates/portal/share/foot.html")
+</body>
+</html>

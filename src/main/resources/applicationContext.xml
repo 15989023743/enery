@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-lazy-init="true">
+		
+	<description>Spring公共配置</description>
+
+	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+	<context:component-scan base-package="com.gdwz" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- 系统初始化 -->
+	<bean class="com.gdwz.core.web.InitSystemService" lazy-init="false">
+		<property name="lists">
+          <list>
+			<bean class="com.gdwz.system.web.init.SystemInit"/>
+          </list>
+       </property>
+	</bean>
+
+	<!-- 以静态变量保存Spring ApplicationContext. -->
+	<bean class="com.gdwz.core.commons.ServicesFactory" lazy-init="false" >
+		<property name="beanFactory">
+			<bean class="com.gdwz.core.commons.SpringBeanFactory" />
+		</property>
+	</bean>
+
+	<!--JCaptcha验证码服务 -->
+	<bean id="captchaService" class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService">
+		<property name="captchaEngine">
+			<bean class="com.gdwz.core.web.security.jcaptcha.GMailEngineByNumber" />
+		</property>
+	</bean>
+	
+  	<!-- dubbo配置文件 --> 
+	<import resource="config/components/dubbo/dubbo-config.xml"/>
+	
+	<!-- Cache配置文件 -->
+	<import resource="config/components/cache/applicationContext-cache.xml"/>
+
+	<!-- CXF的Web Service配置--> 
+	<import resource="config/components/ws/applicationContext.xml"/>
+
+	<!-- ActiveMQ JMS -->
+	<import resource="config/components/jms/applicationContext.xml"/>
+
+	<!-- schedule
+	<import resource="config/components/schedule/applicationContext-executor.xml" />
+	<import resource="config/components/schedule/applicationContext-quartz-cron-local.xml" /> -->
+	<!-- 
+	<import resource="config/components/schedule/applicationContext-quartz.xml"/> -->
+	<!--  -->
+	<!-- <import resource="config/components/schedule/applicationContext-quartz-cluster.xml" /> -->
+	
+	<!-- email 
+	<import resource="config/components/email/applicationContext-email.xml"/>-->
+
+	<!-- solr 
+	<import resource="config/components/search/applicationContext-solr.xml"/>
+	-->
+	
+	<!-- 开发环境 -->
+	<beans profile="develop">
+		<!-- 定义受环境影响易变的变量 -->
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+			<property name="ignoreResourceNotFound" value="true" />
+			<property name="locations">
+				<list>
+	                <!-- 本地开发环境配置-->
+	                <value>classpath*:/config/application.local.properties</value>
+				</list>
+			</property>
+		</bean>
+	    <!-- 数据源 -->
+	    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		    <property name="driverClassName" value="${jdbc.driver}"/>
+		    <property name="url" value="${jdbc.url}"/>
+		    <property name="username" value="${jdbc.username}"/>
+		    <property name="password" value="${jdbc.password}"/>
+		    <property name="initialSize" value="${dbcp.initialSize}"/>
+		    <property name="maxActive" value="${dbcp.maxActive}"/>
+		    <property name="maxIdle" value="${dbcp.maxIdle}"/>
+			<property name="testWhileIdle" value="${dbcp.testWhileIdle}" />
+			<property name="validationQuery" value="${dbcp.validationQuery}" /> 
+			<property name="validationQueryTimeout" value="${dbcp.validationQueryTimeout}" />
+			<property name="removeAbandoned" value="${dbcp.removeAbandoned}" /> 
+			<property name="removeAbandonedTimeout" value="${dbcp.removeAbandonedTimeout}" />
+			<property name="timeBetweenEvictionRunsMillis" value="${dbcp.timeBetweenEvictionRunsMillis}" /> 
+			<property name="numTestsPerEvictionRun" value="${dbcp.numTestsPerEvictionRun}" />
+			<property name="minEvictableIdleTimeMillis" value="${dbcp.minEvictableIdleTimeMillis}" /> 
+	  	</bean>
+	  	
+		<!-- Jpa Entity Manager 配置	--> 
+		<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> 
+			<property name="dataSource" ref="dataSource"/> 
+			<property name="persistenceUnitName" value="defaultPU"/>
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+			</property>
+			<property name="jpaProperties">
+				<props>
+					<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+					<prop key="hibernate.default_schema">${jdbc.username}</prop>
+	                <prop key="hibernate.cache.use_query_cache">true</prop>
+	                <prop key="hibernate.cache.use_second_level_cache" >true</prop>
+	                <prop key="hibernate.cache.provider_configuration">/config/cache/ehcache-hibernate-local.xml</prop>
+	                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</prop>
+				    <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+					<prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+					<prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.fetch_size}</prop>
+			        <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+					<!-- 
+					<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+					<prop key="net.sf.ehcache.configurationResourceName">ehcache/ehcache-hibernate-local.xml</prop>
+					 -->
+					<!--  
+					<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+					-->
+				</props>
+			</property>
+		</bean>
+
+		<!-- 事务管理器配置,单数据源事务-->
+	   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+	   </bean>
+		
+		<!-- 使用annotation定义事务 Activates @Transactional for DefaultImageDatabase -->
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+
+    </beans>
+    
+    <!-- 测试环境 -->
+    <beans profile="test">
+    	<!-- 定义受环境影响易变的变量 -->
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+			<property name="ignoreResourceNotFound" value="true" />
+			<property name="locations">
+				<list>
+					<!-- 标准配置-->
+	                <value>classpath*:/config/application.test.properties</value>
+				</list>
+			</property>
+		</bean>
+		<!-- 数据源 -->
+	    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		    <property name="driverClassName" value="${jdbc.driver}"/>
+		    <property name="url" value="${jdbc.url}"/>
+		    <property name="username" value="${jdbc.username}"/>
+		    <property name="password" value="${jdbc.password}"/>
+		    <property name="initialSize" value="${dbcp.initialSize}"/>
+		    <property name="maxActive" value="${dbcp.maxActive}"/>
+		    <property name="maxIdle" value="${dbcp.maxIdle}"/>
+			<property name="testWhileIdle" value="${dbcp.testWhileIdle}" />
+			<property name="validationQuery" value="${dbcp.validationQuery}" /> 
+			<property name="validationQueryTimeout" value="${dbcp.validationQueryTimeout}" />
+			<property name="removeAbandoned" value="${dbcp.removeAbandoned}" /> 
+			<property name="removeAbandonedTimeout" value="${dbcp.removeAbandonedTimeout}" />
+			<property name="timeBetweenEvictionRunsMillis" value="${dbcp.timeBetweenEvictionRunsMillis}" /> 
+			<property name="numTestsPerEvictionRun" value="${dbcp.numTestsPerEvictionRun}" />
+			<property name="minEvictableIdleTimeMillis" value="${dbcp.minEvictableIdleTimeMillis}" /> 
+	  	</bean>
+	  	
+		<!-- Jpa Entity Manager 配置	--> 
+		<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> 
+			<property name="dataSource" ref="dataSource"/> 
+			<property name="persistenceUnitName" value="defaultPU"/>
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+			</property>
+			<property name="jpaProperties">
+				<props>
+					<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+					<prop key="hibernate.default_schema">${jdbc.username}</prop>
+	                <prop key="hibernate.cache.use_query_cache">true</prop>
+	                <prop key="hibernate.cache.use_second_level_cache" >true</prop>
+	                <prop key="hibernate.cache.provider_configuration">/config/cache/ehcache-hibernate-local.xml</prop>
+	                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</prop>
+				    <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+					<prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+					<prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.fetch_size}</prop>
+			        <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+					<!-- 
+					<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+					<prop key="net.sf.ehcache.configurationResourceName">ehcache/ehcache-hibernate-local.xml</prop>
+					 -->
+					<!--  
+					<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+					-->
+				</props>
+			</property>
+		 </bean>
+
+		<!-- 事务管理器配置,单数据源事务-->
+	   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+	   </bean>
+		
+		<!-- 使用annotation定义事务 Activates @Transactional for DefaultImageDatabase -->
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+		
+    </beans>
+
+	<!-- 生产环境 -->
+    <beans profile="production">
+    	<!-- 定义受环境影响易变的变量 -->
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+			<property name="ignoreResourceNotFound" value="true" />
+			<property name="locations">
+				<list>
+					<!-- 服务器生产环境配置 -->
+					<value>file:/home/gdwz/app/energy/application.server.properties</value>
+					<!-- ejb_config -->
+					<value>classpath*:/config/ejb/core_sun_remote.properties</value>
+					<value>classpath*:/config/ejb/app_sun.properties</value>					
+				</list>
+			</property>
+		</bean>
+		
+		<!-- 数据源配置,使用应用服务器的数据库连接池 -->
+		<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/crm" />
+		
+		<jee:jndi-lookup id="entityManagerFactory" jndi-name="persistence/defaultPU" />
+
+		<tx:jta-transaction-manager />
+
+		<!-- 事务管理器配置,单数据源事务-->
+	   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+	   </bean>
+		
+		<!-- 使用annotation定义事务 Activates @Transactional for DefaultImageDatabase -->
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+		
+    </beans>
+
+
+</beans>

@@ -1,0 +1,407 @@
+﻿
+body{
+    overflow-x:hidden;
+    font-size:12px;
+    padding:0;
+    margin:0; 
+	color:#535353;
+}
+a{
+	text-decoration:none;
+	color:#444444;
+}
+a:hover{
+	text-decoration:underline;
+	color: #ee5807;
+}
+img{
+    border:none;
+}
+table{
+    border-collapse: collapse;
+}
+.container{
+    width:1000px;
+    margin:0 auto;
+	height:35px;
+}
+.container2{
+    width:1000px;
+    margin:0 auto; 
+	height:100px;
+}
+.container3{
+    width:1000px;
+    margin:0 auto;
+	height:40px;
+    position: relative;
+}
+.header{
+    margin:0;
+    width:100%;
+}
+.toolbar{
+    background-color:#f7f7f7;
+    line-height:35px;
+    color: #585858;
+    border-bottom: 1px solid #eee;
+    z-index:10000;
+}
+.toolbar .welcome{
+    float:left;
+    width:550px;
+    display:block;
+    line-height:35px;
+	height:35px;
+	white-space:nowrap; 
+	overflow: hidden;
+	text-align: left;
+}
+
+.toolbar .welcome .qrCode{
+   border-right:1px solid #dadada;
+    padding-right:10px;
+}
+.toolbar .welcome .login a{
+    color:#666;
+    text-decoration:none;
+}
+.toolbar .welcome .creat a{
+    color:#666;
+    text-decoration:none;
+}
+.toolbar .welcome .login a:hover{
+    text-decoration:underline;
+    color: #ee5807;
+}
+.toolbar .welcome .creat a:hover{
+    text-decoration:underline;
+    color: #ee5807;
+}
+.toolbar .toolbarMenu{
+    list-style:none;
+    float:left;
+    width:217px;
+    margin-left:66px;
+	display:block;
+	height:35px;
+
+}
+
+.toolbar .telMessage{
+    float:right;
+    margin-right:0;
+    vertical-align:middle;
+    border-left:1px solid #dadada;
+    padding-left:10px;
+    line-height:14px;
+    margin-top:10px;
+	width:155px;
+}
+.toolbar .telMessage span{
+   float:left;
+   display:block; 
+   height:14px;
+}
+.toolbar .telMessage .telTitle{}
+.toolbar .telMessage .number{
+    color:#ef5807;
+    font-weight:bold;
+    font-size:14px;
+}
+.toolbar .toolbarMenu a{
+    color:#666;
+    padding:0 10px;
+}
+.toolbar .toolbarMenu a:hover{
+	color: #ee5807;
+    text-decoration:underline;
+}
+
+.headerMiddle{
+    background-color:#fff;
+    height:100px;
+}
+.logo{
+    float:left;
+    width:239px;
+    height:70px;
+    margin-top:14px;
+}
+.search{
+    float:left;
+    width:400px;
+    margin-top:32px; 
+	height:60px; 
+	margin-left:103px; 
+}
+/*购物车未实现，样式调整float:left->float:right; by yanlun 2014-10-11*/
+.searCharea{width:496px!important;}
+.searCont .text1{width: 398px!important;}
+.rightMenu a {float:right!important;}
+/*结束*/
+.searCharea{
+    width:390px;
+    float:left;
+    
+}
+.searSel{
+    height:18px;
+}
+.searChform .searchUl{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+.searChform .searchUl li{
+    float:left;
+}
+.searChform .searchUl li a{
+
+    text-decoration:none;
+    color:#fff
+}
+.searChform .searchUl li a:hover{
+    background-color:#9e0503;
+}
+.searCont input{
+    float:left;
+}
+#searchWord{
+	border:3px solid #ef5807;
+    height:28px;
+}
+.searCont .text1{
+    width:292px;
+    height:32px;
+    background:#fff;
+    border:none;
+}
+.searCont{
+    height:35px;
+    display:inline;    
+}
+.searCont .but1{
+    width: 82px;
+    height: 34px;
+    cursor: pointer;
+    color:#fff;
+}
+.searCont input[type="button"]{
+    background-color:#ef5807;
+	border:none;
+}
+.hot{
+    display:block;
+    float:left;
+    width:295px;
+    height:16px;
+    margin-top:4px;
+    color:#686868;
+}
+.hot .hotTitle,
+.hotlist{
+    float:left; display:block;
+}
+.hotlist{
+    padding:0;
+    margin:0;
+    list-style:none; 
+	width:230px; 
+	display:block; 
+	float:left;
+}
+
+.hot .hotlist a{
+    padding:0 8px;
+	float:left; display:block;
+	color:#686868;
+}
+.hot .hotlist a:hover{
+    padding:0 8px;
+	color:#686868;
+}
+.rightMenu{
+    float:right;
+    width:240px;
+    margin-top:8px;
+}
+.rightMenu a{
+    float:left;
+    margin-left:10px;
+}
+.rightMenu a img{
+    border:none
+}
+.navigation{
+    background-color:#ef5807;
+    height:40px;
+    font-size:14px !important;
+}
+.navigation .navigationUl{
+    list-style:none;
+    margin:0;
+    padding:0;
+    line-height:40px;
+    padding-left:201px;
+}
+.navigation .navigationUl li{
+    float:left;
+}
+.navigation .navigationUl img{
+    float:left;
+}
+.navigation .navigationUl li a{
+    color:#fff;
+    padding:0 26px; height:40px; display:block; font-weight:bold; 
+}
+.navigation .navigationUl li a:hover{
+    color:#fff;
+    background-color:#fa8617; height:40px; text-decoration:none;
+}
+.selected{
+	color:#fff;
+    background-color:#fa8617; 
+}
+.shoppingcart{
+	position:relative;  
+	top:14px; 
+	left:142px; 
+	height:14px; 
+	width:17px; 
+	text-align:center; 
+	color:#fff; 
+	line-height:14px;
+}
+
+/**资源分类菜单CSS移植此处，作为公共的部分引用**/
+.resouce-classification-close{
+	position:absolute;
+	top:0;
+	left:0;
+	cursor:pointer;
+	background-image:url(images/header/all.jpg);
+	width:201px;height:40px;
+}
+.resouce-classification-expend{
+	position:absolute;
+	top:0;
+	left:0;
+	cursor:pointer;
+	background-image:url(images/header/all2.jpg);
+	width:201px;height:40px;
+}
+.center_top_left{
+	width:201px; height:310px;
+	border-top:none; 
+	margin:0; 
+	top:40px;
+	float:left; 
+	display:block;
+	position:absolute;
+	z-index:1200;
+}
+.center_top_left .navleft{
+	border:2px solid #535554;
+	width:197px;
+	height:310px;
+	overflow:hidden;
+	border-top:none; 
+	margin:0; 
+	float:left; 
+	display:block; 
+	position:absolute;
+}
+/**昨日成交功能未完善，样式临时调整 add line-height:50px; by yanlun 2014-10-15**/
+.center_top_left .navleft h3{font-size:15px;line-height: 50px;}
+
+.center_top_left .hh{
+	width:197px; 
+	height:60px; 
+	position:absolute; 
+	top:60px;
+	z-index:1004;
+}
+.display-block{
+	display:block;
+}
+.display-none{
+	display:none;
+}
+.center_top_left .hh:hover{
+	width:197px; 
+	height:60px; 
+	position:absolute; 
+	box-shadow:1px 0 6px 0 #7b7b7b; 
+	top:60px;
+	z-index:1004;
+}
+.center_top_left .nn{
+	width:255px; 
+	height:290px; 
+	position:absolute; 
+	left:197px; 
+	box-shadow:0 0 6px 0 #7b7b7b; 
+	background:url(images/header/navleft.jpg) no-repeat; padding:10px;
+	z-index:1000;
+	overflow-y: auto;
+}
+.center_top_left .nn li{
+	padding-right:8px; 
+	padding-left:8px; 
+	list-style-type:none; 
+	display:inline; 
+	line-height:30px;
+	padding-bottom:0; 
+	font-size:14px; 
+	background:none; 
+	font-family:"微软雅黑";
+}
+.center_top_left .nn a{
+	color:#505050;
+}
+.center_top_left .nn a:hover{
+	color:#505050;
+}
+.center_top_left .zz{
+	width:20px; 
+	height:60px; 
+	left:180px; 
+	background:#FFF; 
+	position:absolute; 
+	z-index:1001
+}
+
+/**昨日成交功能未完善，样式临时调整 modify bg1->bg1_temp background:url(images/header/bg1_temp.jpg) no-repeat; by yanlun 2014-10-15**/
+.center_top_left .navleft li{
+	width:155px; 
+	height:48px;
+	list-style-type:none;
+	float:left; 
+	display:block;
+	background:url(images/header/bg1_temp.jpg) no-repeat;
+	font-family:"微软雅黑";
+	color:#505050; 
+	line-height:25px;
+	padding:6px 0 6px 42px;
+	z-index:1005;
+}
+
+.center_top_left .navleft li:hover{
+	/*box-shadow: 1px 0 6px 0 #7b7b7b;*/
+}
+.center_top_left .resource-close{width:201px; height:10px;  position:absolute; top:302px; background-image: url("images/header/xiala.jpg");cursor:pointer;}
+.center_top_left .resource-expend{width:201px; height:10px;  position:absolute; top:302px;background-image: url("images/header/shla.jpg");cursor: pointer;}
+/**昨日成交功能未完善，样式临时调整 modify bg2->bg2_temp  background:url(images/header/bg2_temp.jpg) no-repeat; by yanlun 2014-10-15**/
+.center_top_left .navleft .white{
+	background:url(images/header/bg2_temp.jpg) no-repeat;
+}
+.center_top_left .navleft strong{
+	color:#f85a1b; 
+	font-weight:bold;
+}
+.center_top_left .navleft a:hover{text-decoration:none;}
+.center_top_left span{
+	font-family:"宋体";
+}
+/**资源分类菜单CSS结束**/

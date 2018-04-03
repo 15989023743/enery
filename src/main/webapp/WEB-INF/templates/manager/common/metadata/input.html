@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>元数据信息修改</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../../resources/style/theme/1/style.css" />
+<!-- 页面JS函数编写 begin -->
+	<script>
+	$(function(){
+	    //$("input[name=ZDLB]").focus().addClass("required");
+		//$("input[name=ZDLBMC]").addClass("required");
+		//$("input[name=DM]").addClass("required");
+		//$("input[name=MC]").addClass("required");
+	});
+	</script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2">
+<form id="inputForm" action="#ctx()/manager/common/metadata/save.htm" method="post" class="validate">
+<input type="hidden" name="id" value="$!{entity.id}" />
+#backPageUrl()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>#navigation("元数据信息修改")</b></td>
+		                <td width="55%" align="right">
+		                	#permission("save")
+			                <input type="submit" class="SmallButton" name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+			                #end
+			                <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">名称</td>
+					<td width="40%" align="left" class="TableData" colspan="3" ><input disabled="disabled" type="text" name="name" value="$!{entity.name}" class="SmallInput"  style="width:80%"  maxlength="60" /></td>			                       
+					<td width="10%" align="right" class="TableContent">备注</td>
+					<td width="40%" align="left" class="TableData" colspan="3" ><input type="text" name="note" value="$!{entity.note}" class="SmallInput"  style="width:80%"  maxlength="255" /></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <fieldset ><legend>&nbsp;列信息&nbsp;</legend>
+		  <table style="width:100%" align="center" class="TableBlock1" border="1">
+		  	<tr align="center">
+		  	<td class="TableHeader1">序号</td>
+		  	<td class="TableHeader1">名称</td>
+		  	<td class="TableHeader1">别名</td>
+			<td class="TableHeader1">注释</td>
+		  	<td class="TableHeader1">数据类型</td>
+		  	<td class="TableHeader1">类型名称</td>
+		  	<td class="TableHeader1">类型(java类)名称</td>
+			<td class="TableHeader1">大小</td>
+			<td class="TableHeader1">精确</td>
+			<td class="TableHeader1">可为空</td>
+		  	</tr>
+		  	#foreach( $e in $entity.columns)
+		  	<tr>
+			  	<td class="TableData" >${velocityCount}</td>
+			  	<td class="TableData" >$!{e.columnName}</td>
+			  	<td class="TableData" >$!{e.columnLabel}</td>
+				<td class="TableData" ><input name="$!{e.columnName}_remarks" value="$!{e.remarks}" maxlength="255" /> </td>
+				<td class="TableData" >$!{e.columnType}</td>
+				<td class="TableData" >$!{e.columnTypeName}</td>
+				<td class="TableData" >$!{e.columnClassName}</td>
+				<td class="TableData" >$!{e.columnDisplaySize}</td>
+				<td class="TableData" >$!{e.precision}</td>
+				<td class="TableData" >$!{e.nullable}</td>
+		  	</tr>
+		  	#end
+		  </table>
+		  </fieldset>
+		  #if($!entity.typeName.equals("存储过程"))
+		  <fieldset ><legend>&nbsp;参数信息&nbsp;</legend>
+		  <table style="width:100%" align="center" class="TableBlock1" border="1">
+		  	<tr align="center">
+		  	<td class="TableHeader1">序号</td>
+		  	<td class="TableHeader1">名称</td>
+		  	<td class="TableHeader1">类型</td>
+			<td class="TableHeader1">注释</td>
+		  	<td class="TableHeader1">数据类型</td>
+		  	<td class="TableHeader1">类型名称</td>
+			<td class="TableHeader1">大小</td>
+			<td class="TableHeader1">精确</td>
+			<td class="TableHeader1">可为空</td>
+		  	</tr>
+		  	#foreach( $e in $entity.procedureParameterColumns)
+		  	<tr>
+			  	<td class="TableData" >${velocityCount}</td>
+			  	<td class="TableData" >$!{e.COLUMN_NAME}</td>
+			  	<td class="TableData" >$!{e.COLUMN_TYPE}</td>
+				<td class="TableData" ><input name="$!{e.COLUMN_NAME}_REMARKS" value="$!{e.REMARKS}" maxlength="255" /> </td>
+				<td class="TableData" >$!{e.DATA_TYPE}</td>
+				<td class="TableData" >$!{e.TYPE_NAME}</td>
+				<td class="TableData" >$!{e.LENGTH}</td>
+				<td class="TableData" >$!{e.PRECISION}</td>
+				<td class="TableData" >$!{e.NULLABLE}</td>
+		  	</tr>
+		  	#end
+		  </table>
+		  </fieldset>
+		  #end
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+#errors($!{errors})
+</html>

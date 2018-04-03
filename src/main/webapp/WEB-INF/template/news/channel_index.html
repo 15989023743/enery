@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<TITLE>${newsChannel.name}</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<link href="#ctx()/css/global/header01.css" rel="stylesheet" type="text/css">
+<LINK href="#ctx()/css/help.css" type="text/css" rel="stylesheet">
+</HEAD>
+<BODY>
+<jsp:include page="/WEB-INF/views/share/Head.jsp"/>
+<table width="970"  border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="3" height="20">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="3">${navigation}</td>
+    </tr>
+    <tr>
+
+      <td colspan="3" height="20">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="248" valign="top"><table width="248"  border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><img src="${ctx}/images/flower/global/help-dd_03.jpg" width="248" height="6"></td>
+          </tr>
+        <tr>
+          <td background="${ctx}/images/flower/global/help-dd_06.jpg">
+          <div align="center">
+			  <table width="88%"  border="0" cellspacing="0" cellpadding="0">
+	          <tr>
+	             <td height="27" align="left"><p class="help_zt12y">浏览下层频道</p></td>
+	          </tr>
+	          #foreach ($chanel in ${newsChannel.children})
+		       <tr>
+		         <td height="27" align="left"><a href="${ctx}/cache/news/${chanel.id}/index.jsp" class="help_dd">&#149;&nbsp;${chanel.name}</a></td>
+		      </tr>
+		      #end
+		      
+			  </table>
+		  </div></td>
+          </tr>
+        <tr>
+          <td><img src="${ctx}/images/flower/global/help-dd_08.jpg" width="248" height="6"></td>
+          </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+      </table></td>
+
+      <td width="30"></td>
+      <td align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="27" align="left"><strong class="help_zt14b">${newsChannel.name}</strong></td>
+        </tr>
+        <tr>
+          <td height="3" bgcolor="#E6E6E6">
+          </td>
+        </tr>
+        <tr>
+          <td align="left" height="27">
+	          #foreach ($news in ${newsChannel.newsInfos})
+				<a class="help_dd" href="${ctx}/cache/news/${newsChannel.id}/${news.id}.jsp" target="_blank">&nbsp;${news.name}</a>&nbsp;<font color="#cdcccc">|</font>&nbsp;
+		      #end
+          </td>
+        </tr>
+        <tr>
+          <td height="10">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top"><table cellspacing="0" cellpadding="0" width="100%" border="0">
+            <tbody>
+          #foreach ($channel in ${newsChannel.children})
+              <tr>
+                <td align="left" height="27"><strong class="help_zt14">${channel.name}</strong></td>
+              </tr>
+              <tr>
+                <td align="left" height="27">
+	          #foreach ($news in ${channel.newsInfos})
+				<a class="help_dd" href="${ctx}/cache/news/${channel.id}/${news.id}.jsp" target="_blank">&nbsp;${news.name}</a>&nbsp;<font color="#cdcccc">|</font>&nbsp;
+		      #end
+		       </td>
+              </tr>
+              <tr><td align="left">&nbsp;</td></tr>
+           #end
+			</tbody>
+          </table></td>
+        </tr>
+      </table></td>
+    </tr>
+</table>
+<jsp:include page="/WEB-INF/views/share/Foot.jsp" />
+</BODY>
+</HTML>

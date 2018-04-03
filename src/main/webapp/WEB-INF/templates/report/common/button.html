@@ -1,0 +1,20 @@
+<script src="#ctx()/resources/js/report.js" type="text/javascript"></script>
+		   <tr>
+			<td align="center" class="TableContent" colspan="4">
+				<input type="button" class="SmallButton" name="b_act_query" onclick="searchReport()" value="查&nbsp;&nbsp;询" style="width:60" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="reset" class="SmallButton" name="b_act_clear" value="重&nbsp;&nbsp;置" style="width:60" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" class="SmallButton" name="b_act_query" onclick="expReport()" value="导&nbsp;&nbsp;出" style="width:60" />
+					#dictSelect(
+						"selectformatid",
+						"selectformat",
+						"",
+						"ZDY_OUTFORMAT",
+						"",
+						"Smallselect",
+						"",
+						"false",
+						"",
+						"")
+				      <input type="hidden" name="format" value="html"/>
+			</td>
+		   </tr>

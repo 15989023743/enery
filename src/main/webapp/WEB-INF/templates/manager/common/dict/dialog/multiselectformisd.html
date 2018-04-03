@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- 共通head区域标签 begin-->
+   	<title>字典树对话框</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+<!-- 外部CSS样式表以及JS引入 begin-->
+	<script language="JavaScript" src="#ctx()/resources/js/widgets/MzTreeView/MzTreeView11ForMisd.js"></script>	
+<!-- 页面JS函数编写 begin -->
+</head>
+<body leftmargin="0" topmargin="0" onLoad="tree.initTree();">
+    <input type="text" name="otherValue" id="other" class="SmallInput"/>
+    <input type="button" value="确定" class="SmallButton"  style="width:50" onClick="tree.getCheckedBoxForMisd();">
+    <input type="button" value="清空" class="SmallButton"  style="width:50" onClick="tree.cancleCheckedBox();">
+    <input type="button" value="清空输入项" class="SmallButton" onClick="tree.getCheckedBoxForMisd();"/>
+    <SCRIPT LANGUAGE="JavaScript">
+    <!--
+    window.tree = new MzTreeView("tree");
+    tree.icons["property"] = "";//property.gif
+    tree.icons["css"] = "";
+    tree.icons["book"]  = "";
+    tree.iconsExpand["book"] = ""; //展开时对应的图片
+    tree.setIconPath("#ctx()/resources/js/widgets/MzTreeView/"); //可用相对路径
+    
+    tree.nodes["0_1"] = "text:多选字典表;";
+    $!{nodes}
+    document.write(tree.toString());
+    -->
+    </SCRIPT>
+    <input type="button" value="确定" class="SmallButton"  style="width:50" onClick="tree.getCheckedBoxForMisd();">
+    <input type="button" value="清空" class="SmallButton"  style="width:50" onClick="tree.cancleCheckedBox();">  
+    <input type="button" value="清空输入项" class="SmallButton" onClick="tree.getCheckedBoxForMisd();"/>
+  </body>
+</html>    

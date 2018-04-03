@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>交易参数管理</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/cssjs.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <link href="#ctx()/resources/article/template.css"  rel="stylesheet" type="text/css"/>
+    <!-- 页面JS函数编写 begin -->
+    <script src="#ctx()/resources/datePicker/WdatePicker.js"></script>
+    <script language="javascript">
+    function update(id,obj,optFlag){
+    	var pavaValU = $(obj).parent().parent().find("[name=pavaValU]").val();
+    	var paraTypeVal = $("#paraTypeVal"+id).val();
+    	window.location.href = "#ctx()/manager/sysParam/goldPara/save.htm?id="+id+"&pavaValU="+pavaValU+"&optFlag="+optFlag+"&paraTypeVal="+paraTypeVal+"&p_flag=yes";
+    }
+    </script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="ListForm" name="ListForm" action="#ctx()/manager/sysParam/goldPara/list.htm" method="post" >
+    <input type="hidden" id="entityid" name="id" value="" />
+    <input type="hidden" id="p_flag" name="p_flag" value="yes" />
+    <input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+    <input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+    <input type="hidden" id="order" name="order" value="$!{page.order}" />
+    #currentAndReturnPageUrl()
+    #backPageUrl()
+    #messages()
+    <table style="width:98%" align="center" cellspacing="0" cellpadding="0">
+        <!--表格顶部开始-->
+        <tr>
+            <td height="30">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="30" class="TableHeadLeft"></td>
+                        <td class="TableHeader">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="46%" valign="middle">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                            <tr>
+                                                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                                                <td width="35%"><b>#navigation("个性化资金参数管理")</b></td>
+                                                <td width="55%" align="right">&nbsp;&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableHeadRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格顶部开始-->
+
+        <tr>
+            <td height="18">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="8" class="TableLeft"></td>
+                        <td>
+                            <!--业务表格区域开始-->
+                            <!--过滤条件开始-->
+                            <table style="width:100%" align="center" class="TableBlock1" >
+                                <tr style="display: none;">
+                                    <td class="TableHeader1" align="center" colspan="4">查询条件</td>
+                                </tr>
+                                <tr>
+                                    <td nowrap class="TableContent" width="12%" align="center">会员名称(企业全称)：</td>
+                                    <td nowrap class="TableData" width="38%" >
+                                    	<input name="filter_LIKE_member.name" type="text" id="memberName" value="$!{request.getParameter('filter_LIKE_member.name')}"/>
+                                   	</td>
+                                   	<td nowrap class="TableContent" width="12%" align="center">交易场所：</td>
+                                    <td nowrap class="TableData" width="38%" >
+                                    	<select name="filter_EQ_dbpStation">
+                                    		<option value="">全部</option>
+                                    		<option value="0" #if($!{request.getParameter('filter_EQ_dbpStation')}=='0') selected #end>超市</option>
+                                    		<option value="1" #if($!{request.getParameter('filter_EQ_dbpStation')}=='1') selected #end>店铺</option>
+                                    	</select>
+                                   	</td>
+                                </tr>
+
+                                <tr>
+                                    <td align="center" class="TableContent" colspan="4">
+                                        <input type="button" class="SmallButton" name="b_act_query" onclick="search()" value="查&nbsp;&nbsp;询" style="width:60" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                        #permission("create")
+                                        <input type="button" class="SmallButton" name="b_act_new" onclick="create()" value="新&nbsp;&nbsp;增" style="width:60" />
+                                        #end
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--过滤条件结束-->
+                            <br/>
+                            <table style="width:100%" align="center" class="TableBlock1" onmousemove="changeto()" onmouseout="changeback()">
+                                <tr align="center">
+			                        <td width="18%" align="center" class="TableHeader1">会员名称</td>
+								    <td width="10%" align="center" class="TableHeader1">资金类型</td>
+								    <td width="15%" align="center" class="TableHeader1">当前资金算法</td>
+								    <td width="10%" align="center" class="TableHeader1">当前资金值</td>
+								    <td width="15%" align="center" class="TableHeader1">修改资金算法</td>
+								    <td width="20%" align="center" class="TableHeader1">修改资金值</td>
+                                    <td class="TableHeader1" class="TableHeader1">操作</td>
+                                </tr>
+                                #foreach( $entity in $page.result)
+                                <tr>
+                                	<td class="TableData" align="center">$!entity.member.name</td>
+                                    <td class="TableData" align="center">
+	                          		 #if($!entity.dbpType==4)
+							     	    #if($!entity.tDbpDpp.id=='00')定金支付比例
+							     	    #elseif($!entity.tDbpDpp.id=='01')货款划拨比例
+							     	    #elseif($!entity.tDbpDpp.id=='02')买方违约金比例
+							     	    #elseif($!entity.tDbpDpp.id=='04')交易手续费
+							     	    #elseif($!entity.tDbpDpp.id=='05')交收手续费
+							     	    #end
+							     	#elseif($!entity.dbpType==6)
+							     	    #if($!entity.tDbpDpp.id=='00')定金支付比例
+							     	    #elseif($!entity.tDbpDpp.id=='01')货款划拨比例
+							     	    #elseif($!entity.tDbpDpp.id=='04')交易手续费
+							     	    #elseif($!entity.tDbpDpp.id=='05')交收手续费
+							     		#elseif($!entity.tDbpDpp.id=='06')履约保证金支付比例
+							     	    #end
+							     	#end       
+                                    </td>
+                                    #if($!entity.pavaValD!='')
+								    	#set($paraTypeD=$number.format("0.00",$!entity.pavaValD))
+								      #else
+								    	#set($paraTypeD=$!entity.pavaValD)
+								      #end
+                                    <td class="TableData" align="left">#if($!entity.paraTypeD==0)固定值（元/笔）#elseif($!entity.paraTypeD==1)按比例（总货款的百分比）#elseif($!entity.paraTypeD==2)按吨数（元/吨）#end</td>
+                                    <td class="TableData" align="left">$!paraTypeD#if($!entity.paraTypeD==0)元#elseif($!entity.paraTypeD==1)%#elseif($!entity.paraTypeD==2)元#end</td>
+                                    <td class="TableData" align="left">
+                                    	<select name="paraTypeVal$!entity.id" id="paraTypeVal$!entity.id"  readonly="readonly" onclick="paraTypeValClick('$!entity.id')">
+											<option value="0" #if($!entity.paraTypeU==0)selected#end>固定值(元/笔)</option>
+											<option value="1" #if($!entity.paraTypeU==1)selected#end>按比例(总货款的百分比)</option>
+											<option value="2" #if($!entity.paraTypeU==2)selected#end>按吨数(元/吨)</option>
+										</select>
+                                    </td>
+                                    #if($!entity.pavaValU!='')
+								    	#set($pavaValU=$number.format("0.00",$!entity.pavaValU))
+								      #else
+								    	#set($pavaValU=$!entity.pavaValU)
+								      #end
+                                    <td class="TableData" align="center"><input type="text" name="pavaValU" value="$!pavaValU"/></td>
+                                    <td class="TableData" align="center">
+                                    #permissionForData($!{entity},"update")
+                                        <a href="#" onclick="update('$!{entity.id}',this,'0')" >修改</a>
+                                        <a href="#" onclick="update('$!{entity.id}',this,'1')" >实时生效</a>
+                                    #end
+                                    #if(!$!{entity.auditStatus})
+                                    	#permissionForData($!{entity},"delete")
+                                    	 <a href="#" onclick="del('$!{entity.id}')">删除</a>
+                                    	#end
+                                    #end                                    
+                                    </td>
+                                </tr>
+                                #end
+                            </table>
+                            <!--业务表格区域结束-->
+                        </td>
+                        <td width="8" class="TableRight"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--表格底部开始-->
+        <tr>
+            <td height="35">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="35" class="TableFooterLeft"></td>
+                        <td class="TableFooter">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                <tr>
+                                    <td>&nbsp;&nbsp;共有$!{page.totalCount}条记录，当前第 $!{page.pageNo}/$!{page.totalPages}页</td>
+                                    <td>$!{page.pageBar}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableFooterRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格底部结束-->
+
+    </table>
+</form>
+</body>
+</html>

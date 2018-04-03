@@ -1,0 +1,27 @@
+
+<div class="w998">
+	<div class="pinzhong">品种</div>
+	<div id="tb_" class="tb1_">
+		<ul>
+			<li id="tb_0" class="hovertab" onclick="selectChild('','0')" style="border-left: 0px solid #d7d6d6;">全部</li> #foreach(
+			$item in $!{goodsItems})
+			<li id="tb_$!{item.id}" thisId="$!{item.id}" onclick="selectChild('$!{item.name}','tb_$!{item.id}')" class="normaltab">$!{item.name}</li> #end
+		</ul>
+	</div>
+
+
+	<div class="pinming">品名</div>
+	<div class="ctt21">
+
+		#foreach( $item in $!{goodsItems})
+		<div class="dis" id="parentId_${item.id}" style="display: none">
+			<ul>
+				#foreach( $goods in $!itemMapsMap.get(${item.id}))
+				<li onclick="selectByItemGoodsName('$!{goods.name}','tb_$!{item.id}','$!{goods.id}')"><a id="$!{goods.id}" class="" href="#">$!{goods.name}</a>
+				</li> #end
+			</ul>
+		</div>
+
+		#end
+	</div>
+</div>

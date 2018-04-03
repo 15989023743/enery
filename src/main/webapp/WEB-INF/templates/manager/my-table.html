@@ -1,0 +1,368 @@
+<html>
+<head>
+	<title>桌面</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/mytable.css"/>
+	<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/portal/portal_index.css"/>
+	<link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/mytable.css"/>
+</head>
+	<script Language="JavaScript">
+	window.setTimeout('this.location.reload();',1200000);
+	var lines_per_page=5;
+	var my_scroll=false;
+	var my_width=65;
+	function _edit()
+	{
+		 show_msg("optionBlock");
+		 $('display_lines').focus();
+		 $('display_lines').value=lines_per_page;
+		 $('scroll').checked=my_scroll;
+		 $('col_width').value=my_width;
+	}
+	function SetNums()
+	{
+		 var today_lines=$('display_lines').value;
+		 var col_width=$('col_width').value;
+	   if(today_lines=="" || checkNum(today_lines) || col_width=="" || checkNum(col_width))
+	   {
+	      alert("显示条数和栏目宽度必须是数字");
+	      return;
+	   }
+	
+	   if(parseInt(today_lines)<=0 || parseInt(today_lines)>=1000)
+	   {
+	      alert("显示条数必须在1-1000之间");
+	      return;
+	   }
+	   if(parseInt(col_width)<=0 || parseInt(col_width)>100)
+	   {
+	      alert("栏目宽度必须在1-100之间");
+	      return;
+	   }
+	   setCookie("my_nums_1", today_lines);
+	   setCookie("my_scroll_1", $('scroll').checked);
+	   setCookie("my_width_1", col_width);
+	
+	   lines_per_page=today_lines;
+	   my_scroll=$('scroll').checked;
+	   my_width=col_width;
+	
+	   $("msgBody").style.display = "none";
+	   $("msgCommand").style.display = "none";
+	   $("msgSuccess").style.display = "block";
+	   
+	   window.location.reload();
+	}
+	</script>
+
+<body style="margin-bottom: 4px;margin-right: 4px;">
+
+	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+	 <tr>
+	  <td id="col_l" width="34%" valign="top">
+	  <!--左侧栏目  -->
+	  <!-------------------- 每日情况 ----------------------->
+		<div id="module_1" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_1_head" class="moduleHeader">
+		      <span id="module_1_title" class="title" style="cursor:move;">每日情况</span>
+		      <span id="module_1_op" class="close"><a href="javascript:_edit();">设置</a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_1_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>
+	  </td>
+	  
+	  <td id="col_m" width="33%" valign="top" style="padding-right:2px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 每日情况信息 ----------------------->
+		<div id="module_2" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_2_head" class="moduleHeader">
+		      <span id="module_2_title" class="title" style="cursor:move;">每日情况信息</span>
+		      <span id="module_2_op" class="option"><a href="#" onclick=""><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_2_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>
+	  <td id="col_r" width="33%" valign="top" style="padding-left:0px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 每日情况信息 ----------------------->
+		<div id="module_3" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_3_head" class="moduleHeader">
+		      <span id="module_3_title" class="title" style="cursor:move;">每日情况信息</span>
+		      <span id="module_3_op" class="option"><a href="#"><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_3_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>	  
+	 </tr>
+	 <!--第二行 -->
+	 <tr>
+	  <td id="col_l2" width="34%" valign="top">
+	  <!--左侧栏目  -->
+	  <!-------------------- 每日情况情况 ----------------------->
+		<div id="module_12" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_12_head" class="moduleHeader">
+		      <span id="module_12_title" class="title" style="cursor:move;">每日情况情况</span>
+		      <span id="module_12_op" class="close"><a href="javascript:_edit();">设置</a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_12_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>
+		
+		
+	
+		
+	  </td>
+	  <td id="col_m2" width="33%" valign="top" style="padding-right:0px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 各类统计 ----------------------->
+		<div id="module_22" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_22_head" class="moduleHeader">
+		      <span id="module_22_title" class="title" style="cursor:move;">各类统计</span>
+		      <span id="module_22_op" class="option">&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_22_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>
+	  <td id="col_r2" width="33%" valign="top" style="padding-left:0px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 系统通知 ----------------------->
+		<div id="module_32" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_32_head" class="moduleHeader">
+		      <span id="module_32_title" class="title" style="cursor:move;">系统通知</span>
+		      <span id="module_32_op" class="option">&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_32_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+				<tr>
+					<td class=TableData align="center" height="110">	<script language="JavaScript" type="text/JavaScript">
+ 
+			function MM_openBrWindow(theURL,winName,features) { //v2.0
+			  window.open(theURL,winName,features);
+			}
+ 
+			var version = "other"
+			browserName = navigator.appName;   
+			browserVer = parseInt(navigator.appVersion);
+ 
+			if (browserName == "Netscape" && browserVer >= 3) version = "n3";
+			else if (browserName == "Netscape" && browserVer < 3) version = "n2";
+			else if (browserName == "Microsoft Internet Explorer" && browserVer >= 4) version = "e4";
+			else if (browserName == "Microsoft Internet Explorer" && browserVer < 4) version = "e3";
+ 
+			function marquee1()
+			{
+				if (version == "e4")
+				{   // 设置向上滚动信息的高度与宽度
+					document.write("<marquee style='BOTTOM: 0px; FONT-WEIGHT: 250px; HEIGHT:100px;  TEXT-ALIGN: left; TOP: 0px' id='news' scrollamount='1' scrolldelay='10' behavior='loop' direction='up' border='0' onmouseover='this.stop()' onmouseout='this.start()'>")
+				}
+			}
+ 
+			function marquee2()
+			{
+				if (version == "e4")
+				{
+					document.write("</marquee>")
+				}
+			}
+		</script>
+		<script language=JavaScript>marquee1();</script>
+		
+					当前没有通告信息!</td>
+				</tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>	  
+	 </tr>
+	 <!--第三行 -->
+	 <tr>
+	  <td id="col_l2" width="34%" valign="top">
+	  <!--左侧栏目  -->
+	  <!-------------------- 每日情况提示 ----------------------->
+		<div id="module_12" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_12_head" class="moduleHeader">
+		      <span id="module_12_title" class="title" style="cursor:move;">每日情况提示</span>
+		      <span id="module_12_op" class="option"><a href="#"><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_12_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>
+		
+		
+	
+		
+	  </td>
+	  <td id="col_m2" width="33%" valign="top" style="padding-right:0px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 每日情况 ----------------------->
+		<div id="module_22" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_22_head" class="moduleHeader">
+		      <span id="module_22_title" class="title" style="cursor:move;">每日情况</span>
+		      <span id="module_22_op" class="option"><a href="#"><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_22_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>
+	  <td id="col_r2" width="33%" valign="top" style="padding-left:0px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 每日情况 ----------------------->
+		<div id="module_32" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_32_head" class="moduleHeader">
+		      <span id="module_32_title" class="title" style="cursor:move;">每日情况</span>
+		      <span id="module_32_op" class="option"><a href="#"><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_32_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>	  
+	 </tr>
+	 <!--第四行 -->
+	 <tr>
+	  <td id="col_l2" width="34%" valign="top">
+	  <!--左侧栏目  -->
+	  <!-------------------- 每日情况 ----------------------->
+		<div id="module_12" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_12_head" class="moduleHeader">
+		      <span id="module_12_title" class="title" style="cursor:move;">每日情况</span>
+		      <span id="module_12_op" class="option"><a href="#"><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_12_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>
+		
+		
+	
+		
+	  </td>
+	  <td id="col_m2" width="33%" valign="top" style="padding-right:0px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 每日情况 ----------------------->
+		<div id="module_22" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_22_head" class="moduleHeader">
+		      <span id="module_22_title" class="title" style="cursor:move;">每日情况</span>
+		      <span id="module_22_op" class="option"><a href="#"><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_22_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>
+	  <td id="col_r2" width="33%" valign="top" style="padding-left:0px;">
+	  <!--中间栏目  -->
+	  <!-------------------- 每日情况 ----------------------->
+		<div id="module_32" class="module listColor">
+		  <div class="head">
+		    <h4 id="module_32_head" class="moduleHeader">
+		      <span id="module_32_title" class="title" style="cursor:move;">每日情况</span>
+		      <span id="module_32_op" class="option"><a href="#"><img src="#ctx()/resources/images/more.gif"></a>&nbsp;</span>
+		    </h4>
+		  </div>
+		  <div id="module_32_body" class="module_body">
+			<table cellpadding=3 cellspacing=1 align=center class=TableBlock1 width="90%">
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			<tr nowrap><td class=TableData align=left>&nbsp;</td></tr>
+			</table>
+		  </div>
+		</div>		  	
+	  </td>	  
+	 </tr>
+	</table>
+
+</body>
+</html>

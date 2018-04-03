@@ -1,0 +1,32 @@
+<div class="titleframe">
+    <span class="title" style="font-size: 16px;">$!{selectArticle.title}</span>
+    <div>
+        <span class="time">$!date.format("yyyy-MM-dd",$!selectArticle.auditTime)</span>
+        <span>来源：$!selectArticleClass.className</span>
+        <span>点击数：<span id="articlepvid">$!{selectArticle.clickRate}</span></span>
+        <!--<a class="print">[打印本文]</a>-->
+    </div>
+</div>
+<div class="artframe">
+    <p>$!{selectArticle.content}</p>
+</div>
+#if($!{upArticle} || $!{nextArticle})
+<div class="pagesrode">
+    #if($!upArticle)
+    <a class="prev prev_rode" href="#ctx()/details.htm?classIds=$!{selectArticleClass.parentids}-$!{selectArticleClass.id}&amp;articleId=$!{upArticle.id}" style="cursor: pointer" title="$!{upArticle.title}">
+        <span class="prev_icon">&lt;</span>
+        <span class="pr">上一篇：&nbsp;&nbsp;$!{upArticle.title}</span>
+    </a>
+    #end
+    #if($!nextArticle)
+    <a class="next next_rode" href="#ctx()/details.htm?classIds=$!{selectArticleClass.parentids}-$!{selectArticleClass.id}&amp;articleId=$!{nextArticle.id}" style="cursor: pointer" title="$!{nextArticle.title}">
+        <span class="next_icon">&gt;</span>
+        <span class="nt">下一篇：&nbsp;&nbsp;$!{nextArticle.title}</span>
+    </a>
+    #end
+</div>
+#end
+<script type='text/javascript' src='#ctx()/dwr/interface/articleService.js'></script>
+<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+<script type='text/javascript' src='#ctx()/resources/js/article_pv.js'></script>
+<script type="text/javascript">article_pv('$!{selectArticle.id}');</script>

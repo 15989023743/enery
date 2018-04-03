@@ -1,0 +1,11 @@
+/*分页样式*/
+.pages{height:30px;line-height:30px;float: right;}
+.prev:hover, .next:hover{color:#666; text-decoration:underline;}
+.pages a{padding:4px 8px;margin-right:4px;text-decoration:none;color:#666}
+.pages a:hover{text-decoration:underline;}
+.hidden{text-decoration:none;}
+.pages .menu_number{background-color:#b3c4d8;color:#fff;text-decoration:none;}
+.pages .menu_number:hover{background-color:#9fb9d8;}
+.float_r{float:left;}
+.padding_t10{padding-top:10px;}
+.padding_b10{padding-bottom:10px;}

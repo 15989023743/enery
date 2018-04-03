@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>系统环境配置</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../resources/style/theme/1/style.css" />
+<!-- 页面JS函数编写 begin -->
+	<script>
+$(document).ready(function() {
+	$("#message").fadeOut(3000);
+});
+	$(function(){
+	    //$("input[name=maker]").focus();
+	    //$("input[name=maker]").addClass("required");
+	    $("input[name=model]").addClass("required");
+	    $("input[name=connector]").addClass("required");
+	});
+	function select(value){
+		if(value=="COM"){
+			document.getElementById("comportid").style.display='block';
+			document.getElementById("ipid").style.display='none';
+		}
+		else if(value=="TCP"){
+			document.getElementById("comportid").style.display='none';
+			document.getElementById("ipid").style.display='block';
+		}
+		else{
+			document.getElementById("comportid").style.display='none';
+			document.getElementById("ipid").style.display='none';
+		}
+	}
+	</script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px" onload="select('$!{entity.connector}')">
+<form id="inputForm" action="save.htm" method="post" class="validate">
+<input type="hidden" name="id" value="$!{entity.id}" />
+#messages()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>RFID设置环境配置</b></td>
+		                <td width="55%" align="right">
+		                	#permission("save")
+			                <input type="submit" class="SmallButton" name="b_act_subit"   style="width:60"  value="保&nbsp;&nbsp;存" />
+			                #end
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="60px" align="right" class="TableContent">中间件平台</td>
+					<td style="width: 100px;" align="left" class="TableData" >
+					#dictSelect(
+						"platformid",
+						"platform",
+						"$!{entity.platform}",
+						"ZDY_EngineType",
+						"",
+						"Smallselect",
+						"",
+						"false",
+						"",
+						"")
+						</td>	
+					<td width="30px" align="right" class="TableContent">型号</td>
+					<td style="width: 100px;" align="left" class="TableData" >
+					#dictSelect(
+						"modelid",
+						"model",
+						"$!{entity.model}",
+						"ZDY_RFID_MODEL",
+						"",
+						"Smallselect",
+						"",
+						"false",
+						"",
+						"")
+						</td>			                       
+					<td width="40px" align="right" class="TableContent">连接器</td>
+					<td width="50px" align="left" class="TableData" >
+					#dictSelect(
+						"connectorid",
+						"connector",
+						"$!{entity.connector}",
+						"ZDY_JKLX",
+						"",
+						"Smallselect",
+						"",
+						"false",
+						"select(this.value)",
+						"")
+					</td>
+					<td width="">
+					<span id="comportid" style="display: none;">COM端口
+					#dictSelect(
+						"comportid",
+						"comport",
+						"$!{entity.comport}",
+						"ZDY_COMXH",
+						"",
+						"Smallselect",
+						"",
+						"false",
+						"",
+						"")
+					波特率	#dictSelect(
+						"comportid",
+						"baudRate",
+						"$!{entity.baudRate}",
+						"ZDY_BTL",
+						"",
+						"Smallselect",
+						"",
+						"false",
+						"",
+						"")
+						</span>
+					<span id="ipid" style="display: none;">IP地址<input name="ip" value="$!{entity.ip}" class="SmallInput" style="width: 100px;"/>
+					网络端口<input name="netport" value="$!{entity.netport}" class="SmallInput" style="width: 50px;"/></span>
+					</td>
+				</tr>
+		      </table>
+		  </fieldset> 
+		  
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+</html>

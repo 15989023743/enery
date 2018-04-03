@@ -1,0 +1,117 @@
+.footer{
+    width:1000px;
+    margin-top:20px; 
+	color:#535353; margin:0 auto;
+	margin-top: 24px;
+}
+.footer a:hover{
+	color:#535353;
+}
+.bootomNav{
+    background-color:#e4e4e4;
+    height:210px;
+}
+.bootomNavMeassage{
+    float:left;
+    width:170px;
+    margin-top:50px; padding-left:45px; 
+}
+.bootomNavMeassage2{
+    float:left;
+    width:100px;
+    margin-top:50px;  
+}
+.bootomNavMeassage2 ul{
+    list-style:none;
+    padding:0;
+    margin-top:10px;
+}
+.bootomNavMeassage2 ul li{
+   line-height:24px;
+    
+}
+.bootomNavMeassage2 span{
+    font-weight:bold;
+    font-size:14px
+}
+.bootomNavMeassage span{
+    font-weight:bold;
+    font-size:14px
+}
+.bootomNavMeassage ul{
+    list-style:none;
+    padding:0;
+    margin-top:10px;
+}
+.bootomNavMeassage ul li{
+   line-height:24px;
+    
+}
+.bootomQrCode{
+    float:left;
+}
+.bootomQrCode .qrcode_title{
+    position:absolute;
+    padding-left:15px;
+    margin-top:40px;
+    text-align:center;
+}
+.bootomQrCode img{
+    position:absolute;
+    margin-top:60px;
+}
+.footerNav{
+    background-color:#c2c2c2; 
+	width:1000px; 
+	margin:0 auto;
+    
+}
+.footerNav ul{
+    list-style:none;
+    height:35px;
+    margin:0;
+    font-size:12px;
+    line-height:35px;
+    padding:0;
+}
+.footerNav .first{
+    background:url(images/footer/footer_bg.png) repeat-y;
+    color:#fff;
+    padding-right:20px; padding-left:20px;
+}
+.footerNav .second{
+    margin-left:20px;
+}
+.footerNav .second a:hover{color: #444444;}
+.footerNav .last a{
+    border-right:none;
+}
+.footerNav ul li{
+    text-align:center;
+    float:left;
+    background-color:#c2c2c2;
+}
+.footerNav ul li a{
+    padding:0 30px;
+    border-right:1px solid #dadada;
+}
+.footerNav ul li a:hover{
+    color: #444444;
+}
+.footerLink{
+    text-align:center;
+}
+.footerLink .last{
+    border-right:none;
+}
+.footerLink ul{
+    list-style:none;
+}
+.footerLink a{
+    padding:0 30px;
+    border-right:1px solid #dadada;
+    display:inline-block;
+}
+.footerLink a:hover{
+	color: #444444;
+}

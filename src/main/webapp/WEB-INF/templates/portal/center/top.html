@@ -1,0 +1,25 @@
+<script type="text/javascript">
+	var menu_json = #if($!{session.getAttribute("MENU_JSON")})$!{session.getAttribute("MENU_JSON")} #else "" #end;
+	jQuery(function(){
+		var url=window.location.href;
+			
+		url=url.replace("#ctx()","");
+		
+		var selectId=findCurrentPageInMenuJson(menu_json,url,"text");
+		var name=url.substring(url.lastIndexOf('/')+1,url.lastIndexOf('.htm'));
+		pageMasterTitle(selectId,name);
+	});
+</script>
+	<div class="header">
+		#parse("/WEB-INF/templates/portal/share/toolbar.html")
+		<div class="headerMiddle">
+			<div class="container2">
+				<div class="logo">
+					<img onclick="window.location.href='#ctx'" style="cursor: pointer;"
+						src="#ctx()/resources/style/portal/images/header/logo.jpg">
+				</div>
+				<div class="memberlogo"></div>
+			</div>
+		</div>
+	</div>
+

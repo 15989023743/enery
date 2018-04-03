@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>商品类目管理</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+	
+#set($parentId=$!{request.getParameter('parentId')})
+#if($!{entity})
+	#set($IsLeaf=$!{entity.leaf})
+	#set($parentId=$!{entity.parent.id})
+#end
+
+#if($!{entity.leaf}==true || $!{request.getParameter('IsLeaf')}=='true')
+	#set($IsLeaf=true)
+#else
+	#set($IsLeaf=false)
+#end
+<script language="JavaScript">
+	jQuery(function(){
+		eval('window.parent.refreshTree()');
+	
+		#if($!{request.getParameter('option')}!='view')
+   	    jQuery("input[name=code]").focus().attr("remote", "checkCode.htm?orgCode="+encodeURIComponent('$!{entity.code}'));
+		jQuery.validator.messages["remote"] = "类目代码已存在";
+		jQuery("input[name=name]").focus().attr("remote", "checkName.htm?orgName="+encodeURIComponent('$!{entity.name}')+"&pid=$!{parentId}");
+		jQuery.validator.messages["remote"] = "类目名称已存在于父级类目中";
+		#end
+		#if($!{IsLeaf})
+		jQuery("input[name=profitLossScale]").attr("max", "100");
+		#end
+		
+		var option="$!{request.getParameter('option')}";
+		if(option=="view" || option==""){
+			jQuery(".SmallInput").attr("disabled","disabled");
+			jQuery(".Smallselect").attr("disabled","disabled");
+			jQuery(".SmallButton[value='...']").attr("disabled","disabled");
+		}
+		
+	});
+
+
+</script>
+</head>
+<body class="bodycolor" style="margin-top: 2px;background-color: #EBF2FA;">
+#messages()
+<form id="inputForm" action="#ctx()/manager/goods/goodsItem/save.htm" method="post" class="validate">
+<input type="hidden" name="id" value="$!{entity.id}" />
+<input type="hidden" name="IsLeaf" id="IsLeaf" value="$!{IsLeaf}">
+<input type="hidden" name="parentId" value="$!{parentId}" />
+<input type="hidden" name="option" value="view" />
+ <table style="width:99%" align="center" cellspacing="0" cellpadding="0">
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		 <table style="width:100%" align="center" class="TableBlock" >
+		    <tr>
+				<td width="10%" align="right" class="TableContent">类目代码</td>
+				<td width="90%" align="left" class="TableData" ><input type="text" name="code" value="$!{entity.code}" class="SmallInput required"  style="width:85%" maxlength="10"/></td>
+			</tr>
+		    <tr>
+				<td width="10%" align="right" class="TableContent">类目名称</td>
+				<td width="90%" align="left" class="TableData" ><input type="text" name="name" value="$!{entity.name}" class="SmallInput required"  style="width:85%" /></td>
+			</tr>
+			#if($!{IsLeaf})
+			<tr>
+				<td width="10%" align="right" class="TableContent">溢短量</td>
+				<td width="90%" align="left" class="TableData" >
+				<input type="text" name="profitLossScale" value="$!number.format('0.00',$!{entity.profitLossScale})" class="SmallInput required" style="width:85%" /> % </td>
+			</tr>
+			#end
+			<tr>
+				<td width="10%" align="right" class="TableContent">启用状态</td>
+				<td width="90%" align="left" class="TableData" >
+					#dictSelect(
+                      "enabled",
+                      "enabled",
+                      "$!{entity.enabled}",
+                      "ZDY_display",
+                      "",
+                      "Smallselect required",
+                      "",
+                      "true",
+                      "",
+                      "")
+				</td>
+			</tr>
+			<tr>
+				<td width="10%" align="right" class="TableContent">&nbsp;</td>
+				<td width="10%" align="left" class="TableContent">
+					#if($!{request.getParameter('option')}=='view' && $!{entity})
+					<input type="button" class="SmallButton" onclick="window.location.href='update.htm?id=$!{entity.id}&option=update';" name="b_act_update" id="b_act_update" style="width:60;cursor: pointer;"  value="修&nbsp;&nbsp;改" />&nbsp;&nbsp;
+					#end
+					#if($!{request.getParameter('option')}=='update' || $!{request.getParameter('option')}=='create')
+						#permission("save")
+		                <input type="submit" class="SmallButton"  name="b_act_subit" id="b_act_subit" style="width:60;cursor: pointer;"  value="保&nbsp;&nbsp;存" />&nbsp;&nbsp;
+		                #end
+	                #end
+				</td>
+			</tr>
+	      </table>
+		  <br/>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ 
+ </table>
+</form>
+</body>
+</html>

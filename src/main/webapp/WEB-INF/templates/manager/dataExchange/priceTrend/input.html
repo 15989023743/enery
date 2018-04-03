@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>价格指数管理</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/css.html")
+    #parse("/WEB-INF/templates/public/js.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <script src="#ctx()/resources/js/widgets/datePicker/WdatePicker.js"></script>
+    <!-- 页面JS函数编写 begin -->
+
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/dataExchange/priceTrend/save.htm" method="post" class="validate">
+    <input type="hidden" name="id"  id="id" value="$!{entity.id}" />
+    #backPageUrl()
+    <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="30">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="30" class="TableHeadLeft"></td>
+                        <td class="TableHeader">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td width="46%" valign="middle">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                            <tr>
+                                                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                                                <td width="35%"><b>#navigation("价格指数")#if(!$!entity.id)创建#else修改#end</b></td>
+                                                <td width="55%" align="right">
+                                                    #permission("save")
+                                                    <input type="submit" class="SmallButton"  name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交"/>&nbsp;&nbsp;
+                                                    #end
+                                                    <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableHeadRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+
+        <!--业务表格区域开始-->
+        <tr>
+            <td height="18">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="8" class="TableLeft"></td>
+                        <td class="TableLine1">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+                                <tr>
+                                    <td>
+                                        <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+                                            <table style="width:100%" align="center" class="TableBlock" >
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">商品分类<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData">
+                                                        #dictTree(
+                                                        "goodsItem_id",
+                                                        "goodsItem.id",
+                                                        "$!{entity.goodsItem.id}",
+                                                        "DICT_GOODS_ITEM",
+                                                        "",
+                                                        "Smallselect required",
+                                                        "width:150px;height: 20px;",
+                                                        "true")
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">价格<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" id="price" name="price" value="$!{entity.price}" class="SmallInput required"  style="width:143px;height: 20px;"  maxlength="19" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">价格指数环比<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" id="exponentPre" name="exponentPre" value="$!{entity.exponentPre}" class="SmallInput required"  style="width:143px;height: 20px;"  maxlength="19" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">价格指数环比增幅<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" id="exponentPreAdd" name="exponentPreAdd" value="$!{entity.exponentPreAdd}" class="SmallInput required"  style="width:143px;height: 20px;"  maxlength="19" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">价格指数同比<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" id="exponentYear" name="exponentYear" value="$!{entity.exponentYear}" class="SmallInput required"  style="width:143px;height: 20px;"  maxlength="19" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">价格指数同比增幅<strong style="color: red"></strong></td>
+                                                    <td width="34%" align="left" class="TableData" ><input type="text" id="exponentYearAdd" name="exponentYearAdd" value="$!{entity.exponentYearAdd}" class="SmallInput required"  style="width:143px;height: 20px;"  maxlength="19" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">单位<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData">
+                                                        #dictSelect(
+                                                        "unit",
+                                                        "unit",
+                                                        "$!{entity.unit}",
+                                                        "ZDY_DJ",
+                                                        "",
+                                                        "Smallselect required",
+                                                        "width:156px;height: 25px;",
+                                                        "true",
+                                                        "",
+                                                        "")
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td width="8%" align="right" class="TableContent">时间<strong style="color: red">*</strong></td>
+                                                    <td width="34%" align="left" class="TableData"><input id="priceDate" name="priceDate"  class="required" value="$!date.format("yyyy-MM-dd",$!{entity.priceDate})" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" size="16" style="height: 20px;width:150px;"/>
+                                                    <span id="nothis"><strong style="color: cornflowerblue"></strong></span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="8" class="TableRight"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--业务表格区域结束-->
+
+        <!--表格底部开始-->
+        <tr>
+            <td height="35">
+                <!--圆角表格头开始-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+                    <tr>
+                        <td width="12" height="35" class="TableFooterLeft"></td>
+                        <td class="TableFooter">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+                                <tr>
+                                    <td>&nbsp;&nbsp;</td>
+                                    <td>
+                                        <table border="0" align="right" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="45">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                                <td width="100">&nbsp;</td>
+                                                <td width="40">&nbsp;</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="16" class="TableFooterRight"></td>
+                    </tr>
+                </table>
+                <!--圆角表格头结束-->
+            </td>
+        </tr>
+        <!--表格底部结束-->
+
+    </table>
+</form>
+</body>
+<script type="text/javascript">
+    jQuery.validator.addMethod("regex", function(value, element, regexp) {
+        var check = false;
+        var re = new RegExp(regexp);
+        return this.optional(element) || re.test(value);
+    }, "输入值格式错误");
+
+    function checkDataExist(form){
+        var url = "#ctx()/manager/dataExchange/priceTrend/checkDataExist.htm"
+        var param = {};
+        param["id"] = jQuery("#id").val();
+        param["itemId"] = jQuery("#goodsItem_id").val();
+        param["dateTime"] = jQuery("#priceDate").val();
+        jQuery.ajax({
+            type:'POST',
+            url:url,
+            data:param,
+            dataType:"json",
+            success:function(response){
+                if( response.success ){
+                    $.blockUI({ message: '<p style="font-size: 16px;font-weight: bold;">正在处理，请稍候...</p>' });
+                    form.submit();
+                }else{
+                    alert(response.message);
+                }
+            }
+        });
+    }
+    jQuery(function(){
+        $.validator.setDefaults({
+            submitHandler: function(form) {
+                checkDataExist(form);
+            }
+        });
+        // class为validate的表单都要验证
+        $("form.validate").validate();
+
+        jQuery("#price").rules("add",{
+            required:true,
+            regex:"^(0|[1-9]\\d{0,15})(\\.[0-9]{1,2})?$",
+            messages:{
+                regex:"价格只能是16位整数或者带有2位小数的数值"
+            }});
+        jQuery("#exponentPre").rules("add",{
+            required:false,
+            regex:"^-?(0|[1-9]\\d{0,15})(\\.[0-9]{1,2})?$",
+            messages:{
+                regex:"价格指数环比只能是16位整数或者带有2位小数的数字"
+            }});
+        jQuery("#exponentPreAdd").rules("add",{
+            required:false,
+            regex:"^-?(0|[1-9]\\d{0,15})(\\.[0-9]{1,2})?$",
+            messages:{
+                regex:"价格指数环比增幅只能是16位整数或者带有2位小数的数字"
+            }});
+        jQuery("#exponentYear").rules("add",{
+            required:false,
+            regex:"^-?(0|[1-9]\\d{0,15})(\\.[0-9]{1,2})?$",
+            messages:{
+                regex:"价格指数同比只能是16位整数或者带有2位小数的数字"
+            }});
+        jQuery("#exponentYearAdd").rules("add",{
+            required:false,
+            regex:"^-?(0|[1-9]\\d{0,15})(\\.[0-9]{1,2})?$",
+            messages:{
+                regex:"价格指数同比增幅只能是16位整数或者带有2位小数的数字"
+            }});
+    });
+</script>
+#errors($!{errors})
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>会员用户信息查看</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+<script type="text/javascript">    
+
+</script>
+</head>
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/member/user/view.htm" method="post" class="validate">
+<input type="hidden" name="id" value="$!{entity.id}" />
+#backPageUrl()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>#navigation('用户信息查看')</b></td>
+		                <td width="55%" align="right">
+			                <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="返&nbsp;&nbsp;回" onclick="doreturn()" />
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">用户名</td>
+					<td width="40%" align="left" class="TableData" ><input  disabled="disabled"  type="text" name="userName" value="$!{entity.userName}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td width="10%" align="right" class="TableContent">姓名</td>
+					<td width="40%" align="left" class="TableData" ><input  disabled="disabled"  type="text" name="trueName" value="$!{entity.trueName}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">邮箱</td>
+					<td align="left" class="TableData" ><input  disabled="disabled"  type="text" name="email" value="$!{entity.email}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td align="right" class="TableContent">联系电话</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="tel" value="$!{entity.tel}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+				<tr>
+					<td align="right" class="TableContent">部门</td>
+					<td align="left" class="TableData"><input disabled="disabled"  type="text" name="dept.name" value="$!{entity.dept.names}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+					<td align="right" class="TableContent">是否生效</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="status" value="#dictProperty("$!{entity.status}","ZDY_SF")" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">地区</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="region" value="$!{entity.region}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td align="right" class="TableContent">描述</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="descn" value="$!{entity.descn}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">最后登录时间</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="lastLoginTime" value="#dateFormat('yyyy-MM-dd HH:mm:ss',$!{entity.lastLoginTime})" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+					<td align="right" class="TableContent">最后登录IP</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="lastLoginIp" value="$!{entity.lastLoginIp}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">总的登录次数</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="loginTimes" value="$!{entity.loginTimes}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+					<td align="right" class="TableContent">连续登录错误次数</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="errorTimes" value="$!{entity.errorTimes}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">录入员</td>
+					<td align="left" class="TableData" ><input disabled="disabled"  type="text" name="inputUser" value="$!{entity.inputUser}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+					<td align="right" class="TableContent">录入时间</td>
+					<td align="left" class="TableData" >
+					<input disabled="disabled"  type="text" name="inputTime" value="#dateFormat('yyyy-MM-dd HH:mm:ss',$!{entity.inputTime})" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"/></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <br/>
+		  <fieldset ><legend>&nbsp服务信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="100%" align="left" class="TableData" colspan="4">
+						<div style="word-break:break-all;width:100%; overflow:auto; ">
+							$!{entity.roleNames}
+						</div>
+					</td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+</html>

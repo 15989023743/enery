@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>字典查询</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Cache-Control" content="no-store"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Expires" content="0"/>
+	<link rel="stylesheet" type="text/css" href="../resources/style/theme/1/style.css">
+<script LANGUAGE="Javascript" >
+function getValue()
+{
+	var str = document.form1.glz.value;
+	window.returnValue = str;
+	messageWin.close();
+	window.close();
+}
+
+window.onload = initWindow;
+function initWindow() 
+{
+	window.returnValue = "";
+}
+function reValue(dm,mc){
+	//flag = false;
+    var records = window.dialogArguments;
+    var result= new Array();
+	result["value"]=dm;
+	result["mcvalue"]=mc;
+	result["clickField"]=records["clickField"];
+	result["mcField"]=records["mcField"];
+	window.returnValue = result;
+	window.close();
+}
+</script>
+</head>
+<!-- 
+<frameset rows="0,*">
+  <frame src="about:blank.htm">
+  <frame src="query.htm?dictName=$!{dictName}&condition=$!{condition}&otherCondition=$!{otherCondition}" scrolling="auto">
+ </frameset>
+ <noframes>
+ </noframes>
+ -->
+<body>
+<div style="height: 505px;width:700px">
+ <iframe src="query.htm?dictName=$!{dictName}&condition=$!{condition}&otherCondition=$!{otherCondition}" 
+ style="width: 100%;height: 100%" scrolling="auto" frameborder="0" ></iframe>
+</div>
+</body>
+</html> 

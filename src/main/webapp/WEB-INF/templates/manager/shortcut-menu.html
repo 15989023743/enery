@@ -1,0 +1,66 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/shortmenu.css">
+	<script type='text/javascript' src='#ctx()/dwr/interface/sysPersonFavManager.js'></script>
+	<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+	<script src="#ctx()/resources/js/menu.js" type="text/javascript"></script>
+
+<script language="JavaScript">
+//预处理(主要因为js中的confirm只有“确定”和“取消”两个按钮名称，现在用js中执行脚本语言的方法执行vbs的msgbox功能函数)
+/*@cc_on @*/
+//判断系统和jscript版本
+/*
+if (@_win32 && @_jscript_version>=5){
+	window.confirm = function(str)  //Author: meizz 重定义confirm函数
+	{
+		str=str.replace(/\'/g, "'&chr(39)&'").replace(/\r\n|\n|\r/g, "'&VBCrLf&'");//这句俺不会
+		execScript("n = msgbox('"+ str +"',36, '提示消息确认窗口')", "vbscript");//执行VB函数
+		//return(n);
+		if (n==6) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+} 
+*/
+//删除个人收藏远程调用操作
+function delmyfav(menuid,menuname){
+  if (confirm("确认将“"+menuname+"”从您的快捷方式列表中删除吗？"))
+  {
+	   sysPersonFavManager.delPersonFav("$!{SESSION_LOGGED_ON_USER.userName}",menuid,function(data){
+	   		parent.load_page.location="#ctx()/manager/shortcut-menu.htm";
+	   		//parent.view_menu(2);
+	   });
+   }
+}
+
+//通过按钮控制菜单滚动
+function scroll(n)
+{
+	temp=n;
+	menu_panel.scrollTop=menu_panel.scrollTop+temp;
+	if (temp==0) return;
+	setTimeout("scroll(temp)",20);
+}
+</script>
+<style type="text/css">
+html,body{height:99%;}
+</style>
+</head>
+<body class="panel" id="menu_panel">
+<table border='0' cellspacing='0' cellpadding='0' style='height:100%;width:100%;' valign='top' align='center' class='table1'>
+	<tr style='height:100%; '><td valign="top">
+		<table border='0' cellspacing='0' cellpadding='0' style='width:98%; ' valign='top' align='center' class="small">
+		#foreach( $resource in $favlist)
+		    <tr><td style='height:20px;width:20px;'><img src="#ctx()/resources/style/theme/1/myfav.gif"></td><td><a href="#" onclick="MenuUrl('$!resource.id','$!resource.executeObject','$!resource.type')" ondragstart="delmyfav('$!resource.id','$!resource.name')" title="拖动该菜单即可将该菜单项从快捷方式列表中删除">$!resource.name</a></td></tr>
+		#end
+		</table>
+	</td></tr>
+</table>
+</body>
+</html>

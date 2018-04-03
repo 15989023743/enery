@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>$!APP.systemName－登录</title>
+    #parse("/WEB-INF/templates/public/meta.html")
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="#ctx()/resources/style/theme/1/login.css" />
+	#parse("/WEB-INF/templates/public/js.html")
+	<!-- 
+	<script type='text/javascript' src='#ctx()/dwr/interface/DESPlus.js'></script> -->
+	<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+	<script>
+		$(function(){
+		    $("#username").focus().addClass("required");
+			$("#password").addClass("required");
+			$("#j_captcha").addClass("required");
+		});
+    </script>
+</head>
+<body>
+	<form id="loginForm" action="loginCheck.htm" method="post"  class="validate">
+	#extendsBackPageUrl()
+	#token()
+<div class="container">
+	<div class="header">
+    	<img src="#ctx()/resources/images/mgrlogin/logo.png"/>
+    </div>
+	<div class="middle">
+    	<div class="content">
+        	<div class="whitepart">
+            <div class="message"><span id="messageid" >$!{message}</span></div>
+        	<dl class="login-frame">
+            	<dd><label class="input_text">用户名</label><input onfocus="this.select()" type="text" name='j_username' id='username' class="text width_200"/></dd>
+                <dd><label class="input_text">密&nbsp;&nbsp;码</label><input onfocus="this.select()" type='password' name='j_password' id='password' class="text width_200"/></dd>
+                <dd><label class="input_text">验证码</label><input type="text" name="j_captcha" id="j_captcha" class="text width_100"/><div id="captchaImg" class="identify"><img src="#ctx()/manager/jcaptcha.jpg"  width="96" height="33" align="absmiddle" title="看不清楚换一张" onclick="javascript:refreshCaptcha()"></div>
+                </dd>
+            </dl>
+            <div style="clear:both"></div>
+            </div>
+            <input id="loginButt" type="submit" class="Login" value="登&nbsp;&nbsp;录" name="loginButton" />
+        </div>
+        <div class="h_line"></div>
+    </div>    
+	<div class="footer">
+    	<p class="grey">版权所有 &#169; $!APP.copyRight</p>
+        <p class="blue"><a href="http://www.miibeian.gov.cn" target=_blank>$!{APP.icp}</a></p>
+    </div>
+ </div>
+ </form>
+</body>
+<script type="text/javascript">
+		#if($!{request.getParameter("error")}==2)
+			$('#messageid').html('验证码错误！');
+		#{end}
+		function encrypt(){
+			DESPlus.doEncrypt($("#j_password").val(),function(data) {
+			    //$("#j_password").val(data);
+			});
+		}
+		function refreshCaptcha(){
+			$('#captchaImg').html('<img src="#ctx()/manager/jcaptcha.jpg?'+Math.round(Math.random()*100000)+'" width="96" height="33" align="absmiddle" onclick="javascript:refreshCaptcha()" title="看不清楚换一张" />');
+		}
+		
+    	$(function(){
+    		/*
+    		<c:if test="${!isCas}">
+    		$("input[name=j_captcha]").attr("maxlength", "5");
+    		$("input[name=j_username]").attr("remote", "#ctx()/center/common/system/checkSession");
+    		$.validator.messages["remote"] = "您的sessionid已经登录，不能重新登录，若想登录另一用户请打开一个新的浏览器窗口！";
+    		</c:if>*/
+    		if (window.self != window.top) {  
+    		    window.top.location = window.self.location;  
+    		}
+    		$("#username").focus();
+    	});
+
+</script>
+</html>

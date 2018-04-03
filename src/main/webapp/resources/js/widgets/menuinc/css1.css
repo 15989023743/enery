@@ -1,0 +1,101 @@
+BODY {
+	FONT-FAMILY: "ËÎÌו"; FONT-SIZE: 9pt
+}
+TD {
+	FONT-FAMILY: "ËÎÌו"; FONT-SIZE: 9pt
+}
+A:link {
+FONT-SIZE: 9pt; TEXT-DECORATION: none
+; color: blue}
+A:abc {
+FONT-SIZE: 9pt; TEXT-DECORATION: none
+; color: #fff000}
+A:visited {
+	COLOR: blue; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #FF0000; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+HR {
+	COLOR: #009900
+}
+a:hover {  }
+
+.fsttb1 {
+	border-color: #000000 #000000 black; HEIGHT: 17px; WIDTH: 750px
+; text-decoration: none; border-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 0px}
+
+.fsttb1 TD {
+	BORDER-LEFT: #000000 1px solid; HEIGHT: 17px; WIDTH: 73px
+; text-decoration: none}
+
+.fsttb1 TD A{
+	BACKGROUND-COLOR: transparent; COLOR: #FFFFFF; HEIGHT: 17px; PADDING-TOP: 1px; WIDTH: 73px
+; text-decoration: none; clip:  rect(   )}
+
+.fsttb1 TD A:link {
+	BACKGROUND-COLOR: transparent; COLOR: #FFFFFF; HEIGHT: 17px; PADDING-TOP: 1px; WIDTH: 73px
+; text-decoration: none; clip:  rect(   )}
+
+.fsttb1 TD A:visited {  color: #FFFFFF; text-decoration: none}
+.fsttb1 TD A:hover {
+	BACKGROUND-COLOR: #ffffff; COLOR: #000000
+; text-decoration: none}
+
+.sndinput1 {
+	BORDER-BOTTOM: #000000 1px solid; BORDER-LEFT: #000000 1px solid; BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid
+}
+#input_box {
+	BORDER-RIGHT: #e2edda 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #e2edda 1px solid; PADDING-LEFT: 0px; BACKGROUND: #f6fcf2; PADDING-BOTTOM: 10px; MARGIN: 10px auto 6px; BORDER-LEFT: #e2edda 1px solid; WIDTH: 205px; PADDING-TOP: 0px; BORDER-BOTTOM: #e2edda 1px solid; TEXT-ALIGN: center
+}
+#input_btn1 {
+	BORDER-RIGHT: #8fc16f 1px solid; BORDER-TOP: #8fc16f 1px solid; FONT-WEIGHT: bolder; FONT-SIZE: 12px; BACKGROUND: url(btn.gif) repeat-x; BORDER-LEFT: #8fc16f 1px solid; WIDTH: 76px; CURSOR: hand; COLOR: #060; PADDING-TOP: 4px; BORDER-BOTTOM: #8fc16f 1px solid; HEIGHT: 29px
+}
+
+#input_btn2 {
+	BORDER-RIGHT: #8fc16f 1px solid; BORDER-TOP: #8fc16f 1px solid; FONT-WEIGHT: bolder; FONT-SIZE: 12px; BACKGROUND: url(btn.gif) repeat-x; BORDER-LEFT: #8fc16f 1px solid; WIDTH: 76px; CURSOR: hand; COLOR: #060; PADDING-TOP: 4px; BORDER-BOTTOM: #8fc16f 1px solid; HEIGHT: 29px
+}
+#input_btn2 {
+	BORDER-RIGHT: #58b1d9 1px solid; BACKGROUND-POSITION: 0px -28px; BORDER-TOP: #58b1d9 1px solid; MARGIN-LEFT: 12px; BORDER-LEFT: #58b1d9 1px solid; COLOR: #3d6273; BORDER-BOTTOM: #58b1d9 1px solid
+}
+#text_zff{
+	BORDER-RIGHT: #9C9A9C 1px solid; BORDER-TOP: #9C9A9C 1px solid; BORDER-LEFT: #9C9A9C 1px solid; BORDER-BOTTOM: #9C9A9C 1px solid; height:25px;
+}
+#text_zff1{
+	BORDER-RIGHT: #9C9A9C 1px solid; BORDER-TOP: #9C9A9C 1px solid; BORDER-LEFT: #9C9A9C 1px solid; BORDER-BOTTOM: #9C9A9C 1px solid; height:16px;
+}
+#text_zff2{
+	BORDER-RIGHT: #9C9A9C 1px solid; BORDER-TOP: #9C9A9C 1px solid; BORDER-LEFT: #9C9A9C 1px solid; BORDER-BOTTOM: #9C9A9C 1px solid; height:20px;
+}
+.inputtext{
+	BORDER-RIGHT: #58B1D9 1px solid; BORDER-TOP: #58B1D9 1px solid; BORDER-LEFT: #58B1D9 1px solid; BORDER-BOTTOM: #58B1D9 1px solid; height:20px;
+}
+
+.input_btnx {
+	BORDER-RIGHT: #8fc16f 1px solid; BORDER-TOP: #8fc16f 1px solid; FONT-WEIGHT: bolder; FONT-SIZE: 12px; BACKGROUND: url(btn.gif) repeat-x; BORDER-LEFT: #8fc16f 1px solid; WIDTH: 60px; CURSOR: hand; COLOR: #060; PADDING-TOP: 4px; BORDER-BOTTOM: #8fc16f 1px solid; HEIGHT: 22px
+}
+.input_btnx {
+	BORDER-RIGHT: #58b1d9 1px solid; BACKGROUND-POSITION: 0px -28px; BORDER-TOP: #58b1d9 1px solid; MARGIN-LEFT: 12px; BORDER-LEFT: #58b1d9 1px solid; COLOR: #3d6273; BORDER-BOTTOM: #58b1d9 1px solid
+}
+
+.zff_table_line
+{
+border: 0px; background-color: #ACB0B5;
+}
+
+.unnamed2 {  border-color: black black #ACB0B5; border-style: solid; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 0px}
+
+.tableBorder
+{
+border: 1px; background-color: #ACB0B5;
+}
+tr.background
+{
+background-color: #BEE1FD;
+}
+.input_btnx1 {
+	BORDER-RIGHT: #8fc16f 1px solid; BORDER-TOP: #8fc16f 1px solid; FONT-WEIGHT: bolder; FONT-SIZE: 12px; BACKGROUND: url(btn.gif) repeat-x; BORDER-LEFT: #8fc16f 1px solid; WIDTH: 120px; CURSOR: hand; COLOR: #060; PADDING-TOP: 4px; BORDER-BOTTOM: #8fc16f 1px solid; HEIGHT: 22px
+}
+.input_btnx1 {
+	BORDER-RIGHT: #58b1d9 1px solid; BACKGROUND-POSITION: 0px -28px; BORDER-TOP: #58b1d9 1px solid; MARGIN-LEFT: 12px; BORDER-LEFT: #58b1d9 1px solid; COLOR: #3d6273; BORDER-BOTTOM: #58b1d9 1px solid
+}

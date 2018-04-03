@@ -1,0 +1,23 @@
+<div class="toolbar">
+			<div class="container">
+				<div class="welcome">
+					#if($!{SESSION_LOGGED_ON_USER}&&${SESSION_LOGGED_USER_TYPE}=='FRONT')
+					<span class="welcomeTest">$!{SESSION_LOGGED_ON_USER.trueName}[$!{SESSION_LOGGED_ON_USER.userName}]，欢迎来到$!{APP.frontSystemName}！</span>
+					<span class="login"><a href="#ctx()/user/logout.htm">[退出]</a></span>
+					#{else}
+					<span class="welcomeTest">您好，欢迎来到$!{APP.frontSystemName}！</span>
+					<span class="login"><a href="#ctx()/user/login.htm">[请登录]</a></span>
+					<span class="creat"><a href="#ctx()/user/register.htm">[免费注册]</a></span>
+					#{end}
+				</div>
+				<div class="telMessage">
+					<span class="telTitle">客服热线:</span> <span class="number">400-80-77777</span>
+				</div>
+				<div class="toolbarMenu">
+					<!-- <a href="#" rel="nofollow">我的订单</a> --> 
+					<a href="#ctx()/center/index.htm" rel="nofollow">我的能化</a>
+					<a href="javascript:shoucang('$!{APP.frontSystemName}', '#ctx')" rel="nofollow">加入收藏</a>
+					<a href="#ctx()/helpcenter/index.htm" target="_blank">帮助中心</a>
+				</div>
+			</div>
+</div>

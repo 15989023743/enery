@@ -1,0 +1,6 @@
+#set($mid = $request.getParameter("mid"))
+<link rel="stylesheet" type="text/css" href="${ctx}/resources/style/theme/1/style.css">
+<frameset rows="40,*"  cols="*" frameborder="NO" border="0" framespacing="0">
+    <frame name="submenu" scrolling="no" noresize src="submenu.htm?mid=$!mid" frameborder="0">
+    <frame name="main" id="main" scrolling="auto" noresize src="about:blank" frameborder="0">
+</frameset>

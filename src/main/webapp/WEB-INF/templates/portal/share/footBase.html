@@ -1,0 +1,26 @@
+<div class="footerNav">
+	<div class="container">
+		<ul>
+			<li class="first">大宗物资王国网站群</li>
+			<li class="second"><a href="http://www.gdwz.com.cn" target="_blank">广东物资集团公司官网</a></li>
+			<li><a href="http://www.gtwg001.com" target="_blank">钢铁王国</a></li>
+			<li><a href="http://www.yuzhuwood.com" target="_blank">木材王国</a></li>
+			<li><a href="http://www.chevip.com" target="_blank">汽车王国</a></li>
+			<li><a href="http://www.hprosin.com" target="_blank">松香王国</a></li>
+			<li class="last"><a href="http://www.gzgwxd.com" target="_blank">广物小额贷</a></li>
+		</ul>
+	</div>
+</div>
+<div  class="footerLink">
+      <div class="container" style="height:20px;margin-top:30px;margin-bottom:8px;" align="center">
+		#articleDataSourcesInitForeach("footerArticle",6)
+			#foreach($articleClass in $articleDataSources)
+				<a href="$!{articleClass.url}" target="_blank" #if(${velocityCount} == $!{articleDataSources.size()}) class="last" #end>$articleClass.name</a>
+			#end
+		#end
+      </div>
+      <span class="container" style="display: block; line-height:35px;">版权所有 &#169; $!{APP.copyRight}</span>
+      <span class="container" style="display: block;"><a class="color:#444444" href="http://www.miitbeian.gov.cn" target="_blank">网站备案号：$!{APP.icp}</a>&nbsp;技术支持：$!{APP.technicalSupport} <img src="#ctx()/resources/style/portal/images/footer/statistics.png" /></span>
+      <div class="container" style="display: none;border-right:0; margin-bottom:20px; height:80px;"><a style="border-right:none"><img src="#ctx()/resources/style/portal/images/footer/save.png" /></a></div>
+</div>
+#parse("/WEB-INF/templates/portal/share/servicePanel.html")

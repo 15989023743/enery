@@ -1,0 +1,24 @@
+<div id="resourceClassificationAll" class="resouce-classification-close"> 
+	<div class="center_top_left" id="resourceClassificationDiv" style="display:none;">
+		<ul class="navleft" id="resourceClassificationUl" style="height: 310px;">
+		#foreach($entity in $!{goodsItems})
+			<li class="white"><a href="#" ><h3>$!entity.name</h3><!-- <span>昨日成交:<strong>123000</strong>吨</span> --></a></li>  
+		#end
+		</ul>
+		#foreach($entity in $!{goodsItems})
+		<div class="hh" itemGoodsNames="$!{entity.name}" pId="tb_$!{entity.id}" classification-name="$!{entity.name}">
+			<div style="display:none;">
+				<div class="nn">
+					<ul>
+					#foreach( $goods in $!itemMapsMap.get(${entity.id}))
+						<li><a href="javascript:void(0);" itemGoodsName="$!{goods.name}" pId="tb_$!{entity.id}" cId="$!{goods.id}">$!{goods.name}</a></li>
+					#end
+					</ul>
+				</div>
+				<div class="zz"></div>
+			</div>
+		</div> 
+		#end
+		<div id="resourceExpendOrClose" class="resource-close"></div>
+	</div>
+</div>

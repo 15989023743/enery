@@ -1,0 +1,11 @@
+#seo()
+#if(${SEOCONFIG})
+<title>$!{SEOCONFIG.title}</title>
+<meta name="keywords" content="$!{SEOCONFIG.keywords}" />
+<meta name="description" content="$!{SEOCONFIG.description}" />
+#else
+<title>$!{APP.title}</title>
+<meta name="keywords" content="$!{APP.keywords}" />
+<meta name="description" content="$!{APP.description}" />
+#end
+<link rel="shortcut icon" href="#ctx()/favicon.ico" type="image/x-icon"/>

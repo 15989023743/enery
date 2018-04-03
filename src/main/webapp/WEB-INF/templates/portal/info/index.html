@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#parse("/WEB-INF/templates/portal/public/meta.html")
+
+#parse("/WEB-INF/templates/portal/public/css_portal.html")
+<link rel="stylesheet" href="#ctx()/resources/js/widgets/slider/jquery.bxslider.css" type="text/css"/>
+#parse("/WEB-INF/templates/portal/public/js_commons.html")
+<script src="#ctx()/resources/js/commons-utils.js"></script>
+<script src="#ctx()/resources/js/widgets/slider/jquery.flexslider-min.js"></script>
+<script src="#ctx()/resources/js/widgets/slider/ion.tabs.min.js"></script>
+<script src="#ctx()/resources/js/widgets/chart/echarts/asset/js/esl/esl.js"></script>
+<script type="text/javascript" src="#ctx()/resources/js/portal/priceTrend/priceTrend_chart.js"></script>
+
+<script>
+//<!CDATA[
+jQuery(window).load(function() {
+	    jQuery('#flexslider').flexslider({
+	        directionNav: false,
+	        pauseOnAction: false
+	    });
+	    getItemInfo();//加载价格指数相关图表
+});          
+function getItemInfo(){
+    jQuery("#chartsD307").load("#ctx()/indices/portal.htm",{width:307});
+//	var url = "#ctx()/portal/goods/goodsItem/queryGoodsItemList.htm";
+//	var param = {};
+//	param["rownum"]=3;
+//	jQuery.ajax({
+//        type:'POST',
+//        url:url,
+//        data:param,
+//        dataType:"json",
+//        success:function(data){
+//        	var itemInfo = "";
+//        	if (data!=null &&　data.length>0){
+//        		var num = 0;
+//        		for(var i=0,len=data.length;i<len;i++){
+//        			num = i+1;
+//        			if (i==0){
+//        				itemInfo += '<li id="tb1_'+num+'" class="hovertab" onmouseover="x:HoverLi('+data.length+','+num+',\'tb\',\'tbc\');">'+data[i].name+'</li>';
+//        			}else{
+//        				itemInfo += '<li id="tb1_'+num+'" class="normaltab" onmouseover="x:HoverLi('+data.length+','+num+',\'tb\',\'tbc\');">'+data[i].name+'</li>';
+//        			}
+//        		}
+//                jQuery("#itemInfo").html(itemInfo);
+//                for(var i=0,len=data.length;i<len;i++){
+//                    num = i+1;
+//                    jQuery("#tbc1_0"+num).load("#ctx()/portal/data/priceTrend/portal.htm",{itemId:data[i].id});
+//                }
+//        	}
+//        }
+//    });
+}
+
+//]]>
+</script>
+</head>
+
+<body>
+#parse("/WEB-INF/templates/portal/share/top.html")
+<div class="center">
+     <div class="zxleft">
+          <div class="leftbox">
+               <div class="banner flexslider" id="flexslider">
+			        <ul class="slides" style="min-height: 182px;">
+			            #foreach( $advertArticle in $zxzxtpgl)
+							#if($!{advertArticle.url} && $!{advertArticle.url}!='')
+				            	<a href="$!{advertArticle.url}" target="_blank"> <li style="background: url(#ctx()/$!{advertArticle.img}) 50% 0 no-repeat;"></li></a>
+				            #else
+				            	<a href="#"><li style="background: url(#ctx()/$!{advertArticle.img}) 50% 0 no-repeat;"></li></a>
+				            #end
+			            #end
+			        </ul>
+               </div>                
+               <div id="chartsD307">
+               </div>
+          </div>
+          <div class="text1">
+            <strong><a class="hot-news-title" href="#counselingCenterHref($rdxwFirstArticle)" target="_blank" title="$!rdxwFirstArticle.title">$!rdxwFirstArticle.title</a></strong>
+            <p>$!articleIntro<a href="#counselingCenterHref($rdxwFirstArticle)" target="_blank">[详情]</a></p>
+            <ul>
+            #foreach($article in $zxzxrdxw)
+            	#if($velocityCount > 1)##排除首篇
+	           	<li>
+	           		<span class="indextext"><a target="_blank" href="#counselingCenterHref($article)">$!article.title</a></span>
+	           		<span class="data">$!date.format('yyyy/MM/dd',$!{article.auditTime})</span>
+	           	</li>
+	           	#end
+            #end
+            </ul>
+			</div>     
+          <div class="advertisement">
+               <a href="#"><img src="#ctx()/resources/style/portal/infoCenter/images/zximages2.jpg" /></a>
+          </div>
+          #foreach($articleList in $counselingCenterArticle)
+          	#if($!velocityCount < 3)##第一排显示
+          		#if($velocityCount == 2)
+          			#set($defineStyle = "margin-left:16px;")
+          		#end
+          	#else
+          		#if($velocityCount % 2 == 0)
+          			#set($defineStyle = "margin-top:16px; margin-left:16px;")
+          		#else
+          			#set($defineStyle = "margin-top:16px;")
+          		#end
+          	#end
+          	<div class="list" style="$!{defineStyle}">
+               <div class="title"><span>#getArticleClassName($articleList)</span><p><a href="#articleMore($firstArticle)" target="_blank">更多</a></p></div>
+	           <ul>
+	               #foreach($article in $articleList)
+	               <li><span class="indextext"><a target="_blank" href="#counselingCenterHref($article)">$!article.title</a></span><span class="data">$!date.format('yyyy/MM/dd',$!{article.auditTime})</span></li>
+	               #end
+               </ul>
+          	</div>
+          #end
+     </div>   
+     <div class="zxright">
+          <div class="qhdt">
+               <div class="title"><span>期货动态</span></div>
+               <div class="data">
+                    <table cellspacing="0">
+                          <tr bgcolor="f5f5f5">
+                               <td width="90" height="33" >品名</td>
+                               <td width="60">最新价</td>
+                               <td width="50">涨跌</td>
+                               <td width="60">持仓量</td>
+                          </tr>
+                          #foreach($df in $dynamicFutures)
+                          <tr>
+                          	<td height="33" style="border-bottom:1px solid #e5e5e5;">$!{df.goodsItem.name}</td>
+                          	<td style="border-bottom:1px solid #e5e5e5;"><span>$!{df.price}</span></td>
+                          	<td style="border-bottom:1px solid #e5e5e5;">$!{df.upAndDown}</td>
+                          	<td style="border-bottom:1px solid #e5e5e5;">$!{df.position}</td>
+                          </tr>
+                          #end
+                    </table>
+               </div>
+          </div>
+          <div class="qhdt">
+              <div class="title">
+                   <span>价格行情</span>
+                   <p><a href="#ctx()/info/list.htm?classId=$!{priceQuotesClassId}" target="_blank">更多>></a></p>
+              </div>
+              <div class="w318">
+                   <div id="tb_" class="tb1_">
+                   <ul>
+                   	#foreach($articleList in $priceQuotesArticle)
+                   		<li id="tb_$!{velocityCount}" #if($!velocityCount == 1) class="hovertab" #else class="normaltab" #end onmouseover="HoverLi($!{priceQuotesArticle.size()},$!{velocityCount},'tb','tbc');">#getArticleClassName($articleList)</li>
+                   	#end
+                   </ul>
+                   </div>
+                   <div class="ctt21">
+                   	#foreach($articleList in $priceQuotesArticle)
+                   		<div #if($!velocityCount == 1) class="dis" #else class="undis" #end id="tbc_0$!{velocityCount}">
+                             <ul>
+                                  #foreach($article in $articleList)
+         							<li><span class="indextext"><a target="_blank" href="#counselingCenterHref($article)">$!article.title</a></span></li>
+         							#end
+                             </ul>
+                       	</div>
+                   	#end
+                   </div> 
+              </div>
+          </div>
+          <div class="qhdt" style="margin-bottom:none;">
+               <div class="title">
+                    <span>#getArticleClassName($zxzxhyfg)</span>
+                    <p><a href="#articleMore($firstArticle)" target="_blank">更多>></a></p>
+               </div>
+               <div class="hyfg">
+               		<ul>
+		               #foreach($article in $zxzxhyfg)
+		               <li><a target="_blank" href="#counselingCenterHref($article)">$!article.title</a></li>
+		               #end
+		            </ul>
+               </div>
+           </div>          
+     </div>         
+</div>
+#parse("/WEB-INF/templates/portal/share/foot.html")
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>运营管理参数-交易日期</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/cssjs.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <script src="#ctx()/resources/datePicker/WdatePicker.js"></script>
+    <script charset="utf-8" src="#ctx()/resources/editor/kindeditor.js"></script>
+    <!-- 页面JS函数编写 begin -->
+    <script>
+
+    </script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/sysParam/runManage/run_mode_setting.htm?runFlag=type" method="post" class="validate">
+    <input type="hidden" name="id"  id="id" value="$!{entity.id}" />
+    #backPageUrl()
+     <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+	 <tr>
+	    <td height="30">
+	        <!--圆角表格头开始-->
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+		      <tr>
+		        <td width="12" height="30" class="TableHeadLeft"></td>
+		        <td class="TableHeader">
+			         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+			           <tr>
+			            <td width="46%" valign="middle">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+			              <tr>
+			                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+			                <td width="35%"><b>#navigation('交易状态')#if(!$!entity.id)创建#{else}修改#{end}</b></td>
+			                <td width="55%" align="right">
+			                	#permission("save")
+				                <input type="submit" class="SmallButton" name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+				                #end
+				                <!-- <input type="button" class="SmallButton" name="b_act_close"    style="width:60"  value="取&nbsp;&nbsp;消" onclick="doreturn()" /> -->
+			                </td>
+			              </tr>
+			            </table>
+						</td>
+			           </tr>
+			        </table>
+				</td>
+		        <td width="16" class="TableHeadRight"></td>
+		      </tr>
+		    </table>
+		    <!--圆角表格头结束-->
+		</td>
+	 </tr>
+	<!--业务表格区域开始-->
+	 <tr>
+	   <td height="18">
+	      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="8" class="TableLeft"></td>
+	        <td class="TableLine1">
+		        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+			        <tr>
+				        <td>
+						  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+							 <table style="width:100%" align="center" class="TableBlock" >
+							    <tr>
+									<td width="10%" align="right" class="TableContent">运行模式：</td>
+									<td width="90%" align="left" class="TableData">#if($entity.runMode==0) <span>自动开闭市</span> #else <span>手动开闭市</span> #end</td>
+								</tr>
+								<tr>
+									<td width="10%" align="right" class="TableContent">市场状态：</td>
+									<td width="90%" align="left" class="TableData">
+										#if($entity.businessType==1)
+										<span>开始交易</span>
+										#elseif($entity.businessType==2)
+										<span>暂停交易</span>
+										#elseif($entity.businessType==3)
+										<span>恢复交易</span> 
+										#else
+										<span>交易结束</span>
+										#end
+									</td>
+								</tr>
+								<tr>
+      								<td width="10%" align="right" class="TableContent">选择操作：</td>
+      								<td width="90%" align="left" class="TableData">
+	      								<input type="radio" value="1" name="businessType" checked="checked">开始交易
+	      								<input type="radio" value="2" name="businessType">暂停交易
+	      								<input type="radio" value="3" name="businessType">恢复交易
+	      								<input type="radio" value="0" name="businessType">交易结束
+      								</td>
+      							</tr>
+						      </table>
+						  </fieldset>
+					    </td>
+				    </tr> 
+			   </table>
+		   </td>
+		   <td width="8" class="TableRight"></td>
+	      </tr> 
+	    </table>
+	  </td>
+	 </tr>
+	<!--业务表格区域结束-->
+	<!--表格底部开始-->
+	 <tr>
+	    <td height="35">
+	    <!--圆角表格头开始-->
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="35" class="TableFooterLeft"></td>
+	        <td class="TableFooter"></td>
+	        <td width="16" class="TableFooterRight"></td>
+	 	  </tr>
+	 	</table>
+	    <!--圆角表格头结束-->
+	 	</td>
+	 </tr>
+ 	<!--表格底部结束-->
+ </table>
+</form>
+</body>
+</html>

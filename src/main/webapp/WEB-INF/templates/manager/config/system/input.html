@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>系统环境配置</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../../resources/style/theme/1/style.css" />
+<!-- 页面JS函数编写 begin -->
+	<script>
+	$(function(){
+	    $("input[name=systemName]").focus();
+	    $("input[name=systemName]").addClass("required");
+	    $("input[name=companyName]").addClass("required");
+	    $("input[name=copyRight]").addClass("required");
+	    $("input[name=icp]").addClass("required");
+	    /*
+	    $("input[name=misdEngineType]").addClass("required");
+	    $("input[name=misdEngineVsesion]").addClass("required");
+	    $("input[name=misdEngineHost]").addClass("required");
+	    $("input[name=misdEngineHostPort]").addClass("required");
+	    $("input[name=misdEngineName]").addClass("required");
+	    $("input[name=misdAppPutoutName]").addClass("required");
+	    $("input[name=misdAppRoleName]").addClass("required");
+	    $("input[name=misdHome]").addClass("required");
+	    $("input[name=misdWebPutPath]").addClass("required");
+	    */
+	});
+	</script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="save.htm" method="post" class="validate">
+<input type="hidden" name="id" value="$!{entity.id}" />
+#messages()
+ <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <td height="30">
+        <!--圆角表格头开始-->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="30" class="TableHeadLeft"></td>
+	        <td class="TableHeader">
+		         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		           <tr>
+		            <td width="46%" valign="middle">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+		              <tr>
+		                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+		                <td width="35%"><b>系统环境配置</b></td>
+		                <td width="55%" align="right">
+		                	#permission("save")
+			                <input type="submit" class="SmallButton" name="b_act_subit"   style="width:60"  value="保&nbsp;&nbsp;存" />
+			                #end
+		                </td>
+		              </tr>
+		            </table>
+					</td>
+		           </tr>
+		        </table>
+			</td>
+	        <td width="16" class="TableHeadRight"></td>
+	      </tr>
+	    </table>
+	    <!--圆角表格头结束-->
+	</td>
+ </tr>
+
+<!--业务表格区域开始-->
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">系统名称</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="systemName" value="$!{entity.systemName}" class="SmallInput"  style="width:80%"  maxlength="200"/></td>			                       
+					<td width="10%" align="right" class="TableContent">公司名称</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="companyName" value="$!{entity.companyName}" class="SmallInput"  style="width:80%"  maxlength="200" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">系统版本</td>
+					<td align="left" class="TableData" ><input type="text" name="systemVersion" value="$!{entity.systemVersion}" class="SmallInput"  style="width:80%"  maxlength="20" /></td>			                       
+					<td width="10%" align="right" class="TableContent">版权声明</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="copyRight" value="$!{entity.copyRight}" class="SmallInput"  style="width:80%"  maxlength="200" /></td>			                       
+				</tr>
+			    <tr>
+			    	<!--
+					<td align="right" class="TableContent">调试模式</td>
+					<td align="left" class="TableData" >
+					<input type="radio" id="debug_true" name="debug" value="true" #if($!entity.debug==true || !$!entity.debug) checked='checked' #end><label for="debug_true">是</label>
+					<input type="radio" id="debug_false" name="debug" #if($!entity.debug==false) checked='checked' #end value="false"><label for="debug_false">否</label>
+					</td>
+					-->
+					<td width="10%" align="right" class="TableContent">验证登录URL</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="loginUrl" value="$!{entity.loginUrl}" class="SmallInput"  style="width:80%"  maxlength="200"/></td>			                       
+					<td align="right" class="TableContent">系统LOGO</td>
+					<td align="left" class="TableData" ><input type="text" name="systemLogo" value="$!{entity.systemLogo}" class="SmallInput"  style="width:80%"  maxlength="300" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">技术支持</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="technicalSupport" value="$!{entity.technicalSupport}" class="SmallInput"  style="width:80%"  maxlength="200"/></td>			                       
+					<td align="right" class="TableContent">ICP备案号</td>
+					<td align="left" class="TableData" ><input type="text" name="icp" value="$!{entity.icp}" class="SmallInput"  style="width:80%"  maxlength="20"/></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <br/>
+		  <fieldset ><legend>&nbsp;公共seo信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">标题</td>
+					<td width="90%" align="left" class="TableData" colspan="3" ><input type="text" name="title" value="$!{entity.title}" class="SmallInput"  style="width:90%"  maxlength="100"/></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">描述</td>
+					<td width="90%" align="left" class="TableData" colspan="3" >
+					<textarea rows="" cols="" name="description" maxlength="400" class="SmallInput"  style="width:90%">$!{entity.description}</textarea>
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">关键字</td>
+					<td width="90%" align="left" class="TableData" colspan="3" ><input type="text" name="keywords" value="$!{entity.keywords}" class="SmallInput"  style="width:90%"  maxlength="255"/></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <br/>
+		  <fieldset style="display: none;" ><legend>&nbsp;世纪桥J2EE解释器信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">类型</td>
+					<td width="40%" align="left" class="TableData" >
+					<input type="radio" id="misdActive_true" name="misdActive" value="true" #if($!entity.misdActive==true || !$!entity.misdActive) checked='checked' #end ><label for="misdActive_true">启用</label>
+					<input type="radio" id="misdActive_false" name="misdActive" #if($!entity.misdActive==false) checked='checked' #end value="false"><label for="misdActive_false">关闭</label>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;版本<input type="text" name="misdEngineVsesion" value="$!{entity.misdEngineVsesion}" class="SmallInput"  style="width:80" />
+					</td>			                       
+					<td width="10%" align="right" class="TableContent">日志</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="misdEngineLogPath" value="$!{entity.misdEngineLogPath}" class="SmallInput"  style="width:80%" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">主机</td>
+					<td align="left" class="TableData" ><input type="text" name="misdEngineHost" value="$!{entity.misdEngineHost}" class="SmallInput"  style="width:35%"  />
+					端口<input type="text" name="misdEngineHostPort" value="$!{entity.misdEngineHostPort}" class="SmallInput"  style="width:10%"  />	                       
+					名称<input type="text" name="misdEngineName" value="$!{entity.misdEngineName}" class="SmallInput"  style="width:22%"  /></td>		
+					<td align="right" class="TableContent">角色名称</td>
+					<td align="left" class="TableData" ><input type="text" name="misdAppRoleName" value="$!{entity.misdAppRoleName}" class="SmallInput"  style="width:34%"  />
+					发布名称<input type="text" name="misdAppPutoutName" value="$!{entity.misdAppPutoutName}" class="SmallInput"  style="width:34%" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">应用发布本地路径</td>
+					<td align="left" class="TableData" colspan="3" ><input type="text" name="misdHome" value="$!{entity.misdHome}" class="SmallInput"  style="width:91%" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">应用发布WEB路径</td>
+					<td align="left" class="TableData" colspan="3" ><input type="text" name="misdWebPutPath" value="$!{entity.misdWebPutPath}" class="SmallInput"  style="width:91%" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">TOMCAT_HOME</td>
+					<td align="left" class="TableData" colspan="3" ><input type="text" name="tomcatHome" value="$!{entity.tomcatHome}" class="SmallInput"  style="width:91%" /></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+		  <br/>
+		  <fieldset style="display: none;" ><legend>&nbsp;世纪桥.NET解释器信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">类型</td>
+					<td width="40%" align="left" class="TableData" >
+					<input type="radio" id="misdActive_net_true" name="misdActive_net" value="true" #if($!entity.misdActive_net==true || !$!entity.misdActive_net) checked='checked' #end ><label for="misdActive_net_true">启用</label>
+					<input type="radio" id="misdActive_net_false" name="misdActive_net" #if($!entity.misdActive_net==false) checked='checked' #end value="false"><label for="misdActive_net_false">关闭</label>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;版本<input type="text" name="misdEngineVsesion_net" value="$!{entity.misdEngineVsesion_net}" class="SmallInput"  style="width:80" />
+					</td>			                       
+					<td width="10%" align="right" class="TableContent">日志</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="misdEngineLogPath_net" value="$!{entity.misdEngineLogPath_net}" class="SmallInput"  style="width:80%" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">主机</td>
+					<td align="left" class="TableData" ><input type="text" name="misdEngineHost_net" value="$!{entity.misdEngineHost_net}" class="SmallInput"  style="width:35%"  />
+					端口<input type="text" name="misdEngineHostPort_net" value="$!{entity.misdEngineHostPort_net}" class="SmallInput"  style="width:10%"  />	                       
+					名称<input type="text" name="misdEngineName_net" value="$!{entity.misdEngineName_net}" class="SmallInput"  style="width:22%"  /></td>		
+					<td align="right" class="TableContent">角色名称</td>
+					<td align="left" class="TableData" ><input type="text" name="misdAppRoleName_net" value="$!{entity.misdAppRoleName_net}" class="SmallInput"  style="width:34%"  />
+					发布名称<input type="text" name="misdAppPutoutName_net" value="$!{entity.misdAppPutoutName_net}" class="SmallInput"  style="width:34%" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">应用发布本地路径</td>
+					<td align="left" class="TableData" colspan="3" ><input type="text" name="misdHome_net" value="$!{entity.misdHome_net}" class="SmallInput"  style="width:91%" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">应用发布WEB路径</td>
+					<td align="left" class="TableData" colspan="3" ><input type="text" name="misdWebPutPath_net" value="$!{entity.misdWebPutPath_net}" class="SmallInput"  style="width:91%" /></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table>
+   </td>
+ </tr>
+<!--业务表格区域结束-->
+
+ <!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+	          <tr>
+	            <td>&nbsp;&nbsp;</td>
+	            <td>
+		            <table border="0" align="right" cellpadding="0" cellspacing="0">
+		                <tr>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="45">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                  <td width="100">&nbsp;</td>
+		                  <td width="40">&nbsp;</td>
+		                </tr>
+		            </table>
+	            </td>
+	          </tr>
+	        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+ 	  </tr>
+ 	</table>
+    <!--圆角表格头结束-->
+ 	</td>
+ </tr>
+ <!--表格底部结束-->
+ 
+ </table>
+</form>
+</body>
+</html>

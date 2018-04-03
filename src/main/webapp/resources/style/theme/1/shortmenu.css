@@ -1,0 +1,11 @@
+*{margin:0px;padding:0px;}
+.bottpanel{ background:  url("menubottom.png");padding: 0px 0px 0px 0px;}
+.panel{ background: #70A4CF; color:#000000;overflow-x: hidden;padding: 0px 4px 4px 4px;   border-left:1px #154B76 solid;
+   border-right:1px #154B76 solid;}
+A:link{FONT-SIZE: 9pt;color: #000000; TEXT-DECORATION: none;}
+A:visited {FONT-SIZE: 9pt;COLOR: #000000; TEXT-DECORATION: none}
+A:active {FONT-SIZE: 9pt;COLOR: #3333ff; TEXT-DECORATION: none}
+A:hover {FONT-SIZE: 9pt;COLOR: #ff0000; TEXT-DECORATION: none}   
+.table1{
+  background:#D6E4EF;
+}   

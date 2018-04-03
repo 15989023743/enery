@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/portal/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	#parse("/WEB-INF/templates/portal/public/css_portal.html")
+	<link rel="stylesheet" href="#ctx()/resources/style/portal/center/query.css" type="text/css" />
+	<link rel="stylesheet" href="#ctx()/resources/style/portal/center/member.css" type="text/css" />
+	<script type='text/javascript' src='#ctx()/dwr/engine.js'></script>
+	<script type='text/javascript' src='#ctx()/resources/js/passwdcheck.js'></script>
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/style.css" />
+<script type="text/javascript">
+    	$(function(){
+    	    $("input[name=userName]").focus().addClass("required").attr("minlength", "6").attr("maxlength", "12").attr("remote", "checkUserName.htm?orgName="+encodeURIComponent('$!{entity.userName}'));
+    	    //.attr("remote", "checkUserName.htm?orgUserName="+encodeURIComponent('$!{entity.userName}'));
+    		$("input[name=trueName]").addClass("required").attr("minlength", "2").attr("maxlength","12");
+    		$("input[name=email]").addClass("required").addClass("email").attr("remote", "checkEMail.htm?orgEMail="+encodeURIComponent('$!{entity.email}'));
+    		$("input[name=password]").addClass("required").attr("minlength", "6").attr("maxlength","16");
+    		$("input[name=passwordConfirm]").attr("equalTo", "input[name=password]").attr("minlength", "6").attr("maxlength","16");
+    		$("input[name=tel]").addClass("required").addClass("mobile").attr("remote", "checkTel.htm?orgTel="+encodeURIComponent('$!{entity.tel}'));
+    		$("input[name=member.fullName]").addClass("required").attr("minlength", "4").attr("maxlength","40").attr("remote", "checkFullName.htm?orgFullName="+encodeURIComponent('$!{entity.member.fullName}'));
+    		$("input[name=j_captcha]").addClass("required");
+    		$.validator.messages["remote"] = "已经被使用，请重新输入";
+    		//$.validator.messages["remote"] = "用户名已存在";
+    		//$.validator.messages["userName:required"] = "请输入帐号";
+    	});
+    	
+    	function refreshCaptcha() {
+			document.getElementById("captchaImg").src="#ctx()/user/jcaptcha.jpg?t="+Math.round(Math.random() * 100000);
+		}
+		
+		
+	function inputForm(){
+		if (!document.getElementById("readpx").checked) {
+			alert("请先阅读并同意《能化王国服务协议》");
+			return;
+		}
+		
+		var lab='<label class="error" for="j_captcha" generated="true">验证码错误！</label>';
+		jQuery("#inputForm").validate();
+		$.post("checkValidateCode.htm",{"j_captcha":$("input[name=j_captcha]").val()},function(result){
+			if(result=="true"||result==true){
+				jQuery("#inputForm").submit();
+			}else{
+				jQuery("label[for='j_captcha']").remove();
+				//if(jQuery("label[for='j_captcha']").length==0){
+					$("input[name=j_captcha]").after(lab);
+				//}
+			}
+			refreshCaptcha();
+		},"text");
+	}
+</script>
+<style type="text/css">
+
+a {
+    color: #444444 !important;
+    text-decoration: none;
+}
+LABEL.error {
+	COLOR: #ff0000; PADDING-RIGHT: 5px; MARGIN-LEFT: 5px
+}
+INPUT.error {
+	BORDER-TOP: #ff0000 2px solid; BORDER-RIGHT: #ff0000 2px solid; BORDER-BOTTOM: #ff0000 2px solid; BORDER-LEFT: #ff0000 2px solid
+}
+.purchaseleft .numberaccount .strength li.pointer1{background-color:#c90a08;}
+.purchaseleft .numberaccount .strength li.pointer2{background-color:orange;}
+.purchaseleft .numberaccount .strength li.pointer3{background-color:green;}
+</style>
+</head>
+<body class="bodycolor" style="margin-top: 2px;">
+<form id="inputForm" action="#ctx()/user/registerFinish.htm" method="post" class="validate" onsubmit="return checkRule();">
+#extendsBackPageUrl()
+<!--业务表格区域开始-->
+<!--       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td class="TableLine1">
+        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+        <tr>
+        <td>
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr>
+					<td width="10%" align="right" class="TableContent">账号</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="userName" value="$!{entity.userName}" class="SmallInput"  style="width:230px"  maxlength="70" #if($!{entity.id}) disabled="disabled" #{end} /></td>			                       
+					<td width="10%" align="right" class="TableContent">姓名</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="trueName" value="$!{entity.trueName}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">密码</td>
+					<td align="left" class="TableData" ><input type="password" id="password" name="password" value="$!{entity.password}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td align="right" class="TableContent">确认密码</td>
+					<td align="left" class="TableData" ><input type="password" name="passwordConfirm" value="$!{entity.password}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">邮箱</td>
+					<td align="left" class="TableData" ><input type="text" name="email" value="$!{entity.email}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+					<td align="right" class="TableContent">手机</td>
+					<td align="left" class="TableData" ><input type="text" name="tel" value="$!{entity.tel}" class="SmallInput"  style="width:230px"  maxlength="20" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">公司简称</td>
+					<td align="left" class="TableData" ><input type="text" name="member.name" value="$!{entity.member.name}" class="SmallInput"  style="width:230px"  maxlength="100" /></td>			                       
+					<td align="right" class="TableContent">公司全称</td>
+					<td align="left" class="TableData" ><input type="text" name="member.fullName" value="$!{entity.member.fullName}" class="SmallInput"  style="width:230px"  maxlength="255" /></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+	    </td>
+	    </tr> 
+	   </table>
+	   </td>
+	   <td width="8" class="TableRight"></td>
+      </tr> 
+   </table> -->
+<!--业务表格区域结束-->
+
+
+
+
+
+
+
+
+#parse("/WEB-INF/templates/portal/center/top.html")
+
+
+<div class="purchase">
+     <div class="purchaseleft">
+     	  #if($!{message})
+          <label style="margin-left:129px;" class="error" generated="true">$!{message}</label>
+          #end
+          <div class="numberaccount">
+               <span><em>*</em> 账号： </span>
+               <input type="text" class="inputframe3" name="userName" maxlength="12" value="$!{entity.userName}" /><p>6-12字符，支持中英文开头</p>
+          </div>
+          <div class="numberaccount">
+               <span><em>*</em> 密码： </span><input type="password" maxlength="16" onblur="EvalPwdStrength(document.forms[0],this.value);" onkeyup="EvalPwdStrength(document.forms[0],this.value);" class="inputframe3" id="password" name="password" /><p>6-16字符，可使用字母、数字及符号的任意组合</p>
+               <br/>
+               <div class="strength" style="margin-top:8px;">
+                    <ul>
+                        <li id="idSMT1" style="padding-left:16px; padding-right:16px;">弱</li>
+                        <li id="idSMT2" style="padding-left:11px; padding-right:11px; margin-left:-6px;">中等</li>
+                        <li id="idSMT3" style="padding-left:16px; padding-right:16px; margin-left:-6px;">强</li>
+                        </ul>
+                </div> 
+          </div>
+          <div class="numberaccount">
+               <span><em>*</em> 确认密码： </span><input type="password" maxlength="16" class="inputframe3" name="passwordConfirm" /><p>请再次输入密码</p>
+          </div>
+          <div class="numberaccount">
+               <span><em>*</em> 姓名： </span><input type="text" class="inputframe3" name="trueName" value="$!{entity.trueName}" /><p>请输入真实姓名</p>
+          </div>
+          <div class="numberaccount">
+               <span><em>*</em> 联系电话： </span><input type="text" class="inputframe3" name="tel" value="$!{entity.tel}" /><p>请输入真实有效的信息，这是我们与您联络的重要方式</p>
+          </div>
+          <div class="numberaccount">
+               <span><em>*</em> E-mail： </span><input type="text" class="inputframe3" maxlength="35" name="email" value="$!{entity.email}" /><p>请输入电子邮件</p>
+          </div>  
+          <div class="numberaccount">
+               <span><em>*</em> 公司全称： </span><input type="text" class="inputframe3" maxlength="30" name="member.fullName" value="$!{entity.member.fullName}" /><p>请输入公司全称</p>
+          </div>
+          <!-- <div class="numberaccount">
+               <span> 公司所在地： </span>
+                   <input type="text" class="inputframe31" name="k" value="国家" />
+                   <input type="text" class="inputframe31" name="k" value="省" />
+                   <input type="text" class="inputframe31" name="k" value="市" />
+                   <input type="text" class="inputframe31" name="k" value="地区" /><br />
+                   <input type="text" class="inputframe32" name="k" value="" />
+               
+               <p>请输入公司所在地</p>
+          </div> -->
+          <div class="numberaccount">
+               <span><em>*</em> 验证码： </span>
+               <input type="text" title="验证码" class="inputframe4" maxlength="6" name="j_captcha" value="$!{j_captcha}"/>
+				<img id="captchaImg" src="#ctx()/user/jcaptcha.jpg" width="127" height="23" align="absbottom" onclick="javascript:refreshCaptcha()" style="cursor: pointer;" title="看不清楚换一张" />
+				
+			   <p style="line-height:50px; margin-left:10px;">看不清? <a href="javascript:refreshCaptcha()">换一张</a></p>
+          </div>
+          
+          <div class="numberaccount">
+               <input style="margin-left:129px; margin-top:12px;" #if($!{entity}) checked="checked" #end type="checkbox" id="readpx" /> <label for="readpx">我已阅读并同意</label><a href="#">《能化王国服务协议》</a><br />
+               <input style="margin-left:129px;cursor: pointer;" type="button" onclick="inputForm();" value=" 立即注册 " name="l" class="inputrelease"/> 
+               <p class="paddingleft">已有能化王国账号？<a href="#ctx()/user/login.htm">直接登录</a></p>
+          </div>                 
+     </div>
+     <div class="purchaseright win10">
+          <strong style="font-size:16px; line-height:28px;">会员权利</strong>
+          <p class="paddingleft">以下所有权利均不需要缴纳任何费用</p>
+          <div class="sequence">
+               <img src="#ctx()/resources/style/portal/center/images/purchasenumber1.jpg" />
+               <h3>普通会员</h3>
+               <p>所有注册用户，可进行快速委托采购、发布资源单、资讯查阅</p>
+          </div>
+          <div class="sequence">
+               <img src="#ctx()/resources/style/portal/center/images/purchasenumber2.jpg" />
+               <h3>认证会员</h3>
+               <p>注册后提交企业三证，即可进行自主卖货，并享受优先推荐</p>
+          </div>
+          <div class="contactinformation">
+               <img src="#ctx()/resources/style/portal/center/images/purchasepeople.jpg" />
+               <p>客服：<span>400-807-777</span></p><a href="#">
+               <img src="#ctx()/resources/style/portal/center/images/qq.png" /></a>
+          </div>
+          <div class="weixin">
+               <img src="#ctx()/resources/style/portal/center/images/advertising6.jpg" />
+               <img src="#ctx()/resources/style/portal/center/images/advertising7.jpg" />
+          </div>
+     </div>
+</div>
+<div style="clear:both"></div>
+
+
+
+
+#parse("/WEB-INF/templates/portal/share/foot.html")
+
+
+
+
+
+
+
+</form>
+</body>
+#errors($!{errors})
+</html>

@@ -1,0 +1,136 @@
+    body{font-size:12px;background-color:#edf2f9}
+    .container{
+        width:100%;
+        top:50%;
+        margin-top:-260px;
+        left:200px;
+        position:absolute;
+    }
+    .header{
+        height:40px;
+        width:100%;
+    }
+    .content{
+        background:url(../../../images/mgrlogin/blue_bg.png) #084999 no-repeat bottom right;
+        height:410px;
+        margin-top:45px;
+    }
+    .whitepart{
+        background:url(../../../images/mgrlogin/white.png) no-repeat;
+        height:367px;
+        position:absolute;
+        width:961px;
+        margin-left:-109px;
+        margin-top:40px;
+    }
+    .whitepart .login-frame{
+        margin-left:220px;
+        margin-top: 20px;
+    }
+    .whitepart .login-frame .input_text{
+        width:60px;
+        display:inline-block;
+    }
+	.message{
+		height:8px;
+		width:800px;
+		margin-top: 4px;
+		text-align:center;
+		color:#FF0000;
+		font-size:14px;
+		font-weight:bold;
+	}
+    .content dl{
+	position:relative;
+	font-size:14px;
+	color:#383838;
+	font-weight:bold;
+	}
+.content dd{
+	height:33px;
+	margin-bottom:16px;
+	}
+.content .text{
+	border:1px solid #d2d2d2;
+	height:30px;
+	line-height:33px;
+	margin-left:16px;
+	padding:2px;
+	}
+    .content .identify{
+	display:inline;
+	vertical-align:middle;
+	margin-left:5px;
+	text-align:center;
+	}
+    .Login{
+	width:200px;
+	height:37px;
+	background: url(../../../images/mgrlogin/btnbg.jpg) no-repeat;
+	text-align:center;
+	line-height:37px;
+	border:none;
+	position:relative;
+	left: 227px;
+	font-size:14px;
+    margin-top:280px;
+	font-weight:bold;
+	cursor:pointer;
+	}	
+.grey{
+	color:#717171;
+	}
+.blue{
+	color:#0868a4;
+	}
+    .width_200{
+	width:194px;
+	}
+.width_100{
+	width:94px;
+	}
+    .footer{
+        margin-top:25px;
+    }
+    .h_line{
+        border-bottom: 2px solid #a8bfdc;
+        height:1px;
+        width:100%;
+        margin-top:5px;
+    }
+/*×Ô¶¯ÊÊÓ¦ÆÁÄ»³ß´ç**/
+/* Laptop/Tablet (1920px) */
+@media only screen and (min-width: 1601px) and (max-width: 1920px) and (orientation: landscape) {
+	.container{
+	width:1711px;
+	}
+}
+/* Laptop/Tablet (1640px) */
+@media only screen and (min-width: 1441px) and (max-width: 1600px) and (orientation: landscape) {
+	.container{
+	width:1520px;
+	}
+}
+/* Laptop/Tablet (1440px) */
+@media only screen and (min-width: 1367px) and (max-width: 1440px) and (orientation: landscape) {
+	.container{
+	width:1380px;
+	}
+}
+/* Laptop/Tablet (1366px) */
+@media only screen and (min-width: 1025px) and (max-width: 1366px) and (orientation: landscape) {
+	.container{
+	width:1166px;
+	}
+}
+/* Laptop/Tablet (1024px) */
+/*@media only screen and (min-width: 481px) and (max-width: 1024px) and (orientation: landscape) {
+}*
+/* Tablet Portrait (768px) */
+/*@media only screen and (max-width: 1024px) and (orientation: portrait) {
+}*
+/* Phone Landscape (480px) */
+/*@media only screen and (max-width: 480px) and (orientation: landscape) {
+}*/
+
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/style.css" />
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/error/ErrorPageTemplate.css" />
+</head>
+<body class="securityError">
+<br/>
+<br/>
+<div align="center" title="提示信息框">
+<span style="BACKGROUND:#EEEEFF;COLOR:#FF6633;margin: 10px;border:1px dotted #FF6633;font-weight:bold;padding:8px;width=500">
+<font color="#FF0000"><img src="#ctx()/images/attention.gif" height="20" /> <b>错误</b></font>
+<hr/>
+<div style="word-break:break-all;width:100%; overflow:auto; ">
+#if(true)
+	$!{exception}
+#else
+	$!{exception.message}
+#end
+</div>
+</span>
+</div>
+<br/><center><input type="button" class="BigButton" value="返回" onclick="history.back();" /></center>
+</body>
+</html>

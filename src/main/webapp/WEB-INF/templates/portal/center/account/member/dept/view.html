@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>会员资源信息查看</title>
+<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/portal/public/css_portal.html")
+	#parse("/WEB-INF/templates/portal/public/css_center.html")
+	#parse("/WEB-INF/templates/portal/public/js_commons.html")
+	#parse("/WEB-INF/templates/portal/public/js_validation.html")
+<!-- 共通head区域标签 end-->
+<!-- 外部CSS样式表以及JS引入 begin-->
+<!-- 页面JS函数编写 begin -->
+<script language="JavaScript">
+#if($!{request.getParameter("parentId")})
+$("#reflashButton",window.parent.document).val("$!{request.getParameter('parentId')}").click();
+#{end}
+</script>
+</head>
+<body class="bodycolor" style="margin-top: 2px">
+		  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+			 <table style="width:100%" align="center" class="TableBlock" >
+			    <tr style="display: none;">
+					<td width="10%" align="right" class="TableContent">主ID</td>
+					<td width="90%" align="left" class="TableData" ><input type="text" name="id" value="$!{entity.id}" class="SmallInput"  style="width:97%" readonly="readonly" maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">序号</td>
+					<td width="90%" align="left" class="TableData" ><input disabled="disabled" type="text" name="index" value="$!{entity.index}" class="SmallInput"  style="width:97%"  maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">部门代码</td>
+					<td width="90%" align="left" class="TableData" ><input disabled="disabled" type="text" name="code" value="$!{entity.code}" class="SmallInput"  style="width:97%" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">部门名称</td>
+					<td width="90%" align="left" class="TableData" ><input disabled="disabled" type="text" name="name" value="$!{entity.name}" class="SmallInput"  style="width:97%" /></td>			                       
+				</tr>
+			    <tr>
+					<td width="10%" align="right" class="TableContent">角色信息</td>
+					<td width="90%" align="left" class="TableData" ><input disabled="disabled" type="text" name="roleNames" value="$!{entity.roleNames}" class="SmallInput"  style="width:97%" /></td>			                       
+				</tr>
+		      </table>
+		  </fieldset>
+</body>
+</html>

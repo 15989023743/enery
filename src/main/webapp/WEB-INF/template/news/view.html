@@ -1,0 +1,64 @@
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/WEB-INF/views/public/taglibs.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<TITLE>${title}_${news.name} 拙草园鲜花网</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<link href="${ctx}/css/global/header01.css" rel="stylesheet" type="text/css">
+<LINK href="${ctx}/css/help.css" type="text/css" rel="stylesheet">
+</HEAD>
+<BODY>
+<jsp:include page="/WEB-INF/content/share/Head.jsp"/>
+<table width="970"  border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="3" height="20">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="3">${navigation}</td>
+    </tr>
+    <tr>
+
+      <td colspan="3" height="20">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="248" valign="top"><table width="248"  border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><img src="${ctx}/images/flower/global/help-dd_03.jpg" width="248" height="6"></td>
+          </tr>
+        <tr>
+          <td background="${ctx}/images/flower/global/help-dd_06.jpg">
+          <div align="center">
+			<jsp:include page="/cache/news/${news.newsChannel.id}/catalog.jsp"/>
+		  </div></td>
+          </tr>
+        <tr>
+          <td><img src="${ctx}/images/flower/global/help-dd_08.jpg" width="248" height="6"></td>
+          </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+      </table></td>
+
+      <td width="30"></td>
+      <td align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="27" align="left"><strong class="help_zt14">${news.name}</strong></td>
+        </tr>
+        <tr>
+          <td height="3" bgcolor="#E6E6E6"></td>
+        </tr>
+
+        <tr>
+          <td height="10">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top"><p>${news.content}</p></td>
+
+        </tr>
+      </table></td>
+    </tr>
+</table>
+<jsp:include page="/WEB-INF/content/share/Foot.jsp" />
+</BODY>
+</HTML>

@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>用户登录日志</title>
+	<!-- 共通head区域标签 begin-->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	#parse("/WEB-INF/templates/public/meta.html")
+	#parse("/WEB-INF/templates/public/cssjs.html")
+	<script src="#ctx()/resources/js/widgets/datePicker/WdatePicker.js"></script>
+	<!-- 共通head区域标签 end-->
+	<!-- 外部CSS样式表以及JS引入 begin-->
+	<link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+<!-- 页面JS函数编写 begin -->
+<script language="javascript">
+<!--
+
+-->
+</script>
+
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="ListForm" name="ListForm" action="#ctx()/manager/common/log/loginlog/list.htm" method="post" >
+<input type="hidden" id="entityid" name="id" value="" />
+<input type="hidden" id="pageNo" name="pageNo" value="$!{page.pageNo}" />
+<input type="hidden" id="orderBy" name="orderBy" value="$!{page.orderBy}" />
+<input type="hidden" id="order" name="order" value="$!{page.order}" />
+#currentAndReturnPageUrl()
+#messages()
+ <table style="width:98%" align="center" cellspacing="0" cellpadding="0">
+<!--表格顶部开始-->
+ <tr>
+    <td height="30">
+      <!--圆角表格头开始-->
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="30" class="TableHeadLeft"></td>
+        <td class="TableHeader">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="46%" valign="middle">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+              <tr>
+                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+                <td width="35%"><b>#navigation("用户登录日志查询列表")</b></td>
+                <td width="55%" align="right">&nbsp;&nbsp;</td>
+              </tr>
+            </table>
+			</td>
+          </tr>
+        </table>
+		</td>
+        <td width="16" class="TableHeadRight"></td>
+      </tr>
+    </table>
+	 <!--圆角表格头结束-->
+	</td>
+ </tr>
+<!--表格顶部开始-->
+
+ <tr>
+   <td height="18">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="8" class="TableLeft"></td>
+        <td>
+        <!--业务表格区域开始-->
+        	<!--过滤条件开始-->
+        <table style="width:100%" align="center" class="TableBlock1" >
+		   <tr style="display: none;">
+			<td class="TableHeader1" align="center" colspan="6">查询条件</td>
+		   </tr>
+		   <tr>
+		    <td nowrap class="TableContent" width="12%" align="center">用户名</td>
+		    <td nowrap class="TableData" width="38%" ><input type="text" name="filter_LIKE_operator" value="$!{request.getParameter('filter_LIKE_operator')}"  class="SmallInput" style="width:97%" maxlength="30" size="30"/></td> 
+		    <td nowrap class="TableContent" align="center" width="12%">操作类型</td>
+		    <td nowrap class="TableData" colspan="3"><input type="text" name="filter_LIKE_actionType" value="$!{request.getParameter('filter_LIKE_actionType')}"  class="SmallInput" style="width:97%" maxlength="30" size="30"/></td> 
+		   </tr>
+		   <tr>
+		    <td nowrap class="TableContent" width="12%" align="center">起始记录时间</td>
+		    <td nowrap class="TableData" width="38%" ><input type="text" name="filter_GE_logTime" value="$!{request.getParameter('filter_GE_logTime')}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" class="SmallInput" style="width:97%" maxlength="30" size="30"/></td> 
+		    <td nowrap class="TableContent" align="center" width="12%">截止记录时间</td>
+		    <td nowrap class="TableData" colspan="3"><input type="text" name="filter_LE_logTime" value="$!{request.getParameter('filter_LE_logTime')}"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" class="SmallInput" style="width:97%" maxlength="30" size="30"/></td> 
+		   </tr>
+		   <tr>
+			<td align="center" class="TableContent" colspan="6">
+				<input type="button" class="SmallButton" name="b_act_query" onclick="search()" value="查&nbsp;&nbsp;询" style="width:60" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" class="SmallButton" name="b_act_clear" onclick="reload()" value="重&nbsp;&nbsp;置" style="width:60" />&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+		   </tr>		   		   
+		</table>
+			<!--过滤条件结束-->
+		<br/>
+        <table style="width:100%" align="center" class="TableBlock1" onmousemove="changeto()" onmouseout="changeback()">
+          <tr align="center">
+            <td width="3%" class="TableHeader1">序号</td>
+            <td width="5%" class="TableHeader1"><a href="#" onclick="sort('operator')">用户名</a></td>
+            <td width="15%" class="TableHeader1"><a href="#" onclick="sort('client')">客户端IP</a></td>
+            <td width="15%" class="TableHeader1"><a href="#" onclick="sort('logTime')">记录时间</a></td>
+            <td width="8%" class="TableHeader1"><a href="#" onclick="sort('actionType')">操作类型</a></td>
+            <td class="TableHeader1">备注</td>
+          </tr>
+          #foreach( $entity in $page.result)
+          <tr>
+            <td class="TableData" align="center">#getNo($velocityCount)</td>
+            <td class="TableData">$!{entity.operator}</td>
+            <td class="TableData">$!{entity.client}</td>
+            <td class="TableData">$!{entity.logTime}</td>
+            <td class="TableData">$!{entity.actionType}</td>
+            <td class="TableData">$!{entity.comment}</td>
+          </tr>
+          #end
+        </table>
+		<!--业务表格区域结束-->
+      </td>
+        <td width="8" class="TableRight"></td>
+	   </tr>
+	   </table>
+	</td>
+ </tr>
+ 
+<!--表格底部开始-->
+ <tr>
+    <td height="35">
+    <!--圆角表格头开始-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+      <tr>
+        <td width="12" height="35" class="TableFooterLeft"></td>
+        <td class="TableFooter">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+          <tr>
+            <td>&nbsp;&nbsp;共有$!{page.totalCount}条记录，当前第 $!{page.pageNo}/$!{page.totalPages}页</td>
+            <td>$!{page.pageBar}</td>
+          </tr>
+        </table>
+        </td>
+        <td width="16" class="TableFooterRight"></td>
+      </tr>     
+    </table>
+    <!--圆角表格头结束-->
+    </td>
+ </tr>
+<!--表格底部结束-->    
+
+ </table>
+</form>
+</body>
+</html>

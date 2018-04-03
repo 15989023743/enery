@@ -1,0 +1,50 @@
+<script type="text/javascript" src="#ctx()/resources/js/commons.js"></script>
+<div class="header">
+#parse("/WEB-INF/templates/portal/share/toolbar.html")
+<div class="headerMiddle">
+	<div class="container2">
+		<div class="logo">
+			<a href="#ctx()"><img src="#ctx()/resources/style/portal/images/header/logo.jpg"></a>
+		</div>
+
+		<div class="search">
+			<div class="searCharea">
+				<div class="searChform">
+					<div class="searCont">
+						<input type="text" class="text1" name="searchWord" id="searchWord">
+						<input type="button" class="but1" name="searchBtn" id="searchBtn"
+							value="搜索">
+					</div>
+					<!--search_cont--->
+				</div>
+				<!--searchform--->
+			</div>
+			<div class="hot">
+				<span class="hotTitle">热门搜索：</span>
+				<div class="hotlist">
+					<a href="#" target="_blank">煤炭</a> <a href="#" target="_blank">天然气</a>
+				</div>
+			</div>
+		</div>
+		<div class="rightMenu">
+			<div class="shoppingcart">0</div>
+			<a href="#ctx()/center/index.htm"><img src="#ctx()/resources/style/portal/images/header/membercenter.jpg" /></a>
+			<!-- <a href="#"><img src="#ctx()/resources/style/portal/images/header/shoppingcart.jpg" /></a> -->
+		</div>
+	</div>
+</div>
+
+<div class="navigation">
+	<div class="container3">
+		<!-- <form id="resouce-classification-form" name="resouce-classification-form" action="#ctx()/spot/index.htm" method="get" target="_blank">
+			<input type="hidden" name="selectItemGoodsName" id="resourceSelectItemGoodsName" value="" />
+			<input type="hidden" name="filter_LIKER_itemGoodsNames" id="resourceItemGoodsNames" value="" /> 
+			<input type="hidden" name="filter_EQ_itemGoodsName" id="resourceItemGoodsName" value=""/>
+			<input type="hidden" name="parentids" id="resourceParentids" value=""/>
+		</form> -->
+		#parse("/WEB-INF/templates/portal/share/resourceClassificationMenu.html")
+		#parse("/WEB-INF/templates/portal/share/navgation.html")
+	</div>
+</div>
+<script type="text/javascript" src="#ctx()/resources/js/resource-classification-menu.js"></script>
+</div>

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>运营管理参数-交易日期</title>
+    <!-- 共通head区域标签 begin-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    #parse("/WEB-INF/templates/public/meta.html")
+    #parse("/WEB-INF/templates/public/cssjs.html")
+    <!-- 共通head区域标签 end-->
+    <!-- 外部CSS样式表以及JS引入 begin-->
+    <link rel="stylesheet" type="text/css" href="../../../resources/style/theme/1/style.css" />
+    <script src="#ctx()/resources/datePicker/WdatePicker.js"></script>
+    <script charset="utf-8" src="#ctx()/resources/editor/kindeditor.js"></script>
+    <!-- 页面JS函数编写 begin -->
+    <script>
+    
+    jQuery(document).ready(function() {
+    	var mon,tues,wednes,thurs,fri,satur,sun;
+    	if($!entity.noMonD=="0"){
+    	   mon="星期一, ";
+    	}else{
+    	   mon="";
+    	}
+    	if($!entity.noTuesD=="0"){
+    	   tues="星期二, ";
+    	}else{
+    	   tues="";
+    	}
+    	if($!entity.noWednesD=="0"){
+    	   wednes="星期三, ";
+    	}else{
+    	   wednes="";
+    	}
+    	if($!entity.noThursD=="0"){
+    	   thurs="星期四, ";
+    	}else{
+    	   thurs="";
+    	}
+    	if($!entity.noFriD=="0"){
+    	   fri="星期五, ";
+    	}else{
+    	   fri="";
+    	}
+    	if($!entity.noSaturD=="0"){
+    	   satur="星期六, ";
+    	}else{
+    	   satur="";
+    	}
+    	if($!entity.noSunD=="0"){
+    	   sun="星期日";
+    	}else{
+    	   sun="";
+    	}
+    	$("#nxq").html(mon+""+tues+""+wednes+""+thurs+""+fri+""+satur+""+sun);
+    });
+
+    function check(){
+        if($("#noMonUCheckbox").attr("checked")=='checked'){
+              jQuery("#noMonU").val(0);
+        }else{
+              jQuery("#noMonU").val(1);
+        }
+        if(document.getElementById("noTuesUCheckbox").checked){
+              jQuery("#noTuesU").val(0);
+        }else{
+              jQuery("#noTuesU").val(1);
+        }
+        if(document.getElementById("noWednesUCheckbox").checked){
+              jQuery("#noWednesU").val(0);
+        }else{
+              jQuery("#noWednesU").val(1);
+        }
+        if(document.getElementById("noThursUCheckbox").checked){
+              jQuery("#noThursU").val(0);
+        }else{
+              jQuery("#noThursU").val(1);
+        }
+        if(document.getElementById("noFriUCheckbox").checked){
+              jQuery("#noFriU").val(0);
+        }else{
+              jQuery("#noFriU").val(1);
+        }
+        if(document.getElementById("noSaturUCheckbox").checked){
+              jQuery("#noSaturU").val(0);
+        }else{
+              jQuery("#noSaturU").val(1);
+        }
+        if(document.getElementById("noSunUCheckbox").checked){
+              jQuery("#noSunU").val(0);
+        }else{
+              jQuery("#noSunU").val(1);
+        }
+    }
+    function validate(){
+    	var len = $("#noDateU").val().length;
+    	if(len > 0){
+        var reg = /^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])$/;             
+        var t = $("#noDateU").val().lastIndexOf(",");     
+        switch(t){      
+           case $("#noDateU").val().length - 1:
+                $("#noDateU").focus();
+                alert("最后一个字符不能是逗号，请把它移除！");
+                return false;
+                break;                  
+          default:
+                var Array = $("#noDateU").val().split(",");
+                for(var i=0; i<=Array.length-1; i++){
+                    if(reg.test(Array[i]) == false){
+                        $("#noDateU").focus();
+                        alert("含有无效的日期！\r\n" + Array[i]);
+                        return false;
+                    }  
+                }
+           }
+    	}
+    }
+    function checkLength(text)
+    {
+        if (text.value.length >= 800)
+           return false;
+    }
+    
+    function submit_Form(parm){
+    	jQuery("#optType").val(parm);
+    	jQuery("#inputForm").submit();
+    }       
+    </script>
+</head>
+
+<body class="bodycolor" style="margin-top: 2px">
+<form id="inputForm" action="#ctx()/manager/sysParam/runManage/run_mode_setting.htm?runFlag=date" method="post" class="validate">
+    <input type="hidden" name="id"  id="id" value="$!{entity.id}" />
+    <input type="hidden" name="optType" id="optType" />
+    #backPageUrl()
+     <table style="width:100%" align="center" cellspacing="0" cellpadding="0">
+	 <tr>
+	    <td height="30">
+	        <!--圆角表格头开始-->
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+		      <tr>
+		        <td width="12" height="30" class="TableHeadLeft"></td>
+		        <td class="TableHeader">
+			         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+			           <tr>
+			            <td width="46%" valign="middle">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="small">
+			              <tr>
+			                <td width="3%"><div align="center"><img src="#ctx()/resources/style/theme/1/tb.gif" width="16" height="16" /></div></td>
+			                <td width="35%"><b>#navigation('交易日期')#if(!$!entity.id)创建#{else}修改#{end}</b></td>
+			                <td width="55%" align="right">
+			                	#permission("save")
+				                <input type="submit" class="SmallButton" name="b_act_subit" style="width:60"  value="修&nbsp;&nbsp;改" onclick="submit_Form('xg');" />&nbsp;&nbsp;
+				                <input type="submit" class="SmallButton" name="b_act_subit" style="width:60"  value="实时生效" onclick="submit_Form('sssx');" />
+				                #end
+			                </td>
+			              </tr>
+			            </table>
+						</td>
+			           </tr>
+			        </table>
+				</td>
+		        <td width="16" class="TableHeadRight"></td>
+		      </tr>
+		    </table>
+		    <!--圆角表格头结束-->
+		</td>
+	 </tr>
+	<!--业务表格区域开始-->
+	 <tr>
+	   <td height="18">
+	      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="8" class="TableLeft"></td>
+	        <td class="TableLine1">
+		        <table width="100%" border="0" cellspacing="0" cellpadding="3" class="TableRound">
+			        <tr>
+				        <td>
+						  <fieldset ><legend>&nbsp;基本信息&nbsp;</legend>
+							 <table style="width:100%" align="center" class="TableBlock" >
+							    <tr>
+									<td width="12%" align="right" class="TableContent">非交易星期：</td>
+									<td width="80%" align="left" class="TableData">
+										      星期一<input type="checkbox" id="noMonUCheckbox" name="noMonUCheckbox" value="$!entity.noMonU" #if($!entity.noMonU==0)checked="checked" #end/>
+										      星期二<input type="checkbox" id="noTuesUCheckbox" name="noTuesUCheckbox" value="$!entity.noTuesU" #if($!entity.noTuesU==0)checked="checked" #end/> 
+										      星期三<input type="checkbox" id="noWednesUCheckbox" name="noWednesUCheckbox" value="$!entity.noWednesU" #if($!entity.noWednesU==0)checked="checked" #end/> 
+										      星期四<input type="checkbox" id="noThursUCheckbox" name="noThursUCheckbox" value="$!entity.noFriUCheckbox" #if($!entity.noThursU==0)checked="checked" #end/> 
+										      星期五<input type="checkbox" id="noFriUCheckbox" name="noFriUCheckbox" value="$!entity.noFriU" #if($!entity.noFriU==0)checked="checked" #end/> 
+										      星期六<input type="checkbox" id="noSaturUCheckbox" name="noSaturUCheckbox" value="$!entity.noSaturU" #if($!entity.noSaturU==0)checked="checked" #end/> 
+										      星期日<input type="checkbox" id="noSunUCheckbox" name="noSunUCheckbox" value="$!entity.noSunU" #if($!entity.noSunU==0)checked="checked" #end/>
+									</td>
+								</tr>
+								<tr>
+      								<td width="12%" align="right" class="TableContent">非交易日期：</td>
+      								<td width="80%" align="left" class="TableData">
+      									<textarea id="noDateU" name="noDateU" style="width:485px; height:80px;" onkeypress="return checkLength(this);" onblur="validate()">$!entity.noDateU</textarea>
+      									<span style="color:#FF0000;">英文逗号分隔的日期，逗号前后无空格，如：2013-05-01,2013-05-02</span>	
+      								</td>
+      							</tr>
+      							<tr>
+      								<td width="12%" align="right" class="TableContent">非交易星期(实时生效)：</td>
+      								<td width="80%" align="left" class="TableData"><span id="nxq"></span></td>
+      							</tr>
+      							<tr>
+      								<td width="12%" align="right" class="TableContent">非交易日期(实时生效)：</td>
+      								<td width="80%" align="left" class="TableData">$!entity.noDateD</td>
+      							</tr>
+						      </table>
+						  </fieldset>
+					    </td>
+				    </tr> 
+			   </table>
+		   </td>
+		   <td width="8" class="TableRight"></td>
+	      </tr> 
+	    </table>
+	  </td>
+	 </tr>
+	<!--业务表格区域结束-->
+	<!--表格底部开始-->
+	 <tr>
+	    <td height="35">
+	    <!--圆角表格头开始-->
+	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="TableRound">
+	      <tr>
+	        <td width="12" height="35" class="TableFooterLeft"></td>
+	        <td class="TableFooter"></td>
+	        <td width="16" class="TableFooterRight"></td>
+	 	  </tr>
+	 	</table>
+	    <!--圆角表格头结束-->
+	 	</td>
+	 </tr>
+ 	<!--表格底部结束-->
+ </table>
+</form>
+</body>
+</html>

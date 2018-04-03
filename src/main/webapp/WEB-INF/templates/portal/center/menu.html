@@ -1,0 +1,241 @@
+<!-- <link rel="stylesheet" type="text/css"
+	href="#ctx()/resources/style/theme/1/menu/menu.css" /> -->
+<link rel="stylesheet" type="text/css"
+	href="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.css" />
+<script type="text/javascript"
+	src="#ctx()/resources/js/widgets/jquery.tree/common.js"></script>
+<script type="text/javascript"
+	src="#ctx()/resources/js/widgets/jquery.tree/jquery.tree.js"></script>
+<script type="text/javascript"
+	src="#ctx()/resources/js/widgets/jquery.tree/jquery.contextmenu.js"></script>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<script>
+		function initCenterMenuTree() {
+		
+			var url=window.location.href;
+			
+			url=url.replace("#ctx()","");
+			
+			var selectId=findCurrentPageInMenuJson(menu_json,url,false,true);
+			
+			var o = {
+				ctx:"#ctx()/",
+				icons: [],
+				onnodeclick : function(item) {
+					if(item.nodeType=="F"){
+						top.location="#ctx()"+(item.url.StartWith("/")?item.url:"/"+item.url);
+					}else{
+						jQuery("#center_menu_"+item.id).removeClass("bbit-tree-selected");
+					}
+				},
+				clicktoggle:false,
+        		 theme: "bbit-tree-no-lines"
+			};
+			if (menu_json) {
+				o.data = menu_json
+			}
+			jQuery("#center_menu").treeview(o);
+			
+			if(selectId){
+				jQuery("#center_menu_"+selectId).addClass("bbit-tree-selected");
+				jQuery("#center_menu_"+selectId).find("span").css({"font-weight": "900"});
+			}
+			
+			var bbit_tree_node=jQuery(".bbit-tree-root > .bbit-tree-node");
+			for(var i=0;i<bbit_tree_node.length-1;i++){
+				var temp_node=jQuery(bbit_tree_node[i]);
+				if(temp_node.find("ul").length>0){
+					temp_node.css({"border-bottom":"1px dashed #e9eaec"});
+				}
+			}
+		}
+		
+		
+		/* function findCurrentPageInMenuJson(list,url){
+			for(var i=0;list&&i<list.length;i++){
+				if(list[i].nodeType=="M"&&list[i].hasChildren){
+					var find=findCurrentPage(list[i].children,url);
+					if(find){
+						list[i].isexpand=true;
+						return find;
+					}
+				}
+				
+				if(list[i].nodeType=="F"&&url==list[i].url){
+					return list[i].id;
+				}
+			}
+			return "";
+		} */
+		
+		var proNodeImg=function(){
+			jQuery(".bbit-tree-node-icon").hide();
+			jQuery(".bbit-tree-ec-icon").css("padding-left","0");
+			jQuery(".bbit-tree-icon").css("padding-left","0");
+			jQuery(".bbit-tree-elbow-line").css("padding-left","0");
+		}
+
+		jQuery(function() {
+			initCenterMenuTree();
+			//jQuery(".bbit-tree-node-indent").css("padding-left","0");
+			//jQuery(".bbit-tree-ec-icon").hide();
+			//jQuery(".bbit-tree-ec-icon").css("padding-left","0");
+			//jQuery(".bbit-tree-node-icon").hide();
+			//setInterval(proNodeImg, 100);
+			//background:url("#ctx()/resources/style/portal/center/images/navleft/li.png") no-repeat scroll 0 center rgba(0, 0, 0, 0)
+		});
+	</script>
+
+	<style>
+body {
+	background-color: #F5F5F5;
+	color: #535353;
+    font-size: 12px;
+    margin: 0;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+.menberleft {
+	background-color: white;
+	color: #323232 !important;
+	display: block;
+	float: left;
+	padding-bottom: 30px;
+	margin-top: 15px;
+	padding-left: 8px;
+	padding-top: 8px;
+	width: 124px;
+	height: auto;
+	min-height: 350px;
+}
+
+.menberleft .selected4 {
+	color: #333 !important;
+	font-family: "microsoft yahei";
+	font-size: 16px;
+	font-weight: 800;
+}
+
+/* .menberleft .selected3 a {
+	color: #4a4a4a;
+	display: block;
+	float: left;
+	font-weight: bold;
+	height: 28px;
+	width: 124px;
+} */
+.menberleft li {
+	display: block;
+	float: left;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	line-height: 28px;
+	list-style: none outside none;
+	width: 116px;
+}
+
+#center_menu {
+	color: #414141 !important;
+}
+
+.menberleft .bbit-tree-node-icon {
+	display: none !important;
+}
+
+.menberleft .bbit-tree-ec-icon,.menberleft .bbit-tree-icon,.menberleft .bbit-tree-elbow-line,.helpleft li img
+	{
+	padding-left: 0 !important;
+}
+
+.menberleft .bbit-tree-node-leaf {
+	font-weight: normal !important;
+}
+
+.menberleft .bbit-tree-elbow-end-plus,.menberleft .bbit-tree-elbow-plus {
+	background-image:
+		url("#ctx()/resources/images/portal/center/myjd-common-icon.png")
+		!important;
+	background-position: -36px -5px !important;
+	background-repeat: no-repeat;
+}
+
+.menberleft .bbit-tree-elbow-end-minus,.menberleft .bbit-tree-elbow-minus {
+	background-image:
+		url("#ctx()/resources/images/portal/center/myjd-common-icon.png")
+		!important;
+	background-position: -8px -5px !important;
+	background-repeat: no-repeat;
+}
+
+.menberleft .bbit-tree-node-leaf:HOVER {
+	/* background-image:
+		url("#ctx()/resources/style/portal/center/images/navleft/li.png")
+		!important; */
+	background-repeat: no-repeat !important;
+	background-color: white !important;
+	background-position: right !important;
+	/* width: 133px !important; */
+}
+
+.menberleft .bbit-tree-node-over {
+	background-color: white !important;
+}
+
+.menberleft .bbit-tree-selected {
+	/* background-image:
+		url("#ctx()/resources/style/portal/center/images/navleft/li.png")
+		!important; */
+	background-repeat: no-repeat !important;
+	background-color: #F5F5F5 !important;
+	background-position: right !important;
+	background-color: white !important;
+	/* width: 134px !important; */
+}
+
+.menberleft .bbit-tree-node-leaf a span:HOVER{
+	color: #FA830B !important;
+	text-decoration: underline;
+}
+
+.menberleft .bbit-tree-selected span {
+	color: #E6580C !important;
+	font-weight: bolder;
+}
+
+
+.menberleft .bbit-tree-node a span {
+	color: #2b2b2b;
+	font: 12px/150% Arial,Verdana,"宋体" !important;
+}
+
+/* .bbit-tree-selected a{
+	color: #F45906 !important;
+	font-weight:bolder;
+} */
+
+.menberleft .bbit-tree-node-leaf a span{
+	color: #737373;
+	font: 12px/150% Arial,Verdana,"宋体" !important;
+}
+
+.menberleft .bbit-tree-node-el {
+	margin-top: 4px !important;
+	margin-bottom: 4px !important;
+}
+
+.menberleft .bbit-tree-node-ct .bbit-tree-node .bbit-tree-elbow,.menberleft .bbit-tree-node-ct .bbit-tree-node .bbit-tree-elbow-end{
+	display: none;
+}
+</style>
+<div class="menberleft">
+	<ul>
+		<li>
+			<ul class="selected3">
+				<li><a class="selected4" href="#ctx()/center/index.htm"><span>会员中心</span> </a></li>
+			</ul></li>
+		<li>
+			<div id="center_menu"></div>
+		</li>
+	</ul>
+</div>

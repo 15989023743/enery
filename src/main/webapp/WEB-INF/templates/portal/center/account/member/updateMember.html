@@ -1,0 +1,35 @@
+#set($layout = "/WEB-INF/velocity/layout/usercenter.vm")
+	<!-- 外部CSS样式表以及JS引入 begin-->
+
+<form id="inputForm" action="#ctx()/center/account/member/saveMember.htm" method="post" class="validate">
+#currentAndReturnPageUrl()
+#messages()
+  <table style="width:100%" align="center" class="issueTable" >
+  	 	<tr class="header">
+			<td align="left" height="30px;" valign="b" width="45%">
+				<span style="padding: 10px;font-size: 16px;color: #E6580C;font-weight: 600;padding-bottom: 5px;">修改会员信息</span>
+				
+			</td>
+			 <td width="55%" align="right">
+			      <input type="submit" class="inputrelease" name="b_act_subit"   style="width:60"  value="提&nbsp;&nbsp;交" />&nbsp;&nbsp;
+		     </td>
+		</tr>
+  </table>
+ <table style="width:100%" align="center" class="issueTable" >
+ <tr>
+					<input type="hidden" name="id" value="$!{entity.id}"  />
+					<td width="10%" align="right" class="TableContent">公司全称</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="fullName" value="$!{entity.fullName}" class="SmallInput"  style="width:230px"  maxlength="70" disabled="disabled"  /></td>			                       
+					<td width="10%" align="right" class="TableContent">手机</td>
+					<td width="40%" align="left" class="TableData" ><input type="text" name="tel" value="$!{entity.tel}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       
+				</tr>
+			    <tr>
+					<td align="right" class="TableContent">邮箱</td>
+					<td align="left" class="TableData" ><input type="text" name="email" value="$!{entity.email}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>
+					<td align="right" class="TableContent">地址</td>
+					<td align="left" class="TableData" ><input type="text" name="address" value="$!{entity.address}" class="SmallInput"  style="width:230px"  maxlength="70" /></td>			                       			                       
+				</tr>
+    		</table>
+    		<br/>
+
+</form>

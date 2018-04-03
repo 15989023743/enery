@@ -1,0 +1,39 @@
+body {
+	font-size: 10pt;
+}
+
+a:link,a:visited,a:active,a:hover {
+	color: #4d87ce;
+}
+
+div#listContent,div#footer {
+	margin-top:10px
+}
+	
+div#listContent table {
+	border-collapse: collapse;
+	border: none;
+}
+
+div#listContent th,div#listContent td {
+	border: solid #999 1px;
+}
+
+.actionMessage {
+	font-weight: bold;
+}
+
+div#comment {
+	margin-top:20px
+}
+.winlog{
+	background-image: url(../../images/login_03.gif);
+	height: 267px;
+	width: 481px;
+	overflow: hidden;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	margin-top: 100px;
+	border:0px;
+	/*left:260px;*/
+}

@@ -1,0 +1,27 @@
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/style.css">
+<link rel="stylesheet" type="text/css" href="#ctx()/resources/style/theme/1/pbottom.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>控制菜单移动</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body class="panel">
+<table border='0' cellspacing='0' cellpadding='0' style='height:24px;width:168px;' valign='top' align='center'>
+   <tr>
+   <td align="right" style='width:60px'><input type="button" name="menu_up" id="menu_up" class="UpButton" title="按鼠标菜单向上滚动" onmousedown="scroll(-3)" onmouseup="parent.menu.scroll(0)"></td>
+   <td align="center">&nbsp;</td>
+   <td align="left" style='width:60px'><input type="button" name="menu_down" id="menu_down" class="DownButton" title="按鼠标菜单向下滚动" onmousedown="scroll(3)" onmouseup="parent.menu.scroll(0)"></td>
+   </tr>
+</table>
+</body>
+</html>
+<script language="JavaScript">
+	function scroll(n)
+	{   temp=n;
+        if (parent.pheader.menu_1.className=="active")
+			parent.menu.scroll(temp);
+		else
+		    parent.load_page.scroll(temp);
+	}
+</script>

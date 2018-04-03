@@ -1,0 +1,74 @@
+.menuPro {
+    border-top: 1px dotted #FFFFFF;
+    border-right: 1px dotted #FFFFFF;
+    border-bottom: 1px dotted #FFFFFF;
+    border-left: 1px dotted #FFFFFF;
+    overflow: visible;
+    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-size: 12px; 
+
+
+}
+.menuGro {
+    border-top: 2px outset #FFFFFF;
+    border-right: 2px outset #FFFFFF;
+    border-bottom: 2px outset #FFFFFF;
+    border-left: 2px outset #FFFFFF;
+    overflow: visible;
+    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-size: 12px; 
+
+
+}
+.menuFont {
+    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-size: 12px;
+}
+.showDiv {
+    display:'';
+}
+.hiddenDiv {
+    display:none;
+}
+.treeDiv {
+    height: 100%;
+    width: 100%;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    overflow: auto;
+    padding: 20px; 
+}
+body {
+    overflow: hidden;
+}
+.formDiv {
+    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #FFFFFF;
+    height: 200px;
+    width: 300px;
+    border-top: 1px outset #FFFFFF;
+    border-right: 1px outset #FFFFFF;
+    border-bottom: 1px outset #FFFFFF;
+    border-left: 1px outset #FFFFFF;
+    overflow: hidden; 
+
+
+}
+.text1 {
+    width: 160px;
+}
+.DivBut {
+    font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    font-size: 12px;
+    font-weight: normal;
+    background-color: #FFFFFF;
+    height: 20px;
+    width: 40px;
+    border: 1px outset; 
+
+}
+
+A:link {text-decoration: none; color: #000099; }
+A:hover {text-decoration: underline; color: red}

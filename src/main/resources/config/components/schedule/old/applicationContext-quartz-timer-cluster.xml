@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+	default-lazy-init="true">
+
+	<description>Quartz的定时集群任务配置</description>
+
+	<!-- Quartz集群Schduler -->
+	<!-- 启动定时器 -->
+	<bean id="clusterQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- Triggers集成 -->
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+			</list>
+		</property>
+		<!--  quartz配置文件路径-->
+		<property name="configLocation" value="classpath:config/components/schedule/quartz-cluster.properties" />
+		<!-- 启动时延期2秒开始任务 -->
+		<property name="startupDelay" value="2" />
+		<!-- 保存Job数据到数据库所需的带事务数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- Job接受applicationContext的成员变量名 -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+	</bean>
+
+	<!-- Timer式 Trigger定义
+	<bean id="timerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="timerJobDetail" />
+		<property name="repeatInterval" value="300000" />
+	</bean>-->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   
+		<property name="jobDetail" ref="reportJobDetail" />   
+		<property name="cronExpression">   
+			<!--<value>0/30 * * * * ?</value>-->
+            <value>0/20 * * * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- Timer JobDetail, 基于JobDetailBean实例化Job Class,可持久化到数据库实现集群 -->
+	<bean name="reportJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.gdwz.crawler.Crawler" />
+		<!-- fail-over节点重新执行之前所有失败或未执行的任务, 默认为false. -->
+		<property name="durability" value="true" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobs">
+					<list>
+						<bean class="com.gdwz.crawler.JobProperties">
+							<property name="url" value="http://www.gtwg001.com/show/indexPirce.htm"></property>
+							<property name="jobFilePath" value="crawler/"></property>
+							<property name="jobFileName" value="gcjgzs.html"></property>
+							<property name="description" value="钢材板块价格指数"></property>
+							<property name="select" value=".zsTable1 table tr"></property>
+							<property name="listNumber" value="21"></property>
+							<property name="replace">
+								<map>
+									<entry key="192.168.201.42:8079" value="www.gtwg001.com"></entry>
+								</map>
+							</property>
+						</bean>
+						<bean class="com.gdwz.crawler.JobProperties">
+							<property name="url" value="http://www.gtwg001.com/show/indexPirce.htm"></property>
+							<property name="jobFilePath" value="crawler/"></property>
+							<property name="jobFileName" value="gcjgzs1.html"></property>
+							<property name="description" value="钢材板块价格指数附加1"></property>
+							<property name="select" value=".zsTable2 table tbody tr"></property>
+							<property name="listNumber" value="21"></property>
+							<property name="replace">
+								<map>
+									<entry key="192.168.201.42:8079" value="www.gtwg001.com"></entry>
+								</map>
+							</property>
+						</bean>
+                        <bean class="com.gdwz.crawler.JobProperties">
+                            <property name="url" value="http://www.yuzhuprice.com/data/index/exponent_table_day.txt"></property>
+                            <property name="jobFilePath" value="crawler/"></property>
+                            <property name="jobFileName" value="mcjgzs1.html"></property>
+                            <property name="description" value="木材板块价格指数附加1"></property>
+                            <property name="select" value="table tbody tr"></property>
+                            <property name="listNumber" value="7"></property>
+                            <property name="replace">
+                                <map>
+                                    <entry key="images/gr.gif" value="http://www.yuzhuprice.com/images/gr.gif"></entry>
+                                    <entry key="images/red.png" value="http://www.yuzhuprice.com/images/red.png"></entry>
+                                    <entry key="background-color:#D8D8DB;" value=""></entry>
+                                    <entry key="width" value=""></entry>
+                                    <entry key="height:20px" value=""></entry>
+                                </map>
+                            </property>
+                        </bean>
+                        <bean class="com.gdwz.crawler.JobProperties">
+                            <property name="url" value="http://www.yuzhuprice.com/data/index/exponent_chart_day.txt"></property>
+                            <property name="jobFilePath" value="crawler/"></property>
+                            <property name="jobFileName" value="mcjgzszst.html"></property>
+                            <property name="description" value="木材价格指数走势图"></property>
+                            <property name="outFormat" value="text"></property>
+                        </bean>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Timer Job的可配置属性 -->
+	<util:map id="timerJobConfig">
+		<entry key="nodeName" value="${server.node_name}" />
+	</util:map>
+</beans>
